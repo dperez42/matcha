@@ -1,0 +1,35 @@
+FROM node:21.5-alpine as develop
+#Create a new user
+#RUN addgroup node && adduser -S -G node node
+
+WORKDIR /back
+COPY package*.json ./
+
+# Updating packages and fixing vulnerabilities
+RUN npm update 
+RUN npm cache clean --force
+#RUN npm i --package-lock-only
+#RUN npm audit fix --force
+
+RUN npm install
+RUN npm install nodemon
+# Installing Snyk CLI and scaning  your project need authenticate
+#RUN npm install -g snyk
+#RUN snyk auth
+#RUN snyk test
+
+#RUN install vite
+#RUN npm install @vue/cli@3.7.0 -g
+
+#COPY --chown=node:node . .
+COPY . .
+#RUN npm run build
+
+#Set current user
+#USER node
+
+EXPOSE 3000
+EXPOSE 3030
+
+CMD ["npm", "run", "start.dev"]
+#CMD ["npm", "start"]

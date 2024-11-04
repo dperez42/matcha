@@ -1,0 +1,143 @@
+version: '3.7'
+
+networks:
+  matcha_network:
+
+services:
+  # postgres-db:
+  #   image: postgres:16-alpine
+  #   container_name: postgres-db
+  #   env_file:
+  #     - ./database/database.env
+  #   restart: always
+  #   ports:
+  #     - 5432:5432
+  #   environment:
+  #     TZ: "Europe/Madrid"
+  #   volumes:
+  #     - ./database/data:/var/lib/postgresql/data
+  #     #- ./database/init_db.sql:/docker-entrypoint-initdb.d/create_db.sql
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+  #   networks:
+  #     - matcha_network
+  # pgadmin:
+  #   image: dpage/pgadmin4:latest 
+  #   container_name: postgres-admin
+  #   restart: always
+  #   ports:
+  #     - 5050:80
+  #   environment:
+  #     TZ: "Europe/Madrid"
+  #   logging:
+  #     driver: json-file
+  #   env_file:
+  #     - ./pgadmin/pgadmin.env
+  #   volumes:
+  #     - ./pgadmin/pgadmin_servers.json:/pgadmin4/servers.json
+  #   depends_on:
+  #     - postgres-db
+  #   networks:
+  #     - matcha_network
+  mysql:
+    # image: mysql
+    build:
+      context: ./mysql/
+      dockerfile: dockerfile
+    # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
+    # (this is just an example, not intended to be a production configuration)
+    #command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    env_file:
+      - ./mysql/mysql.env
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+    networks:
+      - matcha_network
+
+  # adminer:
+  #   image: adminer
+  #   restart: always
+  #   ports:
+  #     - 8080:8080
+  #   networks:
+  #     - matcha_network
+
+  phpmyadmin:
+    image: phpmyadmin
+    # build:
+    #   context: phpmyadmin/
+    #   dockerfile: dockerfile
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      - PMA_HOST=mysql
+      - PMA_PORT=3306 
+      - PMA_ARBITRARY=1
+    volumes:
+      - ./phpmyadmin/config/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
+    networks:
+      - matcha_network
+  
+  back-app:
+    build:
+      context: ./back
+      dockerfile: dockerfile
+    ports:
+      - "3000:3000"
+      - "3030:3030"
+    volumes:
+      - ./back:/back
+      - /back/node_modules
+    networks:
+      - matcha_network
+
+  #front-app:
+  #  build:
+  #    context: ./app
+  #    dockerfile: dockerfile
+  #  ports:
+  #    - "8000:8000" # same port in vite.config.js
+  #  volumes:
+  #    - ./app:/app
+  #    - /app/node_modules
+  #  networks:
+  #    - matcha_network
+  # https://dev.to/borisuu/setup-vite-vuejs-docker-32fb for env.
+  front-app2:
+    build:
+      context: ./frontend
+      target: dev-stage
+     # target: prod-stage
+      dockerfile: Dockerfile
+    ports:
+      - "8010:8010" # same port in vite.config.js
+      #- "81:81"
+    volumes:
+      - ./frontend:/usr/src/app
+    networks:
+      - matcha_network
+  
+  ngrok:
+      image: wernight/ngrok
+      ports:
+        - "8081:8081" #just a diagnosis port
+      command:
+        - /bin/sh
+        - -c
+        - |
+          ngrok start --all
+      volumes:
+        - ./ngronk/:/home/ngrok/.ngrok2/
+      depends_on:
+        - front-app2
+      #environment:
+      #  - NGROK_AUTH_TOKEN=${NGROK_AUTH_TOKEN}
+      networks:
+        - matcha_network

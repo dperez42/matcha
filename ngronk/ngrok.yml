@@ -1,0 +1,13 @@
+version: "2"
+authtoken: 2mqTxSChdNrcidZ43Xl80UCBp9E_3aT7Pb5BreCZBCboGgTPj
+web_addr: 0.0.0.0:8081
+update: false
+log: stdout
+
+tunnels:
+  back-app:
+    addr: back-app:3000
+    proto: http
+  front-app2:
+    addr: front-app2:8010
+    proto: http

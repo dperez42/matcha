@@ -1,0 +1,24 @@
+{
+    "gender":"male",
+    "name":{"title":"Mr","first":"Yaroslav","last":"Lisyak"},
+    "location":{
+        "street":{"number":3224,"name":"Zamiska"},
+        "city":"Boyarka","state":"Rivnenska","country":"Ukraine","postcode":21963,"coordinates":{"latitude":"75.7755","longitude":"-23.1122"},
+        "timezone":{"offset":"+6:00","description":"Almaty, Dhaka, Colombo"}
+    },
+    "email":"yaroslav.lisyak@example.com",
+    "login":{
+        "uuid":"f8c551a2-2629-4686-8dda-43f8ca0e1f4c",
+        "username":"ticklishmouse340",
+        "password":"ssssss",
+        "salt":"jAkJAIza",
+        "md5":"be522b11734253538cbd9a7d93d4924e",
+        "sha1":"b3fb657f5908308d05b138419767e11013a5f993",
+        "sha256":"61e71e4183d34c04a170749ea1416599e48e30108b0403d2e1f5c986ac0bda7f"
+    },
+    "dob":{"date":"1956-07-21T06:15:54.212Z","age":67},
+    "registered":{"date":"2022-02-08T08:17:00.500Z","age":2},
+    "phone":"(098) R09-1927","cell":"(098) E34-4076","id":{"name":"","value":null},
+    "picture":{"large":"https://randomuser.me/api/portraits/men/51.jpg","medium":"https://randomuser.me/api/portraits/med/men/51.jpg","thumbnail":"https://randomuser.me/api/portraits/thumb/men/51.jpg"},
+    "nat":"UA"
+}

@@ -1,0 +1,5 @@
+> mysql -u user -p
+> password
+> show databases;
+> use matcha_db;
+> show create table users

@@ -1,0 +1,36 @@
+{
+  "name": "frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@mdi/font": "^7.4.47",
+    "@vuepic/vue-datepicker": "^9.0.3",
+    "axios": "^1.7.7",
+    "crypto-js": "^4.2.0",
+    "interact.js": "^1.2.8",
+    "interactjs": "^1.10.27",
+    "moment": "^2.30.1",
+    "socket.io-client": "^4.8.0",
+    "vite-plugin-vuetify": "^2.0.4",
+    "vue": "^3.5.10",
+    "vue-odometer": "^1.0.2",
+    "vue-router": "^4.4.5",
+    "vue-slider-component": "^3.2.24",
+    "vue3-otp-input": "^0.5.21",
+    "vue3-toastify": "^0.2.3",
+    "vuetify": "^3.7.2",
+    "vuex": "^4.1.0",
+    "webfontloader": "^1.6.28"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.1.4",
+    "sass-embedded": "^1.79.4",
+    "vite": "^5.4.8"
+  }
+}

@@ -1,0 +1,50 @@
+- Poner OTP para entrada codigo del email
+- modals en vez de alerts.
+- anonimizar los emails en los alerts/modals. p.e. dpz***@gmail.com
+- En password poner ojito
+- Mejorar emnsajes con html..
+
+                              :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`"
+                              :src="`https://picsum.photos/500/300?image=${n * 5 + 10}`"
+
+TAGS
+https://vueschool.io/articles/vuejs-tutorials/building-a-tag-input-component-with-the-vue-3-composition-api/
+
+FORMATO TEXTO
+https://vuetifyjs.com/en/styles/text-and-typography/#typography
+https://vuetifyjs.com/en/styles/text-and-typography/?one=subscribe#typography
+
+LIBRARY FOR ZOOM IMAGES
+https://www.npmjs.com/package/iv-viewer
+
+icons in buttons
+https://pictogrammers.com/library/mdi/
+https://vuetifyjs.com/en/components/icons/#misc
+
+vuex
+https://vuex.vuejs.org/guide/state.html#object-spread-operator
+
+https://github.com/berksaribas/vuetify-chat/blob/master/src/components/Chat/Chat.vue
+
+Paginas de Error
+https://github.com/PecceG2/HTML_Template_http_codes?tab=readme-ov-file
+
+Use of D· with vue3
+https://dev.to/muratkemaldar/using-vue-3-with-d3-composition-api-3h1g
+
+deefine a theme
+https://vuetifyjs.com/en/components/color-pickers/#mode
+
+select users.*, 
+CASE WHEN t0.nb_tags IS NULL THEN 0
+	 ELSE t0.nb_tags END
+     as common_tags 
+from users 
+left join (
+SELECT t1.uuid as us,t2.uuid as mate, count(t2.tag) as nb_tags FROM `tags` as T1
+left join `tags` as T2
+on t1.tag = T2.tag
+where t1.uuid="cade6a1d-9440-11ef-bd58-0242ac130003" and t2.uuid!="cade6a1d-9440-11ef-bd58-0242ac130003"
+group by t1.uuid,t2.uuid) as t0
+on t0.mate = users.uuid
+order by common_tags desc;

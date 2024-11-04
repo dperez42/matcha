@@ -1,0 +1,22 @@
+# Ignora archivos del sistema Mac 
+.DS_store
+# Ignora la carpeta node_modules
+node_modules
+/dist
+*.log
+# Ignora los archivos relacionados a API keys
+.env
+.env.local
+.env.*.local
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Ignora los archivos de datos de mysql
+data
