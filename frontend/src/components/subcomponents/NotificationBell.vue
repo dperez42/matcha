@@ -45,8 +45,6 @@
 </template>
 
 <script>
-import VueOdometer from 'vue-odometer'
-import 'odometer/themes/odometer-theme-default.css'
 import ding from './assets/ding-base64'
 
 export default {
@@ -212,7 +210,6 @@ export default {
     }
   },
   components: {
-    VueOdometer
   },
   props: {
     count: {

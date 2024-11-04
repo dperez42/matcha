@@ -1,10 +1,13 @@
 # it's a good idea to pin this, but for demo purposes we'll leave it as is
 FROM node:latest as build-stage
 
+# ENV NODE_ENV=development 
+# ENV NODE_ENV=production
+
 # automatically creates the dir and sets it as the current working dir
 WORKDIR /usr/src/app
 # this will allow us to run vite and other tools directly
-#ENV PATH /usr/src/node_modules/.bin:$PATH
+ENV PATH /usr/src/node_modules/.bin:$PATH
 
 # inject all environment vars we'll need
 #ARG VITE_BACKEND_URL
@@ -13,9 +16,13 @@ WORKDIR /usr/src/app
 
 COPY package.json ./
 
-RUN npm install --legacy-peer-deps
+# RUN npm cache clean --force
+# RUN npm i -g @vitejs/plugin-vue
+# RUN npm i -g vite
+RUN npm install --include=dev --legacy-peer-deps
 # use a more specific COPY, as this will include files like `Dockerfile`, we don't really need inside our containers.
-COPY . .
+
+COPY . ./
 
 #RUN npm run build
 
@@ -25,9 +32,12 @@ EXPOSE 8000
 CMD ["npm", "run", "dev"]
 
 # etapa de producción
-#FROM nginx:1.13.12-alpine as prod-stage
-#COPY --from=build-stage /usr/src/app/dist /usr/share/nginx/html
-#EXPOSE 81
-#CMD ["nginx", "-g", "daemon off;"]
+FROM build-stage as prod-builder
+RUN npm run build
+
+FROM nginx:latest as prod-stage
+COPY --from=prod-builder /usr/src/app/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
 
 

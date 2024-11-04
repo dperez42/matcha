@@ -5,9 +5,9 @@ node_modules
 /dist
 *.log
 # Ignora los archivos relacionados a API keys
-.env
-.env.local
-.env.*.local
+#.env
+#.env.local
+#.env.*.local
 
 # Editor directories and files
 .idea
