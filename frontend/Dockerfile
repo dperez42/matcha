@@ -5,7 +5,7 @@ FROM node:latest as build-stage
 # ENV NODE_ENV=production
 
 # automatically creates the dir and sets it as the current working dir
-WORKDIR /usr/src/app
+WORKDIR /app
 # this will allow us to run vite and other tools directly
 ENV PATH /usr/src/node_modules/.bin:$PATH
 
@@ -14,13 +14,19 @@ ENV PATH /usr/src/node_modules/.bin:$PATH
 # expose the variable to the finished cotainer
 #ENV VITE_BACKEND_URL=$VITE_BACKEND_URL
 
-COPY package.json ./
+COPY package*.json ./
 
 # RUN npm cache clean --force
-# RUN npm i -g @vitejs/plugin-vue
-# RUN npm i -g vite
-RUN npm install --include=dev --legacy-peer-deps
+#RUN npm i -g @vitejs/plugin-vue
+#RUN npm i -g vite
+RUN npm install -g 
+RUN npm i vite@latest -D
+# --legacy-peer-deps
 # use a more specific COPY, as this will include files like `Dockerfile`, we don't really need inside our containers.
+#RUN npm i -g @vitejs/plugin-vue
+#RUN npm i -g vite
+#RUN npm i -g vite-plugin-vuetify
+#RUN ln -s /usr/local/lib/node_modules/ ../node_modules
 
 COPY . ./
 
@@ -28,7 +34,7 @@ COPY . ./
 
 # etapa de desarrollo
 FROM build-stage as dev-stage
-EXPOSE 8000
+EXPOSE 8010
 CMD ["npm", "run", "dev"]
 
 # etapa de producción

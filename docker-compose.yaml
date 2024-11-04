@@ -60,10 +60,23 @@ services:
       - "8010:8010" # same port in vite.config.js
       - "81:80"
     volumes:
-      - ./frontend:/usr/src/app
+      - ./frontend:/app
+      - /app/node_modules
     networks:
       - matcha_network
  
+  vite_docker:
+    build:
+      context: ./test
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173" # same port in vite.config.js
+    volumes:
+      - ./test:/app
+      - /app/node_modules
+    networks:
+      - matcha_network
+
   ngrok:
       image: wernight/ngrok
       ports:
