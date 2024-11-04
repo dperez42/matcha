@@ -1,12 +1,5 @@
 <template>
 <v-container>
-  <v-card 
-    class="ma-auto pa-3"
-    elevation="8"
-    height= "80vh"
-    rounded="lg"
-    color="green" 
-  >
   <v-row align="center" justify="center" >
     <v-col cols="12" sm="12">
       <v-row class="pt-10">
@@ -158,7 +151,6 @@
       </v-row>
     </v-col>
   </v-row>
-  </v-card>
 </v-container>
 </template>
 

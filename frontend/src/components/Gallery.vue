@@ -1,16 +1,16 @@
 <template>
 	<v-container >
-  <v-card 
-    class="ma-auto"
-    elevation="8"
-    width= "90vw"
-    height= "80vh"
-    rounded="lg"
-    color="black" 
-  >
     <v-row justify="center"  >
       <v-col cols="12" sm="5">
+        <v-card 
+          class="ma-auto pa-3 overflow-y-auto"
+          elevation="8"
+          height= "80vh"
+          rounded="lg"
+          color="green" 
+        >
           <ResearchFilter :filter=this.filter @filter="filter_query" @filter_reset="filter_reset"></ResearchFilter>
+        </v-card>
       </v-col>
       <v-col cols="12" sm="7" >
         <v-card 
@@ -43,7 +43,6 @@
       </v-card>
       </v-col>
     </v-row>
-  </v-card>
   </v-container>
   <!--pop up chat--->
   <div v-if="showChatModal === true" class="modal_mask_chat">
