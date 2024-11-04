@@ -43,7 +43,6 @@ services:
   #   networks:
   #     - matcha_network
   mysql:
-    # image: mysql
     build:
       context: ./mysql/
       dockerfile: dockerfile
@@ -59,14 +58,6 @@ services:
       - ./mysql/data:/var/lib/mysql
     networks:
       - matcha_network
-
-  # adminer:
-  #   image: adminer
-  #   restart: always
-  #   ports:
-  #     - 8080:8080
-  #   networks:
-  #     - matcha_network
 
   phpmyadmin:
     image: phpmyadmin
@@ -98,19 +89,7 @@ services:
     networks:
       - matcha_network
 
-  #front-app:
-  #  build:
-  #    context: ./app
-  #    dockerfile: dockerfile
-  #  ports:
-  #    - "8000:8000" # same port in vite.config.js
-  #  volumes:
-  #    - ./app:/app
-  #    - /app/node_modules
-  #  networks:
-  #    - matcha_network
-  # https://dev.to/borisuu/setup-vite-vuejs-docker-32fb for env.
-  front-app2:
+  front-app:
     build:
       context: ./frontend
       target: dev-stage
