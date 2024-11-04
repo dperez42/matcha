@@ -1,5 +1,5 @@
 <template>
-  <v-app >
+  <v-app>
 <!-- defino la app-bar -->
     <v-app-bar v-if="this.$store.state.user_store.isAuthenticated===true"
       color="teal-darken-4"
@@ -83,8 +83,8 @@
     </template>
     </v-app-bar>
 <!-- defino la seccion de contenidos -->
-    <v-main class="ma-0 pt-5" color="orange">
-        <router-view/>
+    <v-main class="d-flex align-center justify-center ma-11 pt-2" color="green">
+    <router-view/>
     </v-main>
     <Footer/>
   </v-app>
@@ -183,5 +183,11 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style>
+#app {
+  max-width: 1280px;
+  background-color: red;
+  padding: 0 !important;
+  margin: auto !important;
+}
 </style>

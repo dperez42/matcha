@@ -2,7 +2,7 @@
 <v-container>
   <v-row align="center" justify="center" >
     <v-col cols="12" sm="12">
-      <v-row class="pt-10">
+      <v-row class="pt-9">
           <v-range-slider
             v-model="filter.age"
               :max="options_age.limits[1]"
@@ -26,7 +26,7 @@
           </template>
           </v-range-slider>
       </v-row>
-      <v-row class="pt-10">
+      <v-row class="pt-9">
           <v-range-slider
               v-model="filter.distance"
               :max="options_distance.limits[1]"
@@ -50,7 +50,7 @@
           </template>
            </v-range-slider>
       </v-row>
-      <v-row class="pt-10">
+      <v-row class="pt-9">
           <v-range-slider
               v-model="filter.tags"
               :max="options_tags.limits[1]"
@@ -74,7 +74,7 @@
           </template>
            </v-range-slider>
       </v-row>
-      <v-row class="pt-10">
+      <v-row class="pt-9">
           <v-range-slider
              v-model="filter.rating"
               :max="options_fame.limits[1]"
@@ -100,7 +100,7 @@
       </v-row>
   <!--- Gender selector-->
   <v-form ref="form">
-      <v-row class="ma-1 pt-4">
+      <v-row class="ma-0 pt-4">
         <v-select
           v-model="filter.gender"
           :items="list_gender"
@@ -110,7 +110,7 @@
         ></v-select>  
       </v-row>
   <!--- GSexual selector-->
-      <v-row class="ma-1 pt-0">
+      <v-row class="ma-0 pt-0">
         <v-select
           v-model="filter.sexual"
           :items="list_sexual"
@@ -121,12 +121,12 @@
       </v-row>
   </v-form>
       <v-spacer></v-spacer>
-      <v-row class="pa-4" align="center" justify="center">
+      <v-row class="pa-2" align="center" justify="center">
         <v-tooltip text="Reset" location="top">
                 <template v-slot:activator="{ props } "> 
                 <v-btn v-bind="props"
                   v-on:click.prevent = "reset_query" 
-                  class="ma-4"
+                  class="mx-4"
                   elevation="8"
                   color="orange"
                   icon="mdi-reload"
@@ -139,7 +139,7 @@
                 <template v-slot:activator="{ props } "> 
                 <v-btn v-bind="props"
                   v-on:click.prevent = "emit_query" 
-                  class="ma-4"
+                  class="mx-4"
                   elevation="8"
                   color="green"
                   icon="mdi-magnify"

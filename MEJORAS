@@ -34,6 +34,9 @@ https://dev.to/muratkemaldar/using-vue-3-with-d3-composition-api-3h1g
 
 deefine a theme
 https://vuetifyjs.com/en/components/color-pickers/#mode
+https://stackoverflow.com/questions/50243769/vuetify-how-to-set-background-color
+
+https://dev.to/mtermoul/5-ways-to-change-component-colors-and-styles-using-vuetify-3ee9
 
 select users.*, 
 CASE WHEN t0.nb_tags IS NULL THEN 0

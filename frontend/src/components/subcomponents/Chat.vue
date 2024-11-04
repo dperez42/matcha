@@ -43,7 +43,7 @@
         </v-row>
   <!-- CHAT ACTIONS -->
         <v-row align="center" justify="center">
-          <v-col col="1" sm="2" >
+          <v-col col="2" sm="2" >
                 <v-btn size="small" elevation="8"
                   color="purple"
                   icon="mdi-emoticon"
@@ -52,7 +52,7 @@
                <emoji-picker ref="elementpicker"
                 :show="emojiPanel" @click_on_emoji="addEmojiToMessage" @click_close_emoji="toggleEmojiPanel"></emoji-picker>
           </v-col>
-          <v-col col="10" sm="8" class="text-h3 text-white" >
+          <v-col col="8" sm="8" class="text-h3 text-white" >
                 <form>
                 <v-text-field 
                   v-model="input" 
@@ -64,7 +64,7 @@
                 </v-text-field>
                 </form>
             </v-col>
-            <v-col col="1" sm="2" >
+            <v-col col="2" sm="2" >
                 <v-btn size="small" elevation="8"
                   color="purple"
                   icon="mdi-send"

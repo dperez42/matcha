@@ -1,5 +1,5 @@
 <template>
-	<v-container >
+	<v-container fluid class="flex-container">
     <v-row justify="center"  >
       <v-col cols="12" sm="5">
         <v-card 
@@ -485,14 +485,12 @@ export default {
 }
 </script>
 
-
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .flex-container{ 
-  display: flex;
   width: 100vw;
 	height: 100vh;
-  background-color: #774b4b;
+  background-color: rgba(170, 92, 174, 0.5);
 }
 .container1{
   position: fixed;
