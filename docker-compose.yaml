@@ -53,8 +53,8 @@ services:
   front-app:
     build:
       context: ./frontend
-      #target: dev-stage
-      target: prod-stage
+      target: dev-stage
+      #target: prod-stage
       dockerfile: Dockerfile
     ports:
       - "8010:8010" # same port in vite.config.js
