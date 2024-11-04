@@ -1,4 +1,4 @@
-FROM node:21.5-alpine as develop
+FROM node:21.5-alpine as build-stage
 #Create a new user
 #RUN addgroup node && adduser -S -G node node
 
@@ -28,8 +28,9 @@ COPY . .
 #Set current user
 #USER node
 
+# DEVELOPMENT STAGE
+FROM build-stage as dev-stage
 EXPOSE 3000
 EXPOSE 3030
-
 CMD ["npm", "run", "start.dev"]
 #CMD ["npm", "start"]

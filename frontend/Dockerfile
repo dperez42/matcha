@@ -1,4 +1,3 @@
-# it's a good idea to pin this, but for demo purposes we'll leave it as is
 FROM node:latest as build-stage
 
 # ENV NODE_ENV=development 
@@ -19,6 +18,10 @@ COPY package*.json ./
 # RUN npm cache clean --force
 #RUN npm i -g @vitejs/plugin-vue
 #RUN npm i -g vite
+
+# Updating packages and fixing vulnerabilities
+RUN npm update 
+RUN npm cache clean --force
 RUN npm install -g 
 RUN npm i vite@latest -D
 # --legacy-peer-deps
@@ -32,12 +35,12 @@ COPY . ./
 
 #RUN npm run build
 
-# etapa de desarrollo
+# DEVELOPMENT STAGE
 FROM build-stage as dev-stage
 EXPOSE 8010
 CMD ["npm", "run", "dev"]
 
-# etapa de producción
+# PRODCUTION STAGE
 FROM build-stage as prod-builder
 RUN npm run build
 

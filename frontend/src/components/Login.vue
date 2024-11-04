@@ -59,14 +59,14 @@
                 {{this.error_message}}
               </v-card-text>
             </v-card>
-            <v-card-text class="text-center pa-1">
+            <v-card-text v-if="this.enable_auth ==='true'" class="text-center pa-1">
               <a
                 class="text-white text-decoration-none font-weight-bold"
               >
                 Or
               </a>
             </v-card-text>
-            <div class="d-flex  justify-space-between align-center">
+            <div v-if="this.enable_auth ==='true'" class="d-flex  justify-space-between align-center">
                                 <v-btn depressed outlined color="white">
                                 <v-icon color="red">mdi-google</v-icon>
                                 </v-btn>
@@ -163,6 +163,7 @@
 		error: false,
 		error_message: "",
     visible: false,
+    enable_auth: false,
 		input:{
 			username: "",
 			password: "",
@@ -215,7 +216,10 @@
 			this.error = true;
 			}
 		},
-  }  
+  },
+  mounted() {
+      this.enable_auth = this.$AUTH
+	},   
   }
 </script>
 <style scoped>

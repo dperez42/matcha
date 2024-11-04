@@ -57,8 +57,8 @@ services:
       #target: prod-stage
       dockerfile: Dockerfile
     ports:
-      - "8010:8010" # same port in vite.config.js
-      - "81:80"
+      - "8010:8010" # same port in vite.config.js for development 
+      - "81:80"     # port for production
     volumes:
       - ./frontend:/app
       - /app/node_modules

@@ -27,6 +27,7 @@ app.config.globalProperties.$REGISTER_CODE_VERIFICATION = import.meta.env.VITE_R
 app.config.globalProperties.$REGISTER_EMAIL_VERIFICATION = import.meta.env.VITE_REGISTER_EMAIL_VERIFICATION===undefined ? 'true' :import.meta.env.VITE_REGISTER_EMAIL_VERIFICATION;
 app.config.globalProperties.$DEBUG = import.meta.env.VITE_DEBUG===undefined ? false : import.meta.env.VITE_DEBUG;
 app.config.globalProperties.$RATING = import.meta.env.VITE_RATING===undefined ? 1 : import.meta.env.VITE_RATING;
+app.config.globalProperties.$AUTH = import.meta.env.VITE_AUTH===undefined ? false : import.meta.env.VITE_AUTH;
 /*
 const defaultToastOptions: ToastOptions = {
     autoClose: 2000,

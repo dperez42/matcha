@@ -9,7 +9,7 @@ export default defineConfig(({mode}) => {
   Object.assign(process.env,loadEnv(mode, process.cwd()));
   //const PORT = `${env.VITE_PORT ?? '8010'}`;
   //const SERVER_API = env.VITE_APP_SERVER_API ;
-  console.log(process.env.VITE_APP_SERVER_API)
+  //console.log(process.env.VITE_APP_SERVER_API)
 return {
   server: {    // <-- this object is added
     port: parseInt(process.env.VITE_APP_PORT),
