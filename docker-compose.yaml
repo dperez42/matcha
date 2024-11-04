@@ -115,7 +115,7 @@ services:
       volumes:
         - ./ngronk/:/home/ngrok/.ngrok2/
       depends_on:
-        - front-app2
+        - front-app
       #environment:
       #  - NGROK_AUTH_TOKEN=${NGROK_AUTH_TOKEN}
       networks:
