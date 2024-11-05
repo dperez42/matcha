@@ -71,9 +71,9 @@ async function getCards(where_clause, order_by_clause, select_clause, user_uuid,
     as common_tags 
   FROM users
   left join (
-  SELECT t1.uuid as us,t2.uuid as mate, count(t2.tag) as nb_tags FROM tags as T1
-  left join tags as T2
-  on t1.tag = T2.tag
+  SELECT t1.uuid as us,t2.uuid as mate, count(t2.tag) as nb_tags FROM tags as t1
+  left join tags as t2
+  on t1.tag = t2.tag
   where t1.uuid="${user_uuid}" and t2.uuid!="${user_uuid}"
   group by t1.uuid,t2.uuid) as t0
   on t0.mate = users.uuid
@@ -86,9 +86,9 @@ async function getCards(where_clause, order_by_clause, select_clause, user_uuid,
           as common_tags 
     FROM users
     left join (
-      SELECT t1.uuid as us,t2.uuid as mate, count(t2.tag) as nb_tags FROM tags as T1
-      left join tags as T2
-      on t1.tag = T2.tag
+      SELECT t1.uuid as us,t2.uuid as mate, count(t2.tag) as nb_tags FROM tags as t1
+      left join tags as t2
+      on t1.tag = t2.tag
       where t1.uuid="${user_uuid}" and t2.uuid!="${user_uuid}"
       group by t1.uuid,t2.uuid) as t0
       on t0.mate = users.uuid

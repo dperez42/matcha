@@ -47,8 +47,8 @@ if __name__ == '__main__':
             #print(muni.loc[0,'lon'])
             #print(muni)
             insert_query = """INSERT INTO """ + table + """ (`uuid`,`username`,`password`,`email`,`avatar`,`rating`,`date`,`address`,`title`,`first`,`last`,`zip`,`phone`,`cell`,`nat`,`gender`,`city`,`state`,`country`,`longitude`,`latitude`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
-            cursor.execute(insert_query,(datos["results"][i]["login"]["uuid"],\
-                datos["results"][i]["login"]["username"],'$2b$10$6.ZBUswYIoP4rQDaOZX.Bu3HEdz5BifdQG0vbUd4ba0Qpujfv.cWq',datos["results"][i]["email"],datos["results"][i]["picture"]["large"],random.randrange(start=5),date_obj,\
+            cursor.execute(insert_query,(datos["results"][i]["login"]["uuid"],
+                datos["results"][i]["login"]["username"],'$2b$10$FmOL5MxEi.v9rvigMYmAOOrMgDXxyCfLrUfDB9LSRy1G0O9DIjIae',datos["results"][i]["email"],datos["results"][i]["picture"]["large"],random.randrange(start=5),date_obj,\
                 datos["results"][i]["location"]["street"]["name"]+','+str(datos["results"][i]["location"]["street"]["number"]),
                 datos["results"][i]["name"]["title"],datos["results"][i]["name"]["first"],datos["results"][i]["name"]["last"],'99999',datos["results"][i]["phone"],datos["results"][i]["cell"],datos["results"][i]["nat"],
                 datos["results"][i]["gender"],muni['municipio'],muni['provincia'],'Spain',float(muni['lon']),float(muni['lat'])

@@ -134,7 +134,7 @@
                     elevation="8"
                     :color="this.from_like_check && this.to_like_check ? 'success':'grey'"
                     icon="mdi-chat"
-                    :disabled="!(this.from_like_check && this.to_like_check && this.check_avatar())"
+                    :disabled="!(this.from_like_check && this.to_like_check)"
                     size="small"
                     v-on:click.prevent = "onClickChat"    
                   ></v-btn>
@@ -208,6 +208,7 @@ import {socket} from '../../services/socket'
 import axios from "axios"
 import store from '../../store/index'
 import interact from "interactjs";
+import { toast } from 'vue3-toastify';
 const ACCEPT_CARD = "cardAccepted";
 const REJECT_CARD = "cardRejected";
 const SKIP_CARD = "cardSkipped";
@@ -269,7 +270,14 @@ export default {
   },  
   methods: {
     onClickChat() {
-      console.log("click card chat")
+      if (!this.check_avatar()){
+        toast("Update your profile photo to chat with "+ this.card.username, {
+            autoClose: 2000,
+            type: "info",
+            position: "bottom-right",
+          }); 
+        return false
+      }
       this.$emit('click_on_chat', this.card)
     },
     onClickProfile() {

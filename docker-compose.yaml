@@ -58,7 +58,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8010:8010" # same port in vite.config.js for development 
-      - "81:80"     # port for production
+      #- "81:80"     # port for production
     volumes:
       - ./frontend:/app
       - /app/node_modules
@@ -77,20 +77,20 @@ services:
     networks:
       - matcha_network
 
-  ngrok:
-      image: wernight/ngrok
-      ports:
-        - "8081:8081" #just a diagnosis port
-      command:
-        - /bin/sh
-        - -c
-        - |
-          ngrok start --all
-      volumes:
-        - ./ngronk/:/home/ngrok/.ngrok2/
-      depends_on:
-        - front-app
+  #ngrok:
+  #    image: wernight/ngrok
+  #    ports:
+  #      - "8081:8081" #just a diagnosis port
+  #    command:
+  #      - /bin/sh
+  #      - -c
+  #      - |
+  #        ngrok start --all
+  #    volumes:
+  #      - ./ngronk/:/home/ngrok/.ngrok2/
+  #    depends_on:
+  #      - front-app
       #environment:
       #  - NGROK_AUTH_TOKEN=${NGROK_AUTH_TOKEN}
-      networks:
-        - matcha_network
+  #    networks:
+  #      - matcha_network
