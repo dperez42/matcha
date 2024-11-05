@@ -1,3 +1,9 @@
+echo "your ip: $1"; 
+ECHO "Changing .env in back..."
+sed -i "s/SERVERIP/$1/" test.txt 
+ECHO "Changing .env in app..."
+sed -i "s/SERVERIP/$1/" test.txt 
+
 docker-compose build
-# docker run --name matcha-srv --rm -v /Users/daniel/42/matcha/tmp/app:/app -p 8000:8000 matcha-app
+
 docker-compose up 

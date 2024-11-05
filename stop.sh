@@ -1,11 +1,10 @@
 docker-compose stop
 docker-compose rm
+#remoce containers
+docker rm $(docker ps -a -f status=exited -q)
 #remove persistent data
 rm -r ./mysql/data
 #delete images
-docker rmi tmp_mysql
-docker rmi tmp_front-app
-docker rmi tmp_front-app2
-docker rmi tmp_back-app
+docker rmi $(docker images -a -q)
 #Delete volumen
 docker volume prune

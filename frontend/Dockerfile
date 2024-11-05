@@ -45,7 +45,7 @@ FROM build-stage as prod-builder
 RUN npm run build
 
 FROM nginx:latest as prod-stage
-COPY --from=prod-builder /usr/src/app/dist /usr/share/nginx/html
+COPY --from=prod-builder /app/dist /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 
