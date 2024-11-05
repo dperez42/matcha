@@ -21,7 +21,7 @@
             </v-avatar>
         </v-app-bar-nav-icon>
     </template>
-    x{{this.user!=null ? this.user.username:''}}x
+    <!--{{this.user!=null ? this.user.username:''}}-->
     <v-spacer></v-spacer>
           <v-badge 
             :content="this.nb_connected"
@@ -137,18 +137,15 @@ export default {
   },
   watch: {
 		nb_connected_change(newer,older){
-			console.log(`We have change connected list from ${older} to ${newer} fruits now, yay!`)
       this.nb_connected = store.state.connected_store.nb_connected
     },
     nb_notifications_change(newer,older){
-      console.log(`We have change in notifications store from ${older} to ${newer} fruits now, yay!`)
       this.nb_notifications = store.state.notifications_store.nb_notifications
       this.list_notifications= store.getters['notifications_store/getNotifications']
     },
     notificationReaded(newer,older){
       this.user= store.getters['user_store/getUser']
       if (older===true && newer ===false){
-        console.log("notifications readed")
         // delete store
         store.commit("notifications_store/delNotifications");
         // send message to delete in database
@@ -167,7 +164,6 @@ export default {
       }
     },
     user_change(newer,older){
-      console.log("jhjhjhjhjhj")
       this.user = store.getters["user_store/getUser"]
     }
 	},
@@ -179,7 +175,9 @@ export default {
     this.nb_connected = store.state.connected_store.nb_connected
     this.nb_notifications = store.state.notifications_store.nb_notifications
     this.list_notifications= store.getters['notifications_store/getNotifications']
-    console.log("starting App: connected:", this.nb_connected," notifications:",this.nb_notifications )
+    if (import.meta.env.VITE_DEBUG==='true'){
+      console.log("info: starting App: connected:", this.nb_connected," notifications:",this.nb_notifications )
+    }
   }
 }
 </script>

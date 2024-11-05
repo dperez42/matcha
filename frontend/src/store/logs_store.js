@@ -50,11 +50,8 @@ export default {
       // setting pending notifications list in store
       state.logs=newList;
       state.nb_logs = state.logs.length
-      console.log("Update list of logs",state.nb_logs )
-      console.log(state.logs.length)
     },
     addLogs(state, newLog) {
-      console.log("log add")
       state.nb_logs = state.nb_logs + 1
       state.logs.push(newLog);
       console.log(state.logs)

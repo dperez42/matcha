@@ -26,13 +26,10 @@ export default {
     setMatched(state, newList) {
       state.matched_uuids = newList
       state.nb_matched = state.matched_uuids.length
-      //state.push(newList[0])
-      console.log("new matched list", state.matched_uuids)
     },
     addLike(state, like) {
       state.matched_uuids.push(like);
       state.nb_matched = state.nb_matched +1
-      console.log("ADD LIKE TO new matched list", state.matched_uuids)
     },
     delLike(state, like) {
       let spliced =[]
@@ -44,7 +41,6 @@ export default {
       }
       state.matched_uuids = spliced
       state.nb_matched = state.nb_matched - 1
-      console.log("DEL LIKE TO new matched list", state.matched_uuids)
     },
     delAllMatched(state) {
       state.matched_uuids = [];
@@ -52,31 +48,6 @@ export default {
     },
   },
   actions: {
-    async refreshUser({ commit }){
-      var get_data = {
-        //'password': this.input.password,
-      };
-      const token = localStorage.getItem('token');
-      let axiosConfig = {
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8',
-          'Authorization': `Bearer ${token}`,
-            //"Access-Control-Allow-Origin": "*",
-        }
-      };
-      try {
-        const response = await axios.get("/uuid/", // get user data with uuid
-          axiosConfig)	
-          // parsing list of tags...
-        response.data[0].tags ='["'+response.data[0].tags.replaceAll(',','","')+'"]'
-        response.data[0].tags = JSON.parse(response.data[0].tags)
-        commit("setUser",response.data[0])     // Load user data
-        console.log("response:", response)
-      } catch (err) {
-        authService.deleteToken()                               // delete token beacause no uuid
-        console.log(err)
-      } 
-    }
     // Actions are used to commit mutations asynchronously
     /*
     incrementAsync({ commit }) {

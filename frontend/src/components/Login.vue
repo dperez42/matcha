@@ -187,7 +187,6 @@
             return
         }
 		try {
-			console.log("pp",this.input.username, this.input.password)
 			//const response = await auth.login(this.input.username, this.input.password);
 			let axiosConfig = {
 				headers: {
@@ -197,21 +196,23 @@
 					//"Access-Control-Allow-Origin": "*",
 				}
 			};
-      console.log("JJJ")
-			const response = await axios.get("/login?username=" + this.input.username +'&password='+this.input.password,
+      let data = {
+        username: this.input.username,
+        password: this.input.password
+      }
+			const response = await axios.post("/login",data,
 				axiosConfig)
       if (import.meta.env.VITE_DEBUG==='true'){
-                console.log("info: login ssuccess. ", response)
+        console.log("info: login success. ", response)
       }
-            console.log("JJJJ",response.config.baseURL)
 			auth.deleteToken()
 			auth.setToken(response.data.token)
 			this.error = false;
 			this.$router.push("/");
 		} catch (err) {
-            if (import.meta.env.VITE_DEBUG==='true'){
-                console.log("info: login failed. ", err.response)
-            }
+      if (import.meta.env.VITE_DEBUG==='true'){
+        console.log("error: login failed. ", err.response)
+      }
 			this.error_message = "Oops... Username or password incorrect."
 			this.error = true;
 			}

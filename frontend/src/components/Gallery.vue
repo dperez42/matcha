@@ -288,7 +288,9 @@ export default {
       cards.data = null;
       try {
         this.isLoading = true;
-        console.log("loading data")
+        if (import.meta.env.VITE_DEBUG==='true'){
+          console.log("info: loading cards")
+        }
         // Get a random list of people from database
         const token = localStorage.getItem('matcha_token');
         const where_rating = ' (`rating` >='+this.filter.rating[0]*this.$RATING+' and `rating`<='+this.filter.rating[1]*this.$RATING+') '
@@ -321,7 +323,9 @@ export default {
         // clause for bring distance
         const select_distance = 'st_distance_sphere(POINT(`longitude`,`latitude`), POINT('+this.user.longitude+','+this.user.latitude+'))/1000 AS distance, CAST((DATEDIFF(CURRENT_DATE(),`date`)/365) AS SIGNED) AS age'
         let order_clause = '';
-        console.log("this.filter", this.filter)
+        if (import.meta.env.VITE_DEBUG==='true'){
+          console.log("info: filter apply: ", this.filter)
+        }
         if (this.filter.orderId === 1){
           order_clause= ' CAST((DATEDIFF(CURRENT_DATE(),`date`)/365) AS SIGNED) asc'
         } else if (this.filter.orderId  === 2){
@@ -331,7 +335,9 @@ export default {
         } else if (this.filter.orderId  === 4){
           order_clause = ' `rating` desc'
         }
-        console.log("this.filter order", order_clause)
+        if (import.meta.env.VITE_DEBUG==='true'){
+          console.log("info: order apply: ", order_clause)
+        }
         const data = {
 									'page': this.page,
                   'limit': this.cards_left,
@@ -342,7 +348,7 @@ export default {
                   'user_uuid': this.user.uuid
                 }
         let axiosConfig = {
-          params:{id: "puff"},
+          params:{id: ""},
           headers: {
             'Content-Type': 'application/json;charset=UTF-8',
             'Authorization': `Bearer ${token}`,
@@ -352,7 +358,9 @@ export default {
         //console.log(data)
         //console.log(where_age + ' and ' + where_rating + ' and ' + where_distance + ' and ' + where_no_current_user + ' and ' + where_no_blocked)
         const response = await axios.post("/cards", data,axiosConfig)
-          console.log("response from cards new data", response.data)
+          if (import.meta.env.VITE_DEBUG==='true'){
+            console.log("info: cards: ", response.data)
+          }
           this.error = false;
           //console.log("new data", response.data)
           this.cards.data = response.data;
@@ -379,7 +387,9 @@ export default {
         });
         */
       } catch (e) {
-        console.log("herere")
+        if (import.meta.env.VITE_DEBUG==='true'){
+          console.log("error: getting cards: ",e)
+        }
         this.error = true
       } finally {
         this.isLoading = false;	
@@ -387,15 +397,15 @@ export default {
 	  },
     // handle click outside chat/profile pop up to close pending...
     handleClickOutside(event) {
-      console.log(event.target)
+      //console.log(event.target)
       try {
       let answer = document.getElementById("chat_board").contains(event.target)
-      console.log(answer)
+      //console.log(answer)
       } catch {}
       try {
       if (!this.$refs.element_chat.contains(event.target)) {
         // Click occurred outside the element
-        console.log("oook")
+        //console.log("oook")
         //this.toggleChat()
       }}
       catch{}
@@ -404,7 +414,9 @@ export default {
     async onScroll(e) {
       const { scrollTop, offsetHeight, scrollHeight } = e.target
       if ((scrollTop + offsetHeight) >= scrollHeight) {
-        console.log('bottom!')
+        if (import.meta.env.VITE_DEBUG==='true'){
+          console.log('info: bottom reach!. Loading more cards.')
+        }
         this.isLoading = true;
         const token = localStorage.getItem('matcha_token');
         let axiosConfig = {
@@ -421,53 +433,13 @@ export default {
           this.cards.index = 0;
           this.cards_left = this.cards.max
         } catch (e) {
-          console.log("herere")
+          if (import.meta.env.VITE_DEBUG==='true'){
+            console.log("error: getting cards: ",e)
+          }
           this.error = true
         } finally {
           this.isLoading = false;	
         }
-        /*
-        const where_rating = ' (`rating` >='+this.filter.rating[0]+' and `rating`<='+this.filter.rating[1]+') '
-        const where_age = ' (CAST((DATEDIFF(CURRENT_DATE(),`date`)/365) AS SIGNED) >= '+this.filter.age[0]+' AND CAST((DATEDIFF(CURRENT_DATE(),`date`)/365) AS SIGNED) <= '+this.filter.age[1]+') '
-        console.log(this.user.longitude, this.user.latitude)
-        const where_no_current_user = ' (`uuid` <> "'+ this.user.uuid+'") '
-        const where_no_blocked = ' (`uuid` NOT IN ( SELECT to_uuid FROM blocked WHERE from_uuid="' + this.user.uuid+'")) '
-        const where_distance = '(st_distance_sphere(POINT(`longitude`,`latitude`), POINT('+this.user.longitude+','+this.user.latitude+'))/1000 >= ' +this.filter.distance[0]+' AND st_distance_sphere(POINT(`longitude`,`latitude`), POINT('+this.user.longitude+','+this.user.latitude+'))/1000 <= ' +this.filter.distance[1]+') '
-        const select_distance = ',st_distance_sphere(POINT(`longitude`,`latitude`), POINT('+this.user.longitude+','+this.user.latitude+'))/1000 AS distance'
-        let order_clause = '';
-        console.log("this.filter", this.filter)
-        if (this.filter.orderId === 1){
-          order_clause= ' CAST((DATEDIFF(CURRENT_DATE(),`date`)/365) AS SIGNED) asc'
-        } else if (this.filter.orderId  === 2){
-          order_clause = ' (st_distance_sphere(POINT(`longitude`,`latitude`), POINT('+this.user.longitude+','+this.user.latitude+'))/1000) asc' 
-        } else if (this.filter.orderId  === 3){
-          order_clause = ' `tags` desc'
-        } else if (this.filter.orderId  === 4){
-          order_clause = ' `rating` desc'
-        }
-        const data = {
-					'page': this.page,
-          'limit': this.cards_left,
-          'select_clause': select_distance,
-          'where_clause': where_age + ' and ' + where_rating + ' and ' + where_distance + ' and ' + where_no_current_user + ' and ' + where_no_blocked,
-           'order_clause': order_clause,
-        }
-        console.log("new data0")
-        try {
-          console.log("new data")
-          const response = await axios.post("/cards", data,axiosConfig)
-          console.log("new data")
-          // need token and query
-          this.cards.data = response.data;
-          this.cards.index = 0;
-          this.cards_left = this.cards.max 
-        } catch (e) {
-        console.log("herere")
-        this.error = true
-        } finally {
-          this.isLoading = false;	
-        }
-        */
     }
 }
   },

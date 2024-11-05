@@ -27,8 +27,6 @@ export default {
     setUUID(state, newList) {
       state.connected_uuids = JSON.parse(JSON.stringify(newList))
       state.nb_connected = state.connected_uuids.length
-      //state.push(newList[0])
-      console.log("new connected list", state.connected_uuids ,state.nb_connected)
     },
     addUUID(state, newUUID) {
       //state.push(newUUID);
@@ -39,31 +37,6 @@ export default {
     },
   },
   actions: {
-    async refreshUser({ commit }){
-      var get_data = {
-        //'password': this.input.password,
-      };
-      const token = localStorage.getItem('token');
-      let axiosConfig = {
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8',
-          'Authorization': `Bearer ${token}`,
-            //"Access-Control-Allow-Origin": "*",
-        }
-      };
-      try {
-        const response = await axios.get("/uuid/", // get user data with uuid
-          axiosConfig)	
-          // parsing list of tags...
-        response.data[0].tags ='["'+response.data[0].tags.replaceAll(',','","')+'"]'
-        response.data[0].tags = JSON.parse(response.data[0].tags)
-        commit("setUser",response.data[0])     // Load user data
-        console.log("response:", response)
-      } catch (err) {
-        authService.deleteToken()                               // delete token beacause no uuid
-        console.log(err)
-      } 
-    }
     // Actions are used to commit mutations asynchronously
     /*
     incrementAsync({ commit }) {
@@ -79,11 +52,9 @@ export default {
       return state.connected_uuids
     },
     nb_UUIDs(state){
-      console.log("ggggegeg"+state.connected_uuids.length)
       return state.connected_uuids.length
     },
     isConnected(state,uuid){
-      console.log("isconnecte")
       let i=0
       while (i < state.connected_uuids.length){
         if (state.connected_uuids[i]===uuid){

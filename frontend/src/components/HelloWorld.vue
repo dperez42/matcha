@@ -34,21 +34,10 @@ export default {
     nb_connected: store.getters['connected_store/getCountUUIDs']
   }),
   mounted() {
-    console.log("mounted")
-    //this.list_connected = JSON.parse(JSON.stringify(store.getters['connected_store/getUUIDs']))
-    console.log(store.state)
-    //console.log(this.list_connected.length )
 	},
   computed:{
-    ctr() { 
-      console.log("test", store.state.connected_store.nb_connected)
-      return store.state.connected_store.nb_connected; }
-    
   }, 
   watch: {
-    "$store.state.connected_store.nb_connected"(nv) {
-      console.log("mounted");
-    }
   },
 }
 </script>

@@ -50,8 +50,6 @@ export default {
       // setting pending notifications list in store
       state.notifications=newList;
       state.nb_notifications = state.notifications.length
-      console.log("Update list of notifications",state.nb_notifications )
-      console.log(state.notifications.length)
     },
     addNotification(state, newNotification) {
       state.nb_notifications = state.nb_notifications + 1
@@ -63,31 +61,6 @@ export default {
     },
   },
   actions: {
-    async refreshUser({ commit }){
-      var get_data = {
-        //'password': this.input.password,
-      };
-      const token = localStorage.getItem('token');
-      let axiosConfig = {
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8',
-          'Authorization': `Bearer ${token}`,
-            //"Access-Control-Allow-Origin": "*",
-        }
-      };
-      try {
-        const response = await axios.get("/uuid/", // get user data with uuid
-          axiosConfig)	
-        // parsing list of tags...
-        response.data[0].tags ='["'+response.data[0].tags.replaceAll(',','","')+'"]'
-        response.data[0].tags = JSON.parse(response.data[0].tags)
-          commit("setUser",response.data[0])     // Load user data
-        console.log("response:", response)
-      } catch (err) {
-        authService.deleteToken()                               // delete token beacause no uuid
-        console.log(err)
-      } 
-    }
     // Actions are used to commit mutations asynchronously
     /*
     incrementAsync({ commit }) {

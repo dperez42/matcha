@@ -32,8 +32,6 @@ export default {
       // setting pending notifications list in store
       state.blocked=newList;
       state.nb_blocked = state.blocked.length
-      console.log("Update list of blocked")
-      console.log(state.blocked)
     },
     addBlocked(state, newBlocked) {
       state.blocked.push(newBlocked);

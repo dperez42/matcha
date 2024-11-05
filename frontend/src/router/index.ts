@@ -21,11 +21,11 @@ import Testground from '../components/Testground.vue'
 
 ///****** this is a middleware ******///
 async function checkAuth(to, from, next){
-  console.log("check req", to)
-  console.log("check req", to.query.matcha_token)
+  if (import.meta.env.VITE_DEBUG==='true'){
+    console.log("info: checkAuth") //, to)
+  }
   // if request have a token save it in local storage p.e. reset password
   if (to.query.matcha_token != undefined){
-    console.log("here")
     authService.deleteToken()
     authService.setToken(to.query.matcha_token)
   }
@@ -37,9 +37,10 @@ async function checkAuth(to, from, next){
       }
       // si  ya esta cargado el user no lo cargo
       const is_authenticate = store.getters["user_store/getIsAuthenticated"]
-      console.log(is_authenticate)
       if (!is_authenticate){
-        console.log ("info: first loading")
+        if (import.meta.env.VITE_DEBUG==='true'){
+          console.log ("info: first loading")
+        }
         const token = localStorage.getItem('matcha_token');
         let axiosConfig = {
           headers: {
@@ -55,21 +56,15 @@ async function checkAuth(to, from, next){
         try {
   // get user data with the uuid inside token
           const response = await axios.get("/uuid/", axiosConfig)	
-          // parsing list of tags...
-          console.log(response.data[0])
-          if (response.data[0].tags===null){
-            response.data[0].tags ='[]'
-            response.data[0].tags = JSON.parse(response.data[0].tags)
-          } else {
-            response.data[0].tags ='["'+response.data[0].tags.replaceAll(',','","')+'"]'
-            response.data[0].tags = JSON.parse(response.data[0].tags)
-          }
-          console.log(response.data[0].tags)
           store.commit("user_store/setUser",response.data[0])  //load user data
           store.commit("user_store/setSocket",socket.id);      //load current socket in user data
-          console.log("info: loaded user data. "+response.data[0].uuid+","+socket.id)
+          if (import.meta.env.VITE_DEBUG==='true'){
+            console.log("info: loaded user data. "+response.data[0].uuid+","+socket.id)
+          }
   // send message of correct login to server to add current uuid/socket to list of user connected
-          console.log("info: send message of login to back")
+          if (import.meta.env.VITE_DEBUG==='true'){        
+            console.log("info: send message of login to back")
+          }
           socket.emit('login',[response.data[0].uuid, socket.id])
   // get users connected
           const response_connected = await axios.get("/connected/", axiosConfig)
@@ -105,12 +100,12 @@ async function checkAuth(to, from, next){
             }
           };
           const response_tags = await axios.get("/tags",axiosConfig1)
-          console.log("first")
-          console.log(response_tags.data)
           store.commit("tags_store/setTags", response_tags.data)
   // set Is Authenticate to true
           store.commit("user_store/setIsAuthenticated",true)
-          console.log("info: user authenticated")
+          if (import.meta.env.VITE_DEBUG==='true'){
+            console.log("info: user change to authenticated")
+          }
         } catch (err) {
           authService.deleteToken()        // delete token because no uuid
           console.log(err)
@@ -119,7 +114,7 @@ async function checkAuth(to, from, next){
       }
   } else {
     if (import.meta.env.VITE_DEBUG==='true'){
-      console.log("info: you don´t have a valid matcha_token")
+      console.log("error: you don´t have a valid matcha_token")
     }
     authService.deleteToken()  // no es un token válido se borra
     //socket.emit('logout',["", socket.id])
@@ -139,11 +134,18 @@ async function checkAuth(to, from, next){
 /// profile completed
 function checkProfile(to, from, next){
   const user = store.getters['user_store/getUser']
-    console.log("go to profile", user.completed)
-    if (user.completed === 0){
-      console.log("go to profile")
+  if (import.meta.env.VITE_DEBUG==='true'){
+    console.log("info: checking profile completed", user.completed)
+  }
+  if (user.completed === 0){
+      if (import.meta.env.VITE_DEBUG==='true'){
+        console.log("error: profile incompleted", user.completed)
+      }
       next("/profile");
     } else {
+      if (import.meta.env.VITE_DEBUG==='true'){
+        console.log("info: profile completed", user.completed)
+      }
       next()
     }
 }

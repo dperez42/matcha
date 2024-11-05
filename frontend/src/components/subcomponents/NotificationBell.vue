@@ -32,11 +32,13 @@
         <div class="counter-wrapper">
           <div v-if="count > upperLimit && prefixPlus">+</div>
           <span v-if="!animated">{{ computedCounter }}</span>
+        <!--  
           <vue-odometer
             v-else
             class="iOdometer"
             :value="computedCounter"
           />
+        -->
           <div v-if="count > upperLimit && !prefixPlus">+</div>
         </div>
       </div>
@@ -46,6 +48,7 @@
 
 <script>
 import ding from './assets/ding-base64'
+//import vue-odometer from 'vue-odometer'
 
 export default {
   name: 'NotificationBell',
@@ -210,6 +213,7 @@ export default {
     }
   },
   components: {
+    
   },
   props: {
     count: {

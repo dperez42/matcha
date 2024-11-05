@@ -59,7 +59,9 @@
       color="blue"
       :disabled="enable_code"
       autocomplete="false"
-      type="password"                            
+      :type="visiblePassword ? 'text' : 'password'"
+      :append-inner-icon="visiblePassword ? 'mdi-eye-off' : 'mdi-eye'"                            
+      @click:append-inner="visiblePassword = !visiblePassword"                           
     />
     <v-text-field v-model="input.passwordRepeat"
       :rules="passwordRepeatRules"
@@ -69,7 +71,9 @@
       color="blue"
       :disabled="enable_code"
       autocomplete="false"
-      type="password"                            
+      :append-inner-icon="visibleRepeat ? 'mdi-eye-off' : 'mdi-eye'"
+      :type="visibleRepeat ? 'text' : 'password'"                            
+      @click:append-inner="visibleRepeat = !visibleRepeat"
     />
     <v-card v-if="error===true"
         class="mb-1"
@@ -176,6 +180,8 @@
 		},
     code:"",
     user_code:"",
+    visibleRepeat: false,
+    visiblePassword: false,
     enable_code: false,
     enable_link: false,
     enable_register_no_verification: "",
