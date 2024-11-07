@@ -220,7 +220,7 @@
             <v-col cols="6" md="2">
               <v-text-field
                 v-model="user_temp.zip"
-                :rules="[v => !!v || 'Item is required']"
+                :rules="this.zipCodeRules"
                 label="Zip code"
                 required
                 outlined
@@ -681,12 +681,18 @@
       v => !!v || 'Username is required',
       v => (v && v.length <= 10) || 'Name must be less than 11',
     ],
+    zipCodeRules: [
+      v => !!v || 'zipCode is required.',
+      //v => (/^(?=\d).{5,5}$/.test(v)) || 'zipCode must be 5 digits.',
+      v => (/^[0-9-]{5,5}$/.test(v)) || 'zipCode must be 5 digits.',
+    ],
     passwordRules: [
       v => !!v || 'Password is required',
       v => (/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(v)) || 'The password must be a mixture of min 8 letter, with at least a symbol, upper and lower case letters and a number.'
     ],
     passwordRepeatRules: [
       v => !!v || 'Password is required.',
+      v => (/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(v)) || 'The password must be a mixture of min 8 letter, with at least a symbol, upper and lower case letters and a number.'
     ]
 	}),
   props: {

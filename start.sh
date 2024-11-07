@@ -68,9 +68,11 @@ On_ICyan='\033[0;106m'    # Cyan
 On_IWhite='\033[0;107m'   # White
 
 echo "${Green} your ip: $1 ${Nc}"; 
+echo "${Green} your ip: $2 ${Nc}";
+echo "${Green} your ip: $3 ${Nc}";
 # Argument validation check
-if [ "$#" -ne 1 ]; then
-    echo "${Red} Usage: $0 <xx.yy.zz.nn> <age> <fullname>${Nc}"
+if [ "$#" -ne 3 ]; then
+    echo "${Red} Usage: $0 <xx.yy.zz.nn> <BREVO-user = xx..xx@smtp-brevo.com> <BREVO_key = Uxbnsd...N>${Nc}"
     exit 1
 fi
 echo "${Yellow} Changing .env in frontend...${Nc}"
@@ -80,6 +82,8 @@ rm frontend/.env-e
 echo "${Purple} Changing .env in back...${Nc}"
 cp ./back/.env.temp   ./back/.env
 sed  -i -e "s/MYIP/$1/" 'back/.env'
+sed  -i -e "s/BREVO_USER/$2/" 'back/.env'
+sed  -i -e "s/BREVO_KEY/$3/" 'back/.env'
 rm back/.env-e
 echo "${Blue} Building....${Nc}"
 docker-compose build

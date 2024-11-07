@@ -429,6 +429,7 @@
               authService.deleteToken()
 							authService.setToken(response.data.token)
               alert('Thank you for register \n'+user_data.username)
+              this.$router.push("/");
               return true
             }
           } catch (err) {
@@ -494,8 +495,8 @@
       }
       if (newer === this.code){
         alert('You have have been verificated')
-        this.register_user()
-        this.$router.push("/");
+        this.register_user_classic()()
+        //this.$router.push("/");
       }
     }
 	},
