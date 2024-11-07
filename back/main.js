@@ -2,7 +2,7 @@
 
 // express es un framework de node.js que nos permite crear un servidor web
 const express = require('express');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const socket_list = require('./sockets/socket_list')
 const authenticate = require('./services/authenticate')

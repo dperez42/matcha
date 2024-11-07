@@ -7,13 +7,13 @@ const socket_list = require('../sockets/socket_list')
 var SocketSingleton = require('../sockets/socket');
 const email = require('../services/email')
 
-/// ------ when click in link in email register user
+/// ------ when click in the link contain in the sending email -> register user
 router.get('/', async function(req, res, next) {
   console.log(req.query.token)
   const para = req.query.token
   // check if there a token
   if (!para){
-    console.log("error")
+    res.status(400) //
   }
   // check is a valid token
   const verify = jwt.verifyAccessToken(para) 
@@ -66,14 +66,15 @@ router.get('/', async function(req, res, next) {
     // send message by socket with new token(uuid)
     //SocketSingleton.io.emit('verification', {msg: 'success!', token: new_token});
     SocketSingleton.io.to(verify.data.socket).emit('verification', {msg: 'success!', token: new_token});
-    res.status(200).json(verify) //send  a html page
+    //res.status(200).json(verify) //send  a html page
+    res.status(200).json({"message":"Thank you for join Matcha."}) //send  a html page
     return true
   }
   
 });
 
 /// ------- create link an send a confirm email, in the token store: email, password, username, first, last, socketid
-
+/*
 router.post('/', async function(req, res, next) {
   try {
     // Check si existe el usuario
@@ -99,5 +100,5 @@ router.post('/', async function(req, res, next) {
     next(err);
   }
 });
-
+*/
 module.exports = router;

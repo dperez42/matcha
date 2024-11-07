@@ -19,7 +19,7 @@ const app = createApp(App)
 
 axios.defaults.baseURL = import.meta.env.VITE_APP_SERVER_API===undefined ? 'http://localhost:3000':import.meta.env.VITE_APP_SERVER_API;
 //const server_baseURL = import.meta.env.VITE_APP_SERVER_API===undefined ? 'http://localhost:3000':import.meta.env.VITE_APP_SERVER_API;
-
+console.log(import.meta.env.VITE_APP_SERVER_API)
 //define global variables, use everywhere as this.$APP_SERVER_API
 app.config.globalProperties.$APP_SERVER_API = import.meta.env.VITE_APP_SERVER_API===undefined ? 'http://localhost:3000':import.meta.env.VITE_APP_SERVER_API;
 app.config.globalProperties.$REGISTER_NO_VERIFICATION = import.meta.env.VITE_REGISTER_NO_VERIFICATION===undefined ? 'true' :import.meta.env.VITE_REGISTER_NO_VERIFICATION;

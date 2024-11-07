@@ -11,7 +11,12 @@ const email = require('../services/email')
 router.post('/', async function(req, res, next) {
   console.log(req.body)
   try {
-    const email_result = email.sendCode(req.body.email,req.body.username,req.body.code)
+    const email_result = await email.sendCode(req.body.email, req.body.username, req.body.code)
+    if (email_result.responseCode > 299){
+     res.status(email_result.responseCode).json({"msg":email_result.response});
+    } else {
+      res.json({"result":"success"});
+    }
   } catch (err) {
     console.error(`Error while sending verification code email`, err.message);
     next(err);

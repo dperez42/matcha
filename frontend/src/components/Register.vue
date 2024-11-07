@@ -285,6 +285,9 @@
           // enable input code + resend code button
           this.enable_code = true
           this.enable_link = false
+          if (import.meta.env.VITE_DEBUG==='true'){
+            console.log("info: sending email-code")
+          }
           this.send_code()
           return true
         }
@@ -316,20 +319,15 @@
           try {
 						const response = await axios.post("/verifycode/", 
                     		post_data,axiosConfig)
-						if (response.status===200){
-                console.log(response)
-						}
-						if (response.status!=200){
-                console.log(response)
-						}
             alert('A confirmation Code have been send by email')
-            this.register_user_classic()
             return true
 					} catch (err) {
-							console.log(err)
-							this.error = true
-							this.error_message = err.response
-              return false
+						if (import.meta.env.VITE_DEBUG==='true'){
+              console.log("Error: "+err)
+            }
+            this.error = true
+						this.error_message = "Email server:"+err.response.data.msg+". Try later..."
+            return false
 					} 
 			},
     // method to register with email link verification
@@ -342,6 +340,9 @@
           // enable message and disabled form
           this.enable_link = true
           this.enable_code = false
+          if (import.meta.env.VITE_DEBUG==='true'){
+            console.log("info: sending email-link")
+          }
           this.send_link()
           return true
         }
@@ -378,17 +379,12 @@
           try {
 						const response = await axios.post("/verifylink/", 
                     		post_data,axiosConfig)
-						//console.log("response",response);
-						if (response.status===200){
-                console.log(response)
-						}
-						if (response.status!=200){
-                console.log(response)
-						}
             alert('A confirmation Link have been send by email')
             return true
 					} catch (err) {
-							console.log(err)
+            if (import.meta.env.VITE_DEBUG==='true'){
+							console.log("Error: "+err)
+            }
 							this.error = true
 							this.error_message = this.error_message
               return false
