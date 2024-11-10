@@ -12,7 +12,9 @@ export default defineConfig(({mode}) => {
   //console.log(process.env.VITE_APP_SERVER_API)
 return {
   server: {    // <-- this object is added
+    //https:true,
     port: parseInt(process.env.VITE_APP_PORT),
+    
   },
   plugins: [
     vue(),

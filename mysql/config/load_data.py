@@ -40,18 +40,18 @@ if __name__ == '__main__':
             #print(datos["results"][i]["location"]["coordinates"]["longitude"])
             #munici = municipios.sample(n=1)
             #print(municipios.loc[0,['lon','lat']])
-            muni = municipios.loc[random.randint(0,4000),['municipio','provincia','lon','lat']]
+            muni = municipios.loc[random.randint(0,4000),['municipio','provincia','lon','lat','zip_ref']]
             print(muni)
             #print(munici.describe())
             #muni = munici.loc[0,'lon']
             #print(muni.loc[0,'lon'])
             #print(muni)
-            insert_query = """INSERT INTO """ + table + """ (`uuid`,`username`,`password`,`email`,`avatar`,`rating`,`date`,`address`,`title`,`first`,`last`,`zip`,`phone`,`cell`,`nat`,`gender`,`city`,`state`,`country`,`longitude`,`latitude`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+            insert_query = """INSERT INTO """ + table + """ (`uuid`,`username`,`password`,`email`,`avatar`,`rating`,`date`,`address`,`title`,`first`,`last`,`zip`,`phone`,`cell`,`nat`,`gender`,`city`,`state`,`country`,`longitude`,`latitude`,`completed`,`bio`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
             cursor.execute(insert_query,(datos["results"][i]["login"]["uuid"],
                 datos["results"][i]["login"]["username"],'$2b$10$FmOL5MxEi.v9rvigMYmAOOrMgDXxyCfLrUfDB9LSRy1G0O9DIjIae',datos["results"][i]["email"],datos["results"][i]["picture"]["large"],random.randrange(start=5),date_obj,\
                 datos["results"][i]["location"]["street"]["name"]+','+str(datos["results"][i]["location"]["street"]["number"]),
-                datos["results"][i]["name"]["title"],datos["results"][i]["name"]["first"],datos["results"][i]["name"]["last"],'99999',datos["results"][i]["phone"],datos["results"][i]["cell"],datos["results"][i]["nat"],
-                datos["results"][i]["gender"],muni['municipio'],muni['provincia'],'Spain',float(muni['lon']),float(muni['lat'])
+                datos["results"][i]["name"]["title"],datos["results"][i]["name"]["first"],datos["results"][i]["name"]["last"],str(muni['zip_ref']),datos["results"][i]["phone"],datos["results"][i]["cell"],datos["results"][i]["nat"],
+                datos["results"][i]["gender"],muni['municipio'],muni['provincia'],'Spain',float(muni['lon']),float(muni['lat']),1,"some thing about me"
             ))
             mydb.commit()
             result = cursor.fetchall()

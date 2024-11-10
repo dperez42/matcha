@@ -43,6 +43,11 @@
           <ListNotification :show="notificationPanel" :data="list_notifications" ></ListNotification>
           </v-menu>
       </v-btn>
+
+      <v-btn to="/map">
+        <v-icon>mdi-image-multiple</v-icon>
+        <span>MAP</span>
+      </v-btn>
       <v-btn to="/gallery">
         <v-icon>mdi-image-multiple</v-icon>
         <span>GALLERY</span>
@@ -178,6 +183,9 @@ export default {
     if (import.meta.env.VITE_DEBUG==='true'){
       console.log("info: starting App: connected:", this.nb_connected," notifications:",this.nb_notifications )
     }
+    console.log("fetch")
+    const response = fetch('http://ip-api.com/json')
+    console.log(response)
   }
 }
 </script>

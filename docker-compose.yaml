@@ -59,20 +59,9 @@ services:
     ports:
       - "8010:8010" # same port in vite.config.js for development 
       #- "8010:80"     # port for production
+      #- "443:443"
     volumes:
       - ./frontend:/app
-      - /app/node_modules
-    networks:
-      - matcha_network
- 
-  vite_docker:
-    build:
-      context: ./test
-      dockerfile: Dockerfile
-    ports:
-      - "5173:5173" # same port in vite.config.js
-    volumes:
-      - ./test:/app
       - /app/node_modules
     networks:
       - matcha_network

@@ -7,6 +7,7 @@ import { loadFonts } from './plugins/webfontloader'
 import { socket } from './services/socket'
 import router from './router'
 import store from './store/index.js'
+import cors from 'cors'
 //import Vue3Toastify, { type ToastOptions } from 'vue3-toastify';
 
 // Data Pocker
@@ -39,6 +40,7 @@ app.provide('$matchaSocket', socket);
 app.use(vuetify)
 app.use(router)
 app.use(store)
+app.use(cors)
 //app.use(Vue3Toastify, defaultToastOptions);
 app.component('VueDatePicker', VueDatePicker); 
 app.mount('#app')

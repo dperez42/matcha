@@ -218,9 +218,35 @@
 			}
 		},
   },
-  mounted() {
+  async mounted() {
       this.enable_auth = this.$AUTH
-	},   
+      let axiosConfig = {
+				headers: {
+					'Content-Type': 'application/json;charset=UTF-8',
+          'ngrok-skip-browser-warning': 'true',
+					//'Socket': "ll" //store.getters['user_store/getSocket']
+					'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': "GET,POST,OPTIONS,DELETE,PUT"
+				}
+			};
+      const response = await axios.get('https://www.ipaddress.my', axiosConfig)
+      /*
+      fetch("https://www.ipaddress.my/?lang=es", {
+      method: "GET",
+      headers: {
+            'Content-Type': 'text/html;charset=UTF-8',
+            'ngrok-skip-browser-warning': 'true',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods':'POST,PATCH,OPTIONS',
+          }
+      })
+        .then(res => res.json())
+        .then(response => {
+          console.log(response);
+        });
+        */
+      },   
+      
   }
 </script>
 <style scoped>

@@ -7,9 +7,6 @@
 
             <ul>
               <li>{{user_data}}</li>
-              <li>{{list_connected}}</li>
-              <li>{{nb_connected}}</li>
-              <li>aaa {{list_logs}}</li>
             </ul>
 
         </v-card>
@@ -20,6 +17,7 @@
 
 <script>
 import store from '../store/index'
+import axios from "axios"
 
 export default {
   name: 'HelloWorld',
@@ -31,10 +29,14 @@ export default {
     user_data: store.getters['user_store/getUser'],
     list_connected: store.getters['connected_store/getUUIDs'],
     list_logs: store.getters['logs_store/getLogs'],
-    nb_connected: store.getters['connected_store/getCountUUIDs']
+    nb_connected: store.getters['connected_store/getCountUUIDs'],
+    nearbyUsers: [],
+    geo: null,
   }),
-  mounted() {
+  async mounted() {
 	},
+  methods:{
+  },
   computed:{
   }, 
   watch: {

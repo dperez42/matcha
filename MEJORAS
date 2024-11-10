@@ -6,6 +6,8 @@
 
                               :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`"
                               :src="`https://picsum.photos/500/300?image=${n * 5 + 10}`"
+USERS
+https://randomuser.me/api/?results=500
 
 TAGS
 https://vueschool.io/articles/vuejs-tutorials/building-a-tag-input-component-with-the-vue-3-composition-api/
@@ -38,16 +40,8 @@ https://stackoverflow.com/questions/50243769/vuetify-how-to-set-background-color
 
 https://dev.to/mtermoul/5-ways-to-change-component-colors-and-styles-using-vuetify-3ee9
 
-select users.*, 
-CASE WHEN t0.nb_tags IS NULL THEN 0
-	 ELSE t0.nb_tags END
-     as common_tags 
-from users 
-left join (
-SELECT t1.uuid as us,t2.uuid as mate, count(t2.tag) as nb_tags FROM `tags` as T1
-left join `tags` as T2
-on t1.tag = T2.tag
-where t1.uuid="cade6a1d-9440-11ef-bd58-0242ac130003" and t2.uuid!="cade6a1d-9440-11ef-bd58-0242ac130003"
-group by t1.uuid,t2.uuid) as t0
-on t0.mate = users.uuid
-order by common_tags desc;
+
+https://medium.com/@smhabibjr/implement-an-interactive-map-in-the-vue-js-8a865010fb41
+https://github.com/mohitkumartoshniwal/vue-topics/blob/main/vue-leaflet/src/components/Map.vue
+https://www.wrld3d.com/wrld.js/latest/docs/examples/adding-a-leaflet-circle/
+https://www.unigis.es/agrupacion-de-marcadores-clustering-leaflet/

@@ -50,49 +50,61 @@ async function getOnes(where_clause, order_by_clause, select_clause){
 }
 
 async function getCards(where_clause, order_by_clause, select_clause, user_uuid, limit_tags){
-  let tmp = ''
-  if (!select_clause){
-    select_clause=''
+  let select=''
+  let where = ' '
+  let order = ' '
+  if (select_clause!='' && select_clause!= undefined){
+    select=' ,'+select_clause+' '
   }
-  if (select_clause===', '){
-    select_clause=''
+  if (where_clause!='' && where_clause!= undefined){
+    where = ' WHERE ' + where_clause + ' '
+    if (limit_tags!='' && limit_tags!= undefined){
+      where = where + ' and (CASE WHEN t0.nb_tags IS NULL THEN 0 ELSE t0.nb_tags END >='+limit_tags[0]+' and CASE WHEN t0.nb_tags IS NULL THEN 0 ELSE t0.nb_tags END <='+limit_tags[1]+') ' 
+    }
+  } else {
+    if (limit_tags!='' && limit_tags!= undefined){
+      where = where + ' WHERE (CASE WHEN t0.nb_tags IS NULL THEN 0 ELSE t0.nb_tags END >='+limit_tags[0]+' and CASE WHEN t0.nb_tags IS NULL THEN 0 ELSE t0.nb_tags END <='+limit_tags[1]+') ' 
+    }
   }
-  if (where_clause!='' & where_clause!= undefined){
-    tmp = 'WHERE ' + where_clause + 
-      ' and (CASE WHEN t0.nb_tags IS NULL THEN 0 ELSE t0.nb_tags END >='+limit_tags[0]+' and CASE WHEN t0.nb_tags IS NULL THEN 0 ELSE t0.nb_tags END <='+limit_tags[1]+') ' 
-  }
-  if (order_by_clause!='' & order_by_clause != undefined){
-    tmp = tmp + 'ORDER BY '+ order_by_clause
+  if (order_by_clause!='' && order_by_clause != undefined){
+    order = order + 'ORDER BY '+ order_by_clause + ' '
   }
   console.log("this is the order ", order_by_clause)
-  console.log(`SELECT users.* ,${select_clause},
-  CASE WHEN t0.nb_tags IS NULL THEN 0
-  ELSE t0.nb_tags END
-    as common_tags 
-  FROM users
-  left join (
-  SELECT t1.uuid as us,t2.uuid as mate, count(t2.tag) as nb_tags FROM tags as t1
-  left join tags as t2
-  on t1.tag = t2.tag
-  where t1.uuid="${user_uuid}" and t2.uuid!="${user_uuid}"
-  group by t1.uuid,t2.uuid) as t0
-  on t0.mate = users.uuid
-  ${tmp}`)
+  console.log( `SELECT users.* ${select}`
+  + (limit_tags!='' & limit_tags!= undefined ?
+      `,CASE WHEN t0.nb_tags IS NULL THEN 0
+      ELSE t0.nb_tags END
+        as common_tags`:'') + 
+        ` FROM users` + (limit_tags!='' & limit_tags!= undefined ? 
+        ` left join (
+          SELECT t1.uuid as us,t2.uuid as mate, count(t2.tag) as nb_tags FROM tags as t1
+          left join tags as t2
+          on t1.tag = t2.tag
+          where t1.uuid="${user_uuid}" and t2.uuid!="${user_uuid}"
+          group by t1.uuid,t2.uuid) as t0
+          on t0.mate = users.uuid`: '')
+  + 
+  `${where}
+   ${order}
+  `)
   
   const data = await db.query(
-    `SELECT users.* ,${select_clause},
-        CASE WHEN t0.nb_tags IS NULL THEN 0
+    `SELECT users.* ${select}`
+    + (limit_tags!='' & limit_tags!= undefined ?
+        `,CASE WHEN t0.nb_tags IS NULL THEN 0
         ELSE t0.nb_tags END
-          as common_tags 
-    FROM users
-    left join (
-      SELECT t1.uuid as us,t2.uuid as mate, count(t2.tag) as nb_tags FROM tags as t1
-      left join tags as t2
-      on t1.tag = t2.tag
-      where t1.uuid="${user_uuid}" and t2.uuid!="${user_uuid}"
-      group by t1.uuid,t2.uuid) as t0
-      on t0.mate = users.uuid
-      ${tmp}
+          as common_tags`:'') + 
+          ` FROM users` + (limit_tags!='' & limit_tags!= undefined ? 
+          ` left join (
+            SELECT t1.uuid as us,t2.uuid as mate, count(t2.tag) as nb_tags FROM tags as t1
+            left join tags as t2
+            on t1.tag = t2.tag
+            where t1.uuid="${user_uuid}" and t2.uuid!="${user_uuid}"
+            group by t1.uuid,t2.uuid) as t0
+            on t0.mate = users.uuid`: '')
+    + 
+    `${where}
+     ${order}
     `
   );
   //console.log("result:",data)
@@ -171,7 +183,8 @@ async function updateProfile(uuid, user){
   const result = await db.query(
     `UPDATE users 
     SET username="${user.username}", email="${user.email}", completed=1,
-    title="${user.title}", first="${user.first}", last="${user.last}", date="${current_date}", 
+    title="${user.title}", first="${user.first}", last="${user.last}", date="${current_date}",
+    latitude="${user.latitude}", longitude="${user.longitude}",
     gender="${user.gender}", sexual="${user.sexual}", 
     phone="${user.phone}", cell="${user.cell}", 
     address="${user.address}", city="${user.city}",state="${user.state}", zip="${user.zip}", country="${user.country}",

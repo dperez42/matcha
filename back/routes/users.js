@@ -17,7 +17,7 @@ const authenticate = require('../services/authenticate')
 //create a unique get with query 
 router.get('/', async function(req, res, next) {
   //console.log("all",Object.keys(req.query).length)
-  //console.log("params",req)
+  console.log("params",req)
     // create where clausule
     let where_clause = ''
     if(req.query.username != undefined){

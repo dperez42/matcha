@@ -31,7 +31,7 @@ RUN npm i vite@latest -D
 #RUN npm i -g vite-plugin-vuetify
 #RUN ln -s /usr/local/lib/node_modules/ ../node_modules
 
-COPY . ./
+COPY . .
 
 #RUN npm run build
 
@@ -45,8 +45,16 @@ FROM build-stage as prod-builder
 RUN npm run build
 
 FROM nginx:latest as prod-stage
+ADD nginx.conf		/etc/nginx/conf.d/nginx.conf
+COPY --from=prod-builder /app/dist /etc/nginx/html/ 
 COPY --from=prod-builder /app/dist /usr/share/nginx/html
-EXPOSE 80
+RUN openssl req -x509 -nodes -subj "/C=SP/ST=Spain/L=Madrid/O=42/CN=127.0.0.1" \
+		 -days 365 -newkey rsa:2048 \
+		 -keyout /etc/ssl/private/nginx-selfsigned.key \
+		 -out /etc/ssl/certs/nginx-selfsigned.crt && \
+		openssl dhparam -out /etc/nginx/dhparam.pem 1000
+
+EXPOSE 80 443
 CMD ["nginx", "-g", "daemon off;"]
 
 

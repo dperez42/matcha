@@ -16,7 +16,7 @@ const authenticate = require('../services/authenticate')
 
 //create a unique get with query 
 router.get('/', authenticate.authenticateToken, async function(req, res, next) {
-  console.log("uuid.js")
+  console.log("uuid.js", req)
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
   const decode = jwt.verifyAccessToken(token)

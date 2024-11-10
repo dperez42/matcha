@@ -15,6 +15,7 @@ import Helloworld from '../components/HelloWorld.vue'
 import Table from '../components/Table.vue'
 import Gallery from '../components/Gallery.vue'
 import Browsing from '../components/Browsing.vue'
+import MapUsers from '../components/MapUsers.vue'
 
 import Testground from '../components/Testground.vue'
 
@@ -200,6 +201,12 @@ const routes = [
       path: '/gallery',
       name: 'Gallery',
       component: Gallery,
+      beforeEnter: [checkAuth, checkProfile], //not need to be authenticate
+    },
+    {
+      path: '/map',
+      name: 'MapUsers',
+      component: MapUsers,
       beforeEnter: [checkAuth, checkProfile], //not need to be authenticate
     },
     {

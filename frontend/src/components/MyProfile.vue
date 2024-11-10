@@ -241,7 +241,29 @@
                 required
               ></v-select>                                   
             </v-col>
-        </v-row> 
+        </v-row>
+<!-- Latitude and longitude -->
+       <v-row>
+            <v-col cols="6" md="6" >
+              <v-text-field
+                v-model="user_temp.latitude"
+                :items="list_gender"
+                :rules="[v => !!v || 'Item is required']"
+                label="Latitud"
+                required
+              ></v-text-field>                                   
+  
+            </v-col>
+            <v-col cols="6" md="6">
+               <v-text-field
+                  v-model="user_temp.longitude"
+                  :rules="[v => !!v || 'Item is required']"
+                  label="Longitud"
+                  required
+                  ></v-text-field>                                   
+            </v-col>
+      </v-row>
+
  <!-- Gender and sexual preferences -->
         <v-row>
             <v-col cols="6" md="6" >
@@ -850,7 +872,15 @@
     },
     // method to get location
     async getLocation() {
-            
+      const geo = await fetch('http://ip-api.com/json')
+      .then(response => response.json())
+      .catch (function(e){
+            console.log(e)
+          });
+      console.log("geo",geo)
+      this.user_temp.latitude = geo.lat
+      this.user_temp.longitude = geo.lon
+      /* 
             return new Promise((resolve, reject) => {
 
               if(!("geolocation" in navigator)) {
@@ -864,7 +894,8 @@
               });
 
             });
-      },
+      */
+    },
     // method to save avatar image
     imageLoadedAvatar(payload){
       //console.log("recieve avatar image")  
@@ -918,12 +949,31 @@
         //this.user_temp.img4 = import.meta.env.VITE_APP_SERVER_API+'/images/'+this.user_temp.uuid+'-img4.'+extension
         this.user_temp.avatar = this.user_temp.uuid+'-avatar.'+extension
       }
+      if ( this.payload_img1?.url  && this.payload_img1.url.split(":")[0] === 'blob'){
+        await this.load_image(this.user_temp.uuid, this.payload_img1, 'img1')  // avatar, img1,.., img4
+        var extension =  this.payload_img1.name.split(".")[1]
+        //this.user_temp.img4 = import.meta.env.VITE_APP_SERVER_API+'/images/'+this.user_temp.uuid+'-img4.'+extension
+        this.user_temp.img1 = this.user_temp.uuid+'-img1.'+extension
+      }
+      if ( this.payload_img2?.url  && this.payload_img2.url.split(":")[0] === 'blob'){
+        await this.load_image(this.user_temp.uuid, this.payload_img2, 'img2')  // avatar, img1,.., img4
+        var extension =  this.payload_img2.name.split(".")[1]
+        //this.user_temp.img4 = import.meta.env.VITE_APP_SERVER_API+'/images/'+this.user_temp.uuid+'-img4.'+extension
+        this.user_temp.img2 = this.user_temp.uuid+'-img2.'+extension
+      }
+      if ( this.payload_img3?.url  && this.payload_img3.url.split(":")[0] === 'blob'){
+        await this.load_image(this.user_temp.uuid, this.payload_img3, 'img3')  // avatar, img1,.., img4
+        var extension =  this.payload_img3.name.split(".")[1]
+        //this.user_temp.img4 = import.meta.env.VITE_APP_SERVER_API+'/images/'+this.user_temp.uuid+'-img4.'+extension
+        this.user_temp.img3 = this.user_temp.uuid+'-img3.'+extension
+      }
       if ( this.payload_img4?.url  && this.payload_img4.url.split(":")[0] === 'blob'){
         await this.load_image(this.user_temp.uuid, this.payload_img4, 'img4')  // avatar, img1,.., img4
         var extension =  this.payload_img4.name.split(".")[1]
         //this.user_temp.img4 = import.meta.env.VITE_APP_SERVER_API+'/images/'+this.user_temp.uuid+'-img4.'+extension
         this.user_temp.img4 = this.user_temp.uuid+'-img4.'+extension
       }
+
       // Update user info in store
 			this.$store.commit("user_store/setUser",this.user_temp);
       
@@ -951,26 +1001,6 @@
       // update my tags in store
       store.commit("tags_store/setTags", this.my_tags)
       // update my tags in server
-		},
-    // handle tags
-    delete_tag(payload) {
-			this.user_temp.tags = payload
-		},
-		add_tag(){
-      if (this.user_temp.tags.length === 5){
-        toast("Oops..to many tags", {
-              autoClose: 2000,
-              position: toast.POSITION.BOTTOM_RIGHT,
-        });
-        this.newTag=''
-        return false
-      }
-      if (this.newTag===''){
-        return false
-      }
-      this.user_temp.tags.push(this.newTag)
-      this.newTag=''
-      return true
 		},
     // date-picker format
     format (date){
@@ -1005,11 +1035,11 @@
 	},
 	async mounted() {
     const user_data = store.getters['user_store/getUser']
+    // get a copy of user
     this.user_temp = JSON.parse(JSON.stringify(user_data))
     // get tags
     this.my_tags = store.getters['tags_store/getTags']
-    console.log(this.my_tags)
-    // loas list of distinct tags to create a list
+    // load list of distinct tags to create a list
     const token = localStorage.getItem('matcha_token');
      try {
         let axiosConfig = {
@@ -1039,7 +1069,9 @@
         this.isLoading = false;	
       }
       //enable picture after download
-    this.enable = true
+      this.enable = true
+      //call geolocation
+      this.getLocation()
   }, 
   async beforeCreate() {
   }

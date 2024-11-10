@@ -9,7 +9,7 @@
           <v-list max-height="250" class="overflow-y-auto">
               <v-list-item class=" pa-0 ma-0" 
                 v-for="(item,index) in data" :key="index">
-                {{item.command}} {{item.message}} from {{item.from_username}}
+                {{item.timestamp}}: {{item.command}} from {{item.from_username}}
               </v-list-item>
           </v-list>
         </div>
