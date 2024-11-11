@@ -31,9 +31,9 @@ socket.on("disconnect", () => {
   if (import.meta.env.VITE_DEBUG==='true'){console.log("socket disconneted")}
   state.connected = false;
 });
-
+// recieve a verification from click in link email
 socket.on("verification", (msg) => {
-  console.log("info:  message in topic 'verification':"+ msg.msg + msg.token)
+  if (import.meta.env.VITE_DEBUG==='true'){console.log("info:  message in topic 'verification':"+ msg.msg + msg.token)}
   // Check if the message is for me
   //const socket = store.getters['user_store/getSocket']
   //if (socket === msg.socket){

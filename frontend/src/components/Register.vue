@@ -88,7 +88,7 @@
   <!---- Register email + otp --->
     <v-btn v-on:click.prevent = "registerEmailCode()" 
       class="ma-1"
-      v-if="this.enable_register_verification_code ===true"
+      v-if="this.enable_register_verification_code ==='true'"
       type="submit"
       color="blue" 
       dark 
@@ -118,7 +118,7 @@
       <!---- Register email link --->
       <v-btn  v-on:click.prevent = "registerEmailLink()"
         class="ma-1"
-        v-if="enable_register_verification_link===true"
+        v-if="enable_register_verification_link==='true'"
         type="submit"
         color="blue" 
         dark 
@@ -131,7 +131,7 @@
       </div>
       <!---- Register email classic --->
       <v-btn class="ma-1"
-        v-if="enable_register_no_verification===true"
+        v-if="enable_register_no_verification==='true'"
         v-on:click.prevent = "registerClassic()"                            
         type="submit"
         color="blue" 
@@ -479,9 +479,9 @@
   },
 	mounted() {
     // setting with register methods available
-			this.enable_register_no_verification = this.$REGISTER_NO_VERIFICATION
-			this.enable_register_verification_code = this.$REGISTER_CODE_VERIFICATION
-      this.enable_register_verification_link = this.$REGISTER_EMAIL_VERIFICATION
+			this.enable_register_no_verification = import.meta.env.VITE_REGISTER_NO_VERIFICATION
+			this.enable_register_verification_code = import.meta.env.VITE_REGISTER_CODE_VERIFICATION
+      this.enable_register_verification_link = import.meta.env.VITE_REGISTER_EMAIL_VERIFICATION
 	}, 
   computed:{
     // watch to change otp code

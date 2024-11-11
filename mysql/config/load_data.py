@@ -20,12 +20,12 @@ result = cursor.fetchall()
 
 if __name__ == '__main__':
     
-    data = pd.read_csv("dim_municipios.csv", sep=";")
+    data = pd.read_csv("./mysql/config/dim_municipios.csv", sep=";")
     municipios = pd.DataFrame(data)
     print(municipios.head())
 
     table ='users'
-    with open("random_users.json") as archivo:
+    with open("./mysql/config/random_users.json") as archivo:
             datos=json.load(archivo)
     i = 0
     #print(datos["results"][0])
