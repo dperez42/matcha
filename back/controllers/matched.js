@@ -10,14 +10,14 @@ async function getOnes(where_clause, order_by_clause){
     if (order_by_clause!='' & order_by_clause != undefined){
       tmp = tmp + 'ORDER BY '+ order_by_clause
     }
-    console.log(`SELECT * FROM blocked ${tmp}`)
+    //console.log(`SELECT * FROM blocked ${tmp}`)
     const data = await db.query(
       `SELECT * FROM matched ${tmp}`
     );
-    console.log(data)
+    //console.log(data)
     return data
   } catch (err){
-    console.log(err.sqlMessage)
+    //console.log(err.sqlMessage)
   }
 }
 
@@ -30,27 +30,26 @@ async function create(data){
     if (result.affectedRows) {
       message = 'Like created successfully in database';
     } 
-    console.log(message)
+    //console.log(message)
     return {message};
   } catch (err){
-    console.log(err.sqlMessage)
+    //console.log(err.sqlMessage)
   }
 }
 /////// REMOVE ///////
 async function remove(data){
   try {
     const my_query =`DELETE FROM matched WHERE to_uuid="${data.to_uuid}" AND from_uuid="${data.from_uuid}"`
-    
-    console.log(my_query)
+    //console.log(my_query)
     const result = await db.query(my_query);
     let message = 'Error in deleting like';
     if (result.affectedRows) {
       message = 'like deleted successfully';
     }
-    console.log(message)
+    //console.log(message)
     return {message};
   } catch (err){
-    console.log(err.sqlMessage)
+    //console.log(err.sqlMessage)
   }
 }
 

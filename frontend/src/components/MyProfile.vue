@@ -731,7 +731,7 @@
     phoneRules: [
       v => !!v || 'Phone number is required.',
       //v => (/^(?=\d).{5,5}$/.test(v)) || 'zipCode must be 5 digits.',
-      v => (/^[0-9-]{0,15}$/.test(v)) || 'Phone number must be 15 or less digits.',
+      v => (/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/.test(v)) || 'Phone number must be in format "+(919) 367 788755".',
     ],
     bioRules: [
       v => !!v || 'Biography is required',
@@ -808,7 +808,7 @@
         //console.log("validate email")
         try {
 					const response = await axios.get('/users?email='+this.user_temp.email)
-          console.log(response)
+          if (import.meta.env.VITE_DEBUG==='true'){console.log("Info: User update.",response)}
 					if (response.data.length > 0 && response.data[0].uuid!=this.user_temp.uuid){
             this.error = true
 						this.error_message = "Oops.. email already exist"

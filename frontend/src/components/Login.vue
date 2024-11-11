@@ -59,14 +59,14 @@
                 {{this.error_message}}
               </v-card-text>
             </v-card>
-            <v-card-text v-if="this.enable_auth ==='true'" class="text-center pa-1">
+            <v-card-text v-if="this.enable_auth ===true" class="text-center pa-1">
               <a
                 class="text-white text-decoration-none font-weight-bold"
               >
                 Or
               </a>
             </v-card-text>
-            <div v-if="this.enable_auth ==='true'" class="d-flex  justify-space-between align-center">
+            <div v-if="this.enable_auth ===true" class="d-flex  justify-space-between align-center">
                                 <v-btn depressed outlined color="white">
                                 <v-icon color="red">mdi-google</v-icon>
                                 </v-btn>
@@ -191,7 +191,7 @@
 			let axiosConfig = {
 				headers: {
 					'Content-Type': 'application/json;charset=UTF-8',
-          'ngrok-skip-browser-warning': 'true',
+          'ngrok-skip-browser-warning': true,
 					//'Socket': "ll" //store.getters['user_store/getSocket']
 					//"Access-Control-Allow-Origin": "*",
 				}

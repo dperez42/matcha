@@ -11,10 +11,6 @@ const upload = require('./services/upload');
 // get config vars
 dotenv.config();
 
-//const pgp = require('pg-promise')(/* options */) //https://expressjs.com/en/guide/database-integration.html#postgresql
-//const db = pgp('postgres://username:password@host:port/database')
-
-// const app = module.exports = express()
 const app = express();
 var SocketSingleton = require('./sockets/socket'); // <--here
 const http = require('http');
@@ -59,19 +55,13 @@ const swaggerOptions = {
   // Rutas a los archivos donde documentaste tus endpoints
   apis: ['./routes/*.js']
 };
-
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-
-
 const port = process.env.PORT || 3000
 
-//const connections = [];
-//app.locals.connections =["ll"]
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}))
-
 app.use(cors({
   origin: '*',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
@@ -80,42 +70,8 @@ app.use(cors({
   //"optionsSuccessStatus": 204
 }));
 
-
-
-// io.on('connection', (socket) => {
-//   console.log('a user connected',socket.id);
-//   socket_list.STATIC_CONNECTIONS.push(socket.id);
-
-//   console.log("jhjhjh", socket_list.STATIC_CONNECTIONS)
-//   socket.on('disconnect', function() {
-//     console.log('Got disconnect!', socket.id);
-//     var i = socket_list.STATIC_CONNECTIONS.indexOf(socket.id);
-//     socket_list.STATIC_CONNECTIONS.splice(i, 1);
-//     console.log("jhjhjh", socket_list.STATIC_CONNECTIONS);
-//   });
-//   socket.on('chat', (msg) => {
-//     console.log('message: ' + msg);
-//     socket.emit('chat', msg);
-//   });
-// });
-//app.use(express.static('public'))
-/*
-app.use('/uploads',(req,res,next) => {
-  console.log(req.query.token)
-  if (!!req.query.token) {
-    // check validez token
-    //!!!!!!!!!!!!!!!!!!!!!!!
-    next();
-  } else {
-    // No user object found, terminate the pipeline with .end().
-    next()
-    res.status(501).end();
-  }
-});
-*/
 app.use('/uploads',[ express.static('uploads')]);
 app.use('/images',[ express.static('public/images')]);
-app.use('/api', require('./routes/api_v1'));
 app.use('/users', require('./routes/users'));
 app.use('/messages', require('./routes/messages'));
 app.use('/notifications', require('./routes/notifications'));
@@ -186,7 +142,7 @@ app.use(function(req,res,next){
 
 
 app.get('/', (req, res) => {
-  res.send('Hello World! ')
+  res.send('I am alive, Hello World! ')
   //smtp.email()
 })
 // app.post('/', (req, res) => {

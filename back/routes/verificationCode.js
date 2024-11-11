@@ -9,7 +9,7 @@ const email = require('../services/email')
 /// ------- create link an send a confirm email, in the token store: email, password, username, first, last, socketid
 
 router.post('/', async function(req, res, next) {
-  console.log(req.body)
+  //console.log(req.body)
   try {
     const email_result = await email.sendCode(req.body.email, req.body.username, req.body.code)
     if (email_result.responseCode > 299){

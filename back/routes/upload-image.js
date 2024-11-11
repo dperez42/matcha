@@ -4,16 +4,6 @@ const users = require('../controllers/users');
 const jwt = require('../services/jwt');
 const email = require('../services/email')
 const authenticate = require('../services/authenticate')
-//const upload = require('../services/upload')
-/* GET programming languages. */
-// router.get('/', async function(req, res, next) {
-//   try {
-//     res.json(await users.getMultiple(req.query.page));
-//   } catch (err) {
-//     console.error(`Error while getting programming languages `, err.message);
-//     next(err);
-//   }
-// });
 const multer = require("multer");
 // Set up storage for uploaded files
 const storage = multer.diskStorage({
@@ -34,9 +24,9 @@ router.post('/', authenticate.authenticateToken, upload.single('image'), functio
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
   const decode = jwt.verifyAccessToken(token)
-  console.log("image of", decode.data.uuid)
-  console.log(req.body.name)
-  console.log(req.body.id)
+  //console.log("image of", decode.data.uuid)
+  //console.log(req.body.name)
+  //console.log(req.body.id)
 
   res.json({ message: 'File uploaded successfully!' });
 });

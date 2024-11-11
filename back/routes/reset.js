@@ -11,24 +11,24 @@ router.post('/', async function(req, res, next) {
     
     try {
       // Check si existe el usuario
-      console.log("jjjjj:", req.body.email)
+      //console.log("jjjjj:", req.body.email)
       //
       const user = await users.getOnes(' email = "'+req.body.email+'"','');
-      console.log("rest", user)
+      //console.log("rest", user)
       //Genero un JWT with users data
       const token = jwt.generateAccessToken({
           "uuid":user[0].uuid,
         });
-      console.log("accestoken email:", token)
-      console.log("jjjjj:", req.body.email)
+      //console.log("accestoken email:", token)
+      //console.log("jjjjj:", req.body.email)
       //Send email to user email with jwt authorized
       const email_result = email.sendReset(req.body.email,token)
-      console.log(email_result)
+      //console.log(email_result)
       //users.create(req.data)
       res.status(200).json({requestBody: req.body});
       //res.json(await users.create(req.body));
     } catch (err) {
-      console.error('Error while sending password reset', err.message);
+      //console.error('Error while sending password reset', err.message);
       next(err);
     }
 });

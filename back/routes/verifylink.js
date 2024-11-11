@@ -7,7 +7,7 @@ var SocketSingleton = require('../sockets/socket');
 const email = require('../services/email')
 
 router.post('/', async function(req, res, next) {
-  console.log(req.body)
+  //console.log(req.body)
     try {
       //Genero un JWT with users data and socketId
       const jwttoken = jwt.generateAccessToken({

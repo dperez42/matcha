@@ -2,7 +2,7 @@ const db = require('../services/db.js');
 
 ////// GET tags ////////
 async function get(uuid){
-  console.log(`SELECT *  FROM tags WHERE uuid = "${uuid}"`)
+  //console.log(`SELECT *  FROM tags WHERE uuid = "${uuid}"`)
   const data = await db.query(
     `SELECT * 
     FROM tags
@@ -13,7 +13,7 @@ async function get(uuid){
 }
 /// Get distinct tags
 async function getDistinct(uuid){
-  console.log(`SELECT distinct(tag) FROM tags`)
+  //console.log(`SELECT distinct(tag) FROM tags`)
   const data = await db.query(
     `SELECT distinct(tag)
     FROM tags
@@ -31,14 +31,14 @@ async function create(uuid, tag){
   let message = 'Error in creating tag';
   if (result.affectedRows) {
     message = 'tag created successfully';
-    console.log(result)
-    console.log(message)
+    //console.log(result)
+    //console.log(message)
   } 
   return {message};
   //console.log(message)
   //return {message};
   } catch (err){
-    console.log(err.sqlMessage)
+    //console.log(err.sqlMessage)
   }
 }
 ////// UPDATE tag ////////

@@ -8,7 +8,7 @@ const email = require('../services/email')
 const users = require('../controllers/users');
 
 router.get('/', async function(req, res, next) {
-    console.log(req.query.token)
+    //console.log(req.query.token)
     const authHeader = req.query.token
     if (!authHeader) {
       return res.sendStatus(401); // no tiene credenciales
@@ -18,15 +18,15 @@ router.get('/', async function(req, res, next) {
       return res.status(403).json({ error: result.error }); // no autorizado
     }
     try {
-      console.log(result.data)   //  user_data, token and iat y exp
+      //console.log(result.data)   //  user_data, token and iat y exp
       // Send messsage to socket: User_data(uuid,...) and new jwtwebtoken
-      console.log(result.data.socket)
+      //console.log(result.data.socket)
       const result1 = await users.create(result.data.user)
       const result2 = await  users.getOnes('email="'+result.data.user.email+'"')
       await new Promise(resolve => setTimeout(resolve, 100)); //just a dealy to finish insert
       //Genero un JWT
       const token = jwt.generateAccessToken({"uuid": result2[0].uuid});
-      console.log("UUUID",result2[0].uuid)
+      //console.log("UUUID",result2[0].uuid)
       const msg = { 
         //msg: "your email have been verificated",
         //data: result2, 

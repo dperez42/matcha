@@ -35,8 +35,8 @@ async function getOnes(where_clause, order_by_clause, select_clause){
   if (order_by_clause!='' & order_by_clause != undefined){
     tmp = tmp + 'ORDER BY '+ order_by_clause
   }
-  console.log("this is the order ", order_by_clause)
-  console.log(`SELECT * ${select_clause}  FROM users ${tmp}`)
+  //console.log("this is the order ", order_by_clause)
+  //console.log(`SELECT * ${select_clause}  FROM users ${tmp}`)
   
   const data = await db.query(
     `SELECT * ${select_clause}
@@ -69,7 +69,8 @@ async function getCards(where_clause, order_by_clause, select_clause, user_uuid,
   if (order_by_clause!='' && order_by_clause != undefined){
     order = order + 'ORDER BY '+ order_by_clause + ' '
   }
-  console.log("this is the order ", order_by_clause)
+  //console.log("this is the order ", order_by_clause)
+  /*
   console.log( `SELECT users.* ${select}`
   + (limit_tags!='' & limit_tags!= undefined ?
       `,CASE WHEN t0.nb_tags IS NULL THEN 0
@@ -87,7 +88,7 @@ async function getCards(where_clause, order_by_clause, select_clause, user_uuid,
   `${where}
    ${order}
   `)
-  
+  */
   const data = await db.query(
     `SELECT users.* ${select}`
     + (limit_tags!='' & limit_tags!= undefined ?
@@ -133,8 +134,8 @@ async function create(data){
   let message = 'Error in creating users';
   if (result.affectedRows) {
     message = 'User created successfully';
-    console.log(result)
-    console.log(message)
+    //console.log(result)
+    //console.log(message)
 
     //send verify email
     //smtp.email(data.email,"12345");
@@ -143,7 +144,7 @@ async function create(data){
   //console.log(message)
   //return {message};
   } catch (err){
-    console.log(err.sqlMessage)
+    //console.log(err.sqlMessage)
   }
 }
 ////// UPDATE PASSWORD ////////
@@ -159,17 +160,18 @@ async function updatePassword(data){
     let message = 'Error in creating users';
     if (result.affectedRows) {
       message = 'User update successfully';
-      console.log(result)
+      //console.log(result)
     } 
-    console.log(message)
+    //console.log(message)
     return {message};
   } catch (err){
-    console.log(err.sqlMessage)
+    //console.log(err.sqlMessage)
   }
 }
 ////// UPDATE PROFILE ////////
 async function updateProfile(uuid, user){
   let current_date = moment(user.date).format("YYYY-MM-DD");
+  /*
   console.log(`UPDATE users 
   SET username="${user.username}", email="${user.email}", completed=1,
   title="${user.title}", first="${user.first}", last="${user.last}", date="${current_date}", 
@@ -179,7 +181,7 @@ async function updateProfile(uuid, user){
   bio="${user.bio}", tags="${user.tags}", 
   avatar="${user.avatar}",img1="${user.img1}",img2="${user.img2}",img3="${user.img3}",img4="${user.img4}"
   WHERE uuid="${uuid}"`)
-  
+  */
   const result = await db.query(
     `UPDATE users 
     SET username="${user.username}", email="${user.email}", completed=1,
@@ -217,7 +219,7 @@ async function updateImage(uuid, image, id){
 }
 // Update lastseen
 async function updateLastSeen(uuid, time){
-  console.log("kkjjk",uuid,"   ",time )
+  //console.log("kkjjk",uuid,"   ",time )
   const result = await db.query(
     `UPDATE users 
     SET lastseen="${time}"
@@ -237,10 +239,12 @@ async function updateRating(uuid, nb){
     SET rating=rating+${nb}
     WHERE uuid="${uuid}"` 
   );
+  /*
   console.log(`UPDATE users 
   SET rating=rating+${nb}
   WHERE uuid="${uuid}"`)
-  console.log(result)
+  */
+  //console.log(result)
   let message = 'Error in updating rating';
 
   if (result.affectedRows) {

@@ -10,11 +10,11 @@ async function getLogs(where_clause, order_by_clause){
   if (order_by_clause!='' & order_by_clause != undefined){
     tmp = tmp + 'ORDER BY '+order_by_clause
   }
-  console.log(`SELECT * FROM notifications`)// ${tmp}`)
+  //console.log(`SELECT * FROM notifications`)// ${tmp}`)
   const data = await db.query(
     `SELECT * FROM notifications ${tmp}`
   );
-  console.log(data)
+  //console.log(data)
   // const data = helper.emptyOrRows(rows);
   return data
 }
@@ -23,16 +23,16 @@ async function getLogs(where_clause, order_by_clause){
 async function create(data){
   try {
     const my_query = `INSERT INTO notifications(command, from_username, from_uuid, to_username, to_uuid, message, timestamp) VALUES ("${data.command}", "${data.from_username}", "${data.from_uuid}", "${data.to_username}", "${data.to_uuid}", "${data.message}", "${data.timestamp}")`
-    console.log(my_query)
+    //console.log(my_query)
     const result = await db.query(my_query);
     let message = 'Error in creating notifications';
     if (result.affectedRows) {
       message = 'Notification created successfully';
     } 
-    console.log(message)
+    //console.log(message)
     return {message};
   } catch (err){
-    console.log(err.sqlMessage)
+    //console.log(err.sqlMessage)
   }
 }
 module.exports = {

@@ -9,7 +9,7 @@ const email = require('../services/email')
 
 /// ------ when click in the link contain in the sending email -> register user
 router.get('/', async function(req, res, next) {
-  console.log(req.query.token)
+  //console.log(req.query.token)
   const para = req.query.token
   // check if there a token
   if (!para){
@@ -24,15 +24,15 @@ router.get('/', async function(req, res, next) {
   if (verify.success === true)
   {
   //register usr user
-  console.log(verify.data.user)
+  //console.log(verify.data.user)
   var new_uuid = ''
   ///////check user exits?
   try {
-    console.log("register:", verify.data.user)
+    //console.log("register:", verify.data.user)
     const result2 = await users.getOnes('email="'+verify.data.user.email+'"')
-    console.log(result2.length)
+    //console.log(result2.length)
     if (result2.length > 0){
-      console.log("user exits with uuid:", result2[0].uuid)
+      //console.log("user exits with uuid:", result2[0].uuid)
       // send message by socket with new token(uuid)
       //SocketSingleton.io.emit('verification', {msg: 'fail!'});
       SocketSingleton.io.to(verify.data.socket).emit('verification', {msg: 'fail!'});
@@ -40,23 +40,23 @@ router.get('/', async function(req, res, next) {
       return false
     }    
   } catch (err) {
-    console.error(`Error while register`, err.message);
+    //console.error(`Error while register`, err.message);
     next(err);
   }
   //register user and get uuid
     try {
-      console.log("register:", verify.data.user)
+      //console.log("register:", verify.data.user)
       var result = await users.create(verify.data.user)
       await new Promise(resolve => setTimeout(resolve, 500)); //just a dealy to finish insert
       const result2 = await users.getOnes('email="'+verify.data.user.email+'"')
       await new Promise(resolve => setTimeout(resolve, 500)); //just a dealy to finish insert
-      console.log("user create with uuid:", result2[0].uuid)
+      //console.log("user create with uuid:", result2[0].uuid)
       new_uuid = result2[0].uuid
       //Genero un nuevo token valido y se lo mando en el response
       //const new_token = jwt.generateAccessToken({"uuid": result2[0].uuid});
       //res.status(200).json({'data': result2[0], 'token': token});
     } catch (err) {
-      console.error(`Error while register`, err.message);
+      //console.error(`Error while register`, err.message);
       next(err);
     }
     

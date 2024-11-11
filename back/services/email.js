@@ -6,7 +6,7 @@
 
 const nodemailer = require('nodemailer');
 
-// template function
+// template function not use
 async function send(email, key) {
   let transporter = nodemailer.createTransport({
     //service: 'gmail',
@@ -69,60 +69,16 @@ async function sendReset(email, key) {
     subject: 'Matcha Reset password',
     text: "<!DOCTYPE html> <html> <body> <h1>Reset your password</h1> <p>Please click in the link below to reset your password: </p><p>"+process.env.URL_APP+"/reset?matcha_token="+key+"</p></body> </html>",
   };
-
-  console.log("Creating Email");
   try {
     const result = await transporter.sendMail(mailOptions)
-    console.log("Email sent successfully");
-    console.log(result)
+    if (process.env.DEBUG==='true'){console.log("Info: Email Reset sent successfully. " + result)};
     return result
   }
   catch (err) {
-    console.log("Email NOT sent");
-    console.log(err.code);  // EAUTH = no autorizado
+    if (process.env.DEBUG==='true'){console.log("Error: Email Reset NOT sent successfully. " + err)}; // EAUTH = no autorizado
     return err
   } 
 }
-// send email to verify user
-/*
-async function sendVerification(email, key) {
-  console.log("verity Email send");
-  let transporter = nodemailer.createTransport({
-    //service: 'gmail',
-    host: "smtp-relay.brevo.com",
-    port: process.env.PORT_BREVO,
-    auth: {
-      //type: 'OAuth2',
-      //user: 'dpzafra70@gmail.com',
-      //pass: 'xxxxxxxxxxxx',
-      // clientId: process.env.OAUTH_CLIENTID,
-      // clientSecret: process.env.OAUTH_CLIENT_SECRET,
-      // refreshToken: process.env.OAUTH_REFRESH_TOKEN
-      user: process.env.EMAIL_USER,
-      pass: process.env.SMTP_KEY_BREVO,
-
-    }
-  });
-  let mailOptions = {
-    from: 'matcha@matcha.com', 
-    to: [email],
-    subject: 'Matcha Verification email',
-    text: "<!DOCTYPE html> <html> <body> <h1>Verificate your email</h1> <p>Please confirm your email address by clicking on the link below: </p><p>"+process.env.URL_APP+"/verifyemail?token="+key+"</p></body> </html>",
-  };
-  console.log("Creating Email");
-  try {
-    const result = await transporter.sendMail(mailOptions)
-    console.log("Email sent successfully");
-    console.log(result)
-    return result
-  }
-  catch (err) {
-    console.log("Email NOT sent");
-    console.log(err.code);  // EAUTH = no autorizado
-    return err
-  } 
-}
-*/
 // send email with code
 async function sendCode(email, username, code) {
   let transporter = nodemailer.createTransport({
@@ -150,19 +106,16 @@ async function sendCode(email, username, code) {
   console.log("Creating Email");
   try {
     const result = await transporter.sendMail(mailOptions)
-    console.log("Email sent successfully");
-    console.log(result)
+    if (process.env.DEBUG==='true'){console.log("Info: Email code sent successfully. " + result)};
     return result
   }
   catch (err) {
-    console.log("Email NOT sent");
-    console.log(err.code);  // EAUTH = no autorizado
+    if (process.env.DEBUG==='true'){console.log("Error: Email code NOT sent successfully. " + err)}; // EAUTH = no autorizado
     return err
   } 
 }
 // send email with link+token with data user+socket to verify 
 async function sendLink(email, username, token) {
-  console.log("verity Email link send");
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
     //service: 'gmail',
@@ -186,23 +139,19 @@ async function sendLink(email, username, token) {
     subject: 'Matcha Verification email',
     text: "<!DOCTYPE html> <html> <body> <h1>Hello "+username+", verificate your email</h1> <p>Please confirm your email address by clicking on the link below, expires in "+process.env.JWT_TOKEN_EXPIRES+" : </p><p>"+process.env.URL_BACK+"/verifyclick?token="+token+"</p></body> </html>",
   };
-  console.log("Creating Email");
   try {
     const result = await transporter.sendMail(mailOptions)
-    console.log("Email sent successfully");
-    console.log(result)
+    if (process.env.DEBUG==='true'){console.log("Info: Email Link sent successfully. " + result)};
     return result
   }
   catch (err) {
-    console.log("Email NOT sent");
-    console.log(err.code);  // EAUTH = no autorizado
+    if (process.env.DEBUG==='true'){console.log("Error: Email Link NOT sent successfully. " + err)}; // EAUTH = no autorizado
     return err
   } 
 }
 module.exports = {
    send,
    sendReset,
-   //sendVerification,
    sendCode,
    sendLink
 

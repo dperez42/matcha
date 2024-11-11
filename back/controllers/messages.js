@@ -6,22 +6,7 @@ const bcrypt = require('../services/bcrypt.js');
 const date = require('date-and-time')
 
 ////// GET ////////
-/*
-async function getMultiple(page = 1){
-  const offset = helper.getOffset(page, config.listPerPage);
-  const rows = await db.query(
-    `SELECT id, name, released_year, githut_rank, pypl_rank, tiobe_rank 
-    FROM programming_languages LIMIT ${offset},${config.listPerPage}`
-  );
-  const data = helper.emptyOrRows(rows);
-  const meta = {page};
 
-  return {
-    data,
-    meta
-  }
-}
-*/
 async function getMessages(where_clause){
   let tmp = ''
   if (where_clause!='' & where_clause!= undefined){
@@ -42,7 +27,7 @@ async function getMessages(where_clause){
 
 ////// CREATE ////////
 async function create(data){
-  console.log(data)
+  //console.log(data)
   try {
   //console.log(`INSERT INTO users(uuid, password, email, username, first, last) 
   const result = await db.query(
@@ -52,14 +37,14 @@ async function create(data){
   let message = 'Error in insert messages';
   if (result.affectedRows) {
     message = 'Message insert successfully';
-    console.log(result)
+    //console.log(result)
     //send verify email
     //smtp.email(data.email,"12345");
   } 
-  console.log(message)
+  //console.log(message)
   return {message};
   } catch (err){
-    console.log(err.sqlMessage)
+    //console.log(err.sqlMessage)
   }
 }
 ////// UPDATE PASSWORD ////////

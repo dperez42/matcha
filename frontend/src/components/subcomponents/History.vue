@@ -54,10 +54,11 @@ import store from '../../store/index'
 import {socket} from '../../services/socket'
 import moment from 'moment'
 import axios from "axios"
-
+import Error500 from '../InternalErrorServer500.vue'
 export default {
   name: 'Chat',
   components: {
+    Error500
   },
   props: {
   },

@@ -8,7 +8,7 @@ const user_socket_list = require('../sockets/user_socket_list')
 
 router.get('/', async function(req, res, next) {
   //console.log("all",Object.keys(req.query).length)
-  console.log('login.js: ',req.query.username, '---', req.query.password)
+  //console.log('login.js: ',req.query.username, '---', req.query.password)
     // create where clausule
     let where_clause = ''
     if(req.query.username != undefined){
@@ -17,7 +17,7 @@ router.get('/', async function(req, res, next) {
     let order_by_clause = ''
     try {
         let result = await users.getOnes(where_clause,  order_by_clause)
-        console.log(result)
+        //console.log(result)
         if (result.length === 0){
           res.status(401).json({'msg': 'Username not found'}); //no user with this username
           return
@@ -29,7 +29,7 @@ router.get('/', async function(req, res, next) {
           //Genero un JWT
           const token = jwt.generateAccessToken({"uuid":result[0].uuid});  //generate a new token with uuid
           const socket = req.headers['socket']
-          console.log("User confirmed: uuid:", result[0].uuid, "accestoken:", token, " socket", socket)
+          //console.log("User confirmed: uuid:", result[0].uuid, "accestoken:", token, " socket", socket)
           // load socket in user_socker_list
           user_socket_list.add([result[0].uuid,socket]);
           const result2 = {'data':result[0],
@@ -41,14 +41,14 @@ router.get('/', async function(req, res, next) {
           return
         }
       } catch (err) {
-        console.error(`Error while getting users`, err.message);
+        //console.error(`Error while getting users`, err.message);
         next(err);
       }
 });
 
 router.post('/', async function(req, res, next) {
   //console.log("all",Object.keys(req.query).length)
-  console.log('login.js: ',req.body.username, '---', req.body.password)
+  //console.log('login.js: ',req.body.username, '---', req.body.password)
     // create where clausule
     let where_clause = ''
     if(req.body.username != undefined){
@@ -57,7 +57,7 @@ router.post('/', async function(req, res, next) {
     let order_by_clause = ''
     try {
         let result = await users.getOnes(where_clause,  order_by_clause)
-        console.log(result)
+        //console.log(result)
         if (result.length === 0){
           res.status(401).json({'msg': 'Username not found'}); //no user with this username
           return
@@ -69,7 +69,7 @@ router.post('/', async function(req, res, next) {
           //Genero un JWT
           const token = jwt.generateAccessToken({"uuid":result[0].uuid});  //generate a new token with uuid
           const socket = req.headers['socket']
-          console.log("User confirmed: uuid:", result[0].uuid, "accestoken:", token, " socket", socket)
+          //console.log("User confirmed: uuid:", result[0].uuid, "accestoken:", token, " socket", socket)
           // load socket in user_socker_list
           user_socket_list.add([result[0].uuid,socket]);
           const result2 = {'data':result[0],

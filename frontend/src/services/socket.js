@@ -17,7 +17,7 @@ export const state = reactive({
 const serverURL = import.meta.env.VITE_APP_SERVER_API===undefined ? 'http://localhost:3000':import.meta.env.VITE_APP_SERVER_API;
 // ws://localhost:3000
 export const socket = io(serverURL,{extraHeaders: {
-    "ngrok-skip-browser-warning": 'true',
+    "ngrok-skip-browser-warning": true,
   }})
 
 socket.on("connect", () => {

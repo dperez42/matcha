@@ -21,6 +21,9 @@ async getLocation() {
       this.user_temp.longitude = geo.lon
 }
 
+REGEX 
+https://ihateregex.io/expr/phone/
+
 TAGS
 https://vueschool.io/articles/vuejs-tutorials/building-a-tag-input-component-with-the-vue-3-composition-api/
 

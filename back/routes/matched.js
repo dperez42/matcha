@@ -5,7 +5,7 @@ const authenticate = require('../services/authenticate')
 const jwt = require('../services/jwt');
 
 router.get('/', authenticate.authenticateToken, async function(req, res, next) {
-    console.log("matched.js")
+    //console.log("matched.js")
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
     const decode = jwt.verifyAccessToken(token)
@@ -18,7 +18,7 @@ router.get('/', authenticate.authenticateToken, async function(req, res, next) {
       res.status(200).json(await matched.getOnes(where_clause,  order_by_clause));
       return
     } catch (err) {
-      console.error(`Error while getting notifications`, err.message);
+      //console.error(`Error while getting notifications`, err.message);
       next(err);
     }
 });

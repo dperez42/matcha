@@ -3,8 +3,7 @@
 const jwt = require('./jwt')
 
 function authenticateToken(req, res, next) {
-  console.log("authenticate.js")
-  console.log('token:',req.headers['authorization'])
+  if (process.env.DEBUG==='true'){console.log("Info: Token. " + req.headers['authorization'])}; 
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
   if (!token) {

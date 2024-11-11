@@ -48,7 +48,7 @@ async function checkAuth(to, from, next){
           headers: {
             'Content-Type': 'application/json;charset=UTF-8',
             'Authorization': `Bearer ${token}`,
-            'ngrok-skip-browser-warning': 'true',
+            'ngrok-skip-browser-warning': true,
             // sending the token assign a token (uuid) with a Socket
             'Socket': socket.id   
             // sending last location assign with uuid?
@@ -83,25 +83,27 @@ async function checkAuth(to, from, next){
               };
               }
               coords = await getCoords();
+              // don´t change dummy users
+              if (response.data[0].verificated===1){
+                response.data[0].latitude = coords.lat
+                response.data[0].longitude = coords.long
+              }
             } catch (e){
               if (import.meta.env.VITE_DEBUG==='true'){console.log("error: Geolocation is not enable:"+e)}
               enable_geolocation=false
             }
-            // don´t change dummy users
-            if (response.data[0].verificated===1){
-              response.data[0].latitude = coords.lat
-              response.data[0].longitude = coords.long
-            }
+            
           }
+          let geo=null
           if (enable_geolocation===false){
             if (import.meta.env.VITE_DEBUG==='true'){console.log("info: Getting coordinates from Apì")}
-            const geo = await fetch('http://ip-api.com/json')
+            geo = await fetch('http://ip-api.com/json')
             .then(response => response.json())
             .catch (function(e){
               if (import.meta.env.VITE_DEBUG==='true'){console.log("error: Getting coordinates from Api",e)}
             });
             if (import.meta.env.VITE_DEBUG==='true'){console.log("info: Coordinates ",geo)}
-            // don´t change dummy users
+            // don´t change in dummy users
             if (response.data[0].verificated===1){
               response.data[0].latitude = geo.lat
               response.data[0].longitude = geo.lon
@@ -137,7 +139,7 @@ async function checkAuth(to, from, next){
           store.commit("notifications_store/setNotifications", response_notifications.data)
   // get matched users
           const response_matched = await axios.get("/matched",axiosConfig)
-          console.log("info: get matched ", response_matched.data)
+          if (import.meta.env.VITE_DEBUG==='true'){console.log("info: get matched ", response_matched.data)}
           store.commit("matched_store/setMatched", response_matched.data)
   // get blocked users
           const response_blocked = await axios.get("/blocked",axiosConfig)
@@ -155,7 +157,7 @@ async function checkAuth(to, from, next){
             headers: {
               'Content-Type': 'application/json;charset=UTF-8',
               'Authorization': `Bearer ${token}`,
-              'ngrok-skip-browser-warning': 'true',
+              'ngrok-skip-browser-warning': true,
               // sending the token assign a token (uuid) with a Socket
               'Socket': socket.id   
               // sending last location assign with uuid?

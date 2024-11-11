@@ -3,7 +3,7 @@ import axios from "axios"
 export default {
   // Set matcha_token //
   setToken(token){
-    if (import.meta.env.VITE_DEBUG ==='true'){
+    if (import.meta.env.VITE_DEBUG ===true){
       console.log("info: set new matcha_token", token)
     }
     localStorage.setItem('matcha_token', token)
@@ -32,7 +32,7 @@ export default {
           headers: {
             'Content-Type': 'application/json;charset=UTF-8',
             'Authorization': `Bearer ${token}`,
-            'ngrok-skip-browser-warning': 'true',
+            'ngrok-skip-browser-warning': true,
           }
         }  
         const response = await axios.get("/auth?key=" + token, axiosConfig);
@@ -46,7 +46,9 @@ export default {
           }
           return(true)
         } else {  
-          console.log("info: found UnAuthorized matcha_token")
+          if (import.meta.env.VITE_DEBUG==='true'){
+            console.log("info: found UnAuthorized matcha_token")
+          }
           return(false)
         }
     }

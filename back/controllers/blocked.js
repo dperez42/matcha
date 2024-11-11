@@ -10,11 +10,11 @@ async function getOnes(where_clause, order_by_clause){
   if (order_by_clause!='' & order_by_clause != undefined){
     tmp = tmp + 'ORDER BY '+order_by_clause
   }
-  console.log(`SELECT * FROM blocked ${tmp}`)
+  //console.log(`SELECT * FROM blocked ${tmp}`)
   const data = await db.query(
     `SELECT * FROM blocked ${tmp}`
   );
-  console.log(data)
+  //console.log(data)
   // const data = helper.emptyOrRows(rows);
   return data
 }
@@ -28,10 +28,10 @@ async function create(data){
     if (result.affectedRows) {
       message = 'Block created successfully';
     } 
-    console.log(message)
+    //console.log(message)
     return {message};
   } catch (err){
-    console.log(err.sqlMessage)
+    //console.log(err.sqlMessage)
   }
 }
 /////// REMOVE ///////

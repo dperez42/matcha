@@ -18,13 +18,13 @@ router.get('/:key', function(req, res, next) {
   //   }
   //SocketSingleton.io.emit('chat1', {msg: 'success!'});
   jwt.verify(req.params.key, process.env.TOKEN_SECRET, (err, data) => {
-    console.log(req.params.key)
+    //console.log(req.params.key)
     if (err) {
-        console.log("error", err.message)
+        //console.log("error", err.message)
         res.json("ERROR: "+err.message +" try again localhost:8000"+ socket_list.STATIC_CONNECTIONS)
         return (err.message)
     }
-    console.log("Data", data)  
+    //console.log("Data", data)  
     var i = socket_list.STATIC_CONNECTIONS.indexOf(data.socketId)
     if (i===-1){
       res.json("No socket connect Data: " + data.socketId + " vs "+ socket_list.STATIC_CONNECTIONS )
@@ -46,7 +46,7 @@ router.get('/:key', function(req, res, next) {
 router.post('/', async function(req, res, next) {
   try {
     // Check si existe el usuario
-    console.log("jjjjj:", req.body.email)
+    //console.log("jjjjj:", req.body.email)
     //Genero un JWT with users data
     const token = jwt.generateAccessToken({
         "email":req.body.email, 
@@ -55,11 +55,11 @@ router.post('/', async function(req, res, next) {
         "first":req.body.first,
         "last":req.body.last,
         "socketId":req.body.socketId});
-    console.log("accestoken email:", token)
-    console.log("jjjjj:", req.body.email)
+    //console.log("accestoken email:", token)
+    //console.log("jjjjj:", req.body.email)
     //Send email with jwt
     const email_result = email.send(req.body.email,token)
-    console.log(email_result)
+    //console.log(email_result)
     //users.create(req.data)
     res.status(200).json({requestBody: req.body});
     //res.json(await users.create(req.body));

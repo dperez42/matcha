@@ -45,7 +45,7 @@ router.get("/callback/", async function(req, res, next) {
             } while (number < 100);
             const test_username = user_matcha.username + number
             username_exist = await user.getOnes('username="'+ test_username +'" ') //check if exits username
-            console.log(username_exist.length)
+            //console.log(username_exist.length)
             if (username_exist.length === 0) {
               user_matcha.username = test_username
               break
@@ -59,7 +59,7 @@ router.get("/callback/", async function(req, res, next) {
       const def_user = await user.getOnes('email="'+user_data.userResponse.data.email+'" ')
       //console.log (def_user)
       const jwt_token = jwt.generateAccessToken({"user_uuid": def_user.uuid}) //generate a token with the user's uuid
-      console.log(req.headers)
+      //console.log(req.headers)
       let host = req.headers.host;
       const protocol = req.secure ? 'https' : 'http';
       host =  host.split(':')[0]+':8000'
