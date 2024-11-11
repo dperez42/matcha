@@ -223,12 +223,20 @@
         /// check if geolocation is enable
         try {
           const location = await this.getLocation();
+          } catch(e) {
+          alert('We can´t geolocate you \n'+e.message)
+          //return false
+        }
+        /*
+        try {
+          const location = await this.getLocation();
           this.input.coordinate_lat = location.coords.latitude
           this.input.coordinate_lon = location.coords.longitude
         } catch(e) {
           alert('Please enable Geolocation in your wroser \n'+e.message)
           return false
         }
+        */
         /// check if username and email not exists
 				try {
 					const user_username = this.input.username
@@ -392,20 +400,14 @@
 			},
     // method to get location
       async getLocation() {
-            
-            return new Promise((resolve, reject) => {
-
-              if(!("geolocation" in navigator)) {
-                reject(new Error('Geolocation is not available.'));
-              }
-
-              navigator.geolocation.getCurrentPosition(pos => {
-                resolve(pos);
-              }, err => {
-                reject(err);
-              });
-
-            });
+        const geo = await fetch('http://ip-api.com/json')
+      .then(response => response.json())
+      .catch (function(e){
+            console.log(e)
+          });
+      console.log("geo",geo)
+      this.input.coordinate_lat = geo.lat
+      this.input.coordinate_lon = geo.lon
       },
 
     // Register a new user 

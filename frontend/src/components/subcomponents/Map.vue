@@ -160,24 +160,21 @@ export default {
                 //shadowSize: [60, 30],
                 //shadowAnchor: [22, 94]
             });
+            /*
             const htmlString = `<div> <h3>${this.nearbyUsers[i].username}</h3>
               <p dir='auto'>some content</> <NewComp text='some kind of text here'/> 
               <button type="button" onclick="close()">Click Me!</button>
               </div>`;
-              //define div
               const div = document.createElement("div");
               div.innerHTML = `<h3>${this.nearbyUsers[i].username}</h3>`;
-              //define button
               const button = document.createElement("button");
               button.innerHTML = "View Profile";
-              
               button.onclick = function(x,y) {
                 console.log("click", y, x)
                 this.$emit('click_on_profile')
               }
-              
               div.appendChild(button);
-
+            */
             var marker = L.marker([this.nearbyUsers[i].latitud,this.nearbyUsers[i].longitud], {icon:myIcon, bubblingMouseEvents:false})
                 //.addTo(this.initialMap)
                 //.bindPopup(div)
@@ -225,10 +222,10 @@ export default {
                 //shadowSize: [60, 30],
                 //shadowAnchor: [22, 94]
             });
-            const htmlString = '<div> <h1>hello world</h1> <p dir="auto">some content</> <NewComp text="some kind of text here" /> </div>'
+            //const htmlString = '<div> <h1>hello world</h1> <p dir="auto">some content</> <NewComp text="some kind of text here" /> </div>'
             var marker = L.marker([this.nearbyUsers[i].latitud,this.nearbyUsers[i].longitud], {icon:myIcon})
                 //.addTo(this.initialMap)
-                .bindPopup(htmlString)
+                //.bindPopup(htmlString)
             this.layer_connected.addLayer(marker)
                 //.bindPopup(`<h3>${this.nearbyUsers[i].username}</h3></h5>${this.nearbyUsers[i].uuid}</h5><button name="button" class="background-color: #04AA6D">Click me</button>
     //(<strong>${this.nearbyUsers[i].latitud},${this.nearbyUsers[i].longitud}</strong>)`)

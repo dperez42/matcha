@@ -84,7 +84,7 @@
                             <v-rating
                                 :length="5"
                                 :size="32"
-                                :model-value="card.rating"
+                                :model-value="parseInt(card.rating/this.$RATING)"
                                 active-color="yellow-darken-3"
                                 color="orange-lighten-1"
                                 readonly

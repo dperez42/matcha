@@ -30,9 +30,10 @@ async function checkAuth(to, from, next){
     authService.deleteToken()
     authService.setToken(to.query.matcha_token)
   }
-  // check if there is a valid token in storage calling backend return true/false
+  // check if there is a valid token in storage calling backend return true/false, 
+  // if is true, renew duration of token in authService.js
   const is_valid_token = await authService.checkToken()
-  if (is_valid_token) {
+  if (is_valid_token) { 
       if (import.meta.env.VITE_DEBUG==='true'){
         console.log("info: you have a valid matcha_token")
       }
@@ -57,6 +58,66 @@ async function checkAuth(to, from, next){
         try {
   // get user data with the uuid inside token
           const response = await axios.get("/uuid/", axiosConfig)	
+    // actualizo las coordenadas del usuario calling a 1.- geolocation else 2.- external api.
+          let enable_geolocation = true
+          let coords = null
+          if(!("geolocation" in navigator)) {
+            alert('Please enable Geolocation in your wroser \n')
+            enable_geolocation=false
+          }     
+          if (enable_geolocation===true){
+            console.log("Geolocation is enable")
+            try {
+              const getCoords = async () => {
+              const pos = await new Promise((resolve, reject) => {
+                navigator.geolocation.getCurrentPosition(pos => {
+                  resolve(pos);
+                }, err => {
+                  reject(err);
+                });
+              });
+              return {
+                long: pos.coords.longitude,
+                lat: pos.coords.latitude,
+              };
+              }
+              coords = await getCoords();
+            } catch (e){
+              console.log(e)
+              enable_geolocation=false
+            }
+            // don´t change dummy users
+            if (response.data[0].verificated===1){
+              response.data[0].latitude = coords.lat
+              response.data[0].longitude = coords.long
+            }
+          }
+          if (enable_geolocation===false){
+            console.log("Geolocation is not enable, using API")
+            const geo = await fetch('http://ip-api.com/json')
+            .then(response => response.json())
+            .catch (function(e){
+                  console.log(e)
+                });
+            console.log("actual coordinates",geo)
+            // don´t change dummy users
+            if (response.data[0].verificated===1){
+              response.data[0].latitude = geo.lat
+              response.data[0].longitude = geo.lon
+            }
+          }
+          // Send update coordinates to data base
+          const put_data = JSON.stringify(response.data[0])
+          //console.log("new user", put_data)
+          
+          try {
+            const response_update = await axios.put("/users/", 
+              put_data, axiosConfig)	
+            } catch (err) {
+              console.log(err)
+              //this.error = true
+              //this.error_message = err.response
+            }
           store.commit("user_store/setUser",response.data[0])  //load user data
           store.commit("user_store/setSocket",socket.id);      //load current socket in user data
           if (import.meta.env.VITE_DEBUG==='true'){
@@ -112,8 +173,12 @@ async function checkAuth(to, from, next){
           console.log(err)
           next("/login");
         }  
+      
+      
+      
+      
       }
-  } else {
+    } else {
     if (import.meta.env.VITE_DEBUG==='true'){
       console.log("error: you don´t have a valid matcha_token")
     }
@@ -165,6 +230,24 @@ function logout(to, from, next){
   store.commit("notifications_store/delNotifications") // delete notification_store
   store.commit("message_store/delMessages")           // delete message_store
   next("/login");
+}
+
+// method to get location
+async function getLocation(){
+            
+  return new Promise((resolve, reject) => {
+
+    if(!("geolocation" in navigator)) {
+      reject(new Error('Geolocation is not available.'));
+    }
+
+    navigator.geolocation.getCurrentPosition(pos => {
+      resolve(pos);
+    }, err => {
+      reject(err);
+    });
+
+  });
 }
 
 const routes = [

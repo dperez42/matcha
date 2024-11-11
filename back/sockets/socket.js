@@ -213,16 +213,15 @@ var SocketSingleton = (function() {
               block = true
             } else {block = false}
             if (block===false){
-              console.log("I not block")
+              //console.log("I not block")
                   // is a like add to database
                   if (msg.command==="liked"){
                     // insert in data base matches
                     const result = await matched.create(msg)// update rating of user
                     // insert in data base logs
                     const result_save_likes= notifications.create(msg)
-                    console.log("llttrtrl",msg)
                     const response_add_rating = users.updateRating(msg.to_uuid,1)
-                    new_msg.command = 'liked'
+                    //new_msg.command = 'liked'
                   }
                   // is a unlike remove from data base
                   if (msg.command==="unliked"){
@@ -231,14 +230,13 @@ var SocketSingleton = (function() {
                     // insert in data base logs
                     const result_save_unlikes= notifications.create(msg)
                     const response_add_rating = await users.updateRating(msg.to_uuid,-1)
-                    new_msg.command = 'unliked'
+                    //new_msg.command = 'unliked'
                   }
 
                   // update store in front by socket
                   let online_from = false 
                   let online_to = false 
                   const socket_list = user_socket_list.get()
-                  console.log("JJ",socket_list)
                   for (i = 0; i < socket_list.length; i++) {
                     if (socket_list[i][0]===msg.to_uuid){
                       online_to = true //to_user is on line

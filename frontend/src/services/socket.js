@@ -106,7 +106,6 @@ socket.on("chat", (msg) => {
   }
   
 });
-
 // recieve new user blocked from other session
 socket.on("blocked", (msg) => {
   console.log("recieved blocked", msg)
@@ -126,7 +125,6 @@ socket.on("blocked", (msg) => {
   }
   
 });
-
 // recieve new user profile view 
 socket.on("viewed", (msg) => {
   console.log("recieved view", msg)
@@ -190,6 +188,17 @@ socket.on("matched", async (msg) => {
       if (to && from){
         if (import.meta.env.VITE_TOAST==='true'){
           console.log("MATCHED")
+          console.log(msg)
+          const match_msg = {
+            command:"match",
+            to_uuid:msg.to_uuid,
+            from_uuid:msg.from_uuid,
+            to_username:msg.to_username,
+            from_username:msg.from_username,
+            message:"this is a match",
+            timestamp:msg.timestamp,
+          }
+          store.commit("notifications_store/addNotification",match_msg)
           toast(msg.from_username + " matched", {
             autoClose: 2000,
             type: "info",
