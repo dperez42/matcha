@@ -88,10 +88,10 @@ export default {
         var uuid = e.layer.properties.uuid;
         for (let i = 0; i < this.nearbyUsers.length; i++){
             if (this.user.uuid === uuid){
-              console.log("is you")
+              if (import.meta.env.VITE_DEBUG==='true'){console.log("info: Click on yourself.")}
               break
             } else {
-              console.log("is not you")
+              if (import.meta.env.VITE_DEBUG==='true'){console.log("info: Click on ", uuid)}
               this.$emit('click_on_profile', uuid)
               break
             }
@@ -111,7 +111,9 @@ export default {
     // listener when click pictures
     this.layer_connected.on("click", this.myfunction)
 
-    this.layer_users = L.markerClusterGroup({ showCoverageOnHover: true, maxClusterRadius:80,disableClusteringAtZoom:8, animate:true }) //all users with clustering
+    // if you want make cluster
+    //this.layer_users = L.markerClusterGroup({ showCoverageOnHover: true, maxClusterRadius:80,disableClusteringAtZoom:8, animate:true }) //all users with clustering
+    this.layer_users = L.layerGroup() //influence zone
     this.layer_circle = L.layerGroup() //all users
   //define title
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -180,18 +182,14 @@ export default {
                 //.bindPopup(div)
                 //.bindPopup(`<h3>${this.nearbyUsers[i].username}</h3></h5>${this.nearbyUsers[i].uuid}</h5><button name="button" class="background-color: #04AA6D">Click me</button>
                 //(<strong>${this.nearbyUsers[i].latitud},${this.nearbyUsers[i].longitud}</strong>)`)
-                console.log(this.nearbyUsers[i])
-                console.log(marker)
+            // add new propierties to marker 
             marker.properties={ "uuid":this.nearbyUsers[i].uuid}
-            console.log(marker)
-            console.log(marker._latlng)
-            console.log(marker._leaflet_id)
-            this.nearbyUsers[i]._leaflet_id = marker._latlng
             this.layer_connected.addLayer(marker)
                 
     };
 
   // show layer (order is important)
+  
     this.initialMap.addLayer(this.layer_users)
     this.initialMap.addLayer(this.layer_circle)
     this.initialMap.addLayer(this.layer_connected)

@@ -115,7 +115,7 @@ export default {
 
   data: () => ({
     //
-    user: store.getters['user_store/getUser'],
+    user: store.state.user_store.user, //store.getters['user_store/getUser'],
     isAuthenticated: store.getters['user_store/getIsAuthenticated'],
     nb_connected: store.getters['connected_store/CountUUIDs'],
     nb_notifications: store.getters['notifications_store/getCountNotifications'],
@@ -180,12 +180,8 @@ export default {
     this.nb_connected = store.state.connected_store.nb_connected
     this.nb_notifications = store.state.notifications_store.nb_notifications
     this.list_notifications= store.getters['notifications_store/getNotifications']
-    if (import.meta.env.VITE_DEBUG==='true'){
-      console.log("info: starting App: connected:", this.nb_connected," notifications:",this.nb_notifications )
+    if (import.meta.env.VITE_DEBUG==='true'){console.log("info: starting App.")
     }
-    console.log("fetch")
-    const response = fetch('http://ip-api.com/json')
-    console.log(response)
   }
 }
 </script>

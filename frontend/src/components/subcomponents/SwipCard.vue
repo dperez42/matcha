@@ -270,33 +270,34 @@ export default {
   },  
   methods: {
     onClickChat() {
+      this.$emit('click_on_chat', this.card)
+    },
+    onClickProfile() {
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: click card profile. ")}
+      this.$emit('click_on_profile', this.card)
+    },
+    onClickBlocked(){
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: click card blocked. ")}
+      this.$emit('click_on_blocked', this.card)
+    },
+    onClickReported(){
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: click card report. ")}
+      this.$emit('click_on_reported', this.card)
+    },
+    onClickLike(){
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: click card like. ")}
       if (!this.check_avatar()){
-        toast("Update your profile photo to chat with "+ this.card.username, {
+        toast("Update your profile photo to like "+ this.card.username, {
             autoClose: 2000,
             type: "info",
             position: "bottom-right",
           }); 
         return false
       }
-      this.$emit('click_on_chat', this.card)
-    },
-    onClickProfile() {
-      console.log("click card profile")
-      this.$emit('click_on_profile', this.card)
-    },
-    onClickBlocked(){
-      this.$emit('click_on_blocked', this.card)
-    },
-    onClickReported(){
-      console.log("click card report")
-      this.$emit('click_on_reported', this.card)
-    },
-    onClickLike(){
-      console.log("click card like")
       this.$emit('click_on_like', this.card)
     },
     onClickUnLike(){
-      console.log("click card unlike")
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: click card unlike. ")}
       this.$emit('click_on_unlike', this.card)
     },
     check_avatar(){
@@ -453,10 +454,9 @@ export default {
       }
     },
     nb_blocked_change(newer,older){
-      console.log("blocked have change")
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: list of blocked have change. ")}
       const user= store.getters['user_store/getUser']
       const data = store.state.blocked_store.blocked
-      console.log(data)
       const data_filter = data.filter((item) => item.to_uuid === this.card.uuid)
       if (data_filter.length > 0){
         this.blocked_check= true
@@ -505,13 +505,13 @@ export default {
     //self.connected()    // Check if card is connected
     // make a listener to doubletap
     interact(this.$el).on('doubletap', function (event) {
-      console.log(event.type, event.target.id)
+      //console.log(event.type, event.target.id)
       self.playAccion(event.target.id)
       event.preventDefault()
     })
     // make a listener to tap
     interact(this.$el).on('tap', function (event) {
-      console.log(event.type, event.target.id)
+      //console.log(event.type, event.target.id)
       self.playAccion(event.target.id)
       event.preventDefault()
     })

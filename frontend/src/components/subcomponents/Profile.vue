@@ -405,7 +405,7 @@ export default {
         }
       },
       nb_matched_change(newer,older){
-        console.log("mathced have change")
+         if (import.meta.env.VITE_DEBUG==='true'){console.log("info: list of matched have change.")}
         const user= store.getters['user_store/getUser']
       const data = store.state.connected_store.connected_uuids
       const data_filter = data.filter((item) => item[0] === this.card.uuid)
@@ -416,11 +416,9 @@ export default {
         this.online_check= false
       }
       const data_matched = store.state.matched_store.matched_uuids
-      console.log("aqui")
-      console.log(data_matched)
       const data_matched_filter_from = data_matched.filter((item) => (
-            console.log(item.from_uuid),console.log(item.to_uuid),
-            console.log(this.card.uuid),
+            //console.log(item.from_uuid),console.log(item.to_uuid),
+            //console.log(this.card.uuid),
             (item.from_uuid === this.card.uuid && item.to_uuid === user.uuid)
             ))
       if (data_matched_filter_from.length > 0){
@@ -440,10 +438,9 @@ export default {
       }
       },
       nb_blocked_change(newer,older){
-      console.log("blocked have change")
+         if (import.meta.env.VITE_DEBUG==='true'){console.log("info: Blocked list have change.")}
       const user= store.getters['user_store/getUser']
       const data = store.state.blocked_store.blocked
-      console.log(data)
       const data_filter = data.filter((item) => item.to_uuid === this.card.uuid)
       if (data_filter.length > 0){
         this.$emit('click_on_close')
@@ -476,7 +473,7 @@ export default {
           this.messages  = store.getters['message_store/getMessages']
           this.isLoading = false;	
       } catch (e) {
-        console.log(e)
+        if (import.meta.env.VITE_DEBUG==='true'){console.log("error: geting messages. ", e)}
         this.error = true
       } finally {
         this.isLoading = false;	
@@ -485,14 +482,6 @@ export default {
       // Handle open chat
       onClickChat () {
         //console.log("click chat")
-        if (!this.check_avatar()){
-        toast("Update your profile photo to chat with "+ this.card.username, {
-            autoClose: 2000,
-            type: "info",
-            position: "bottom-right",
-          }); 
-        return false
-        }
         this.$emit('click_on_close')
         this.$emit('click_on_chat', this.card)
       },
@@ -504,6 +493,14 @@ export default {
       // Handle click like
       onClickLike () {
         //console.log("click like")
+        if (!this.check_avatar()){
+        toast("Update your profile photo to like "+ this.card.username, {
+            autoClose: 2000,
+            type: "info",
+            position: "bottom-right",
+          }); 
+        return false
+        }
         this.$emit('click_on_like', this.card)
       },
       // Handle click unlike
@@ -513,12 +510,12 @@ export default {
       },
       // Handle click blocked
       onClickBlocked () {
-        console.log("click blocked")
+        //console.log("click blocked")
         this.$emit('click_on_blocked', this.card)
       },
       // Handle click reported
       onClickReported () {
-        console.log("click reported")
+        //console.log("click reported")
         this.$emit('click_on_reported', this.card)
       },
       // Check if have a picture in avatar necesary for chat
@@ -536,9 +533,7 @@ export default {
     const user= store.getters['user_store/getUser']
     const data = store.state.connected_store.connected_uuids
     const data_filter = data.filter((item) => item[0] === this.card.uuid)
-    console.log(data_filter)
     if (data_filter.length > 0){
-            console.log("true")
             this.online_check= true
     }
     else {
@@ -567,7 +562,6 @@ export default {
       this.to_like_check= false
     }
     // getting mate tags
-    console.log("getting tags")
     const token = localStorage.getItem('matcha_token');
     try {
         let axiosConfig = {
@@ -584,7 +578,7 @@ export default {
             
         }
         const response = await axios.get("/tags/",axiosConfig)
-        console.log("response list of card tags", response.data)
+        if (import.meta.env.VITE_DEBUG==='true'){console.log("info: list of tags",response.data)}
         //this.items = response.data
         var i
         this.list_tags = []
@@ -592,10 +586,10 @@ export default {
         this.tags.push(response.data[i].tag)
       }
     } catch (e) {
-      console.log("error:",e)
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("error: loading tags",e)}
       this.error = true
     } finally {
-        this.isLoading = false;	
+      this.isLoading = false;	
     }
     this.isLoading = false
   },

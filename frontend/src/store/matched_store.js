@@ -35,7 +35,7 @@ export default {
       let spliced =[]
       for (let i = 0; i < state.matched_uuids.length; i++) {
         if (state.matched_uuids[i].from_uuid != like.from_uuid && state.matched_uuids[i].to_uuid != like.to_uuid) {
-          console.log("dell",state.matched_uuids[i].from_uuid, "--",state.matched_uuids[i].to_uuid  )
+          if (import.meta.env.VITE_DEBUG==='true'){console.log("info: dell like.")}
           spliced.push(state.matched_uuids[i]);
         }
       }

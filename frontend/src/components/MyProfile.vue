@@ -106,7 +106,7 @@
             <v-col cols="6" md="4">
               <v-text-field
                 v-model="user_temp.first"
-                :rules="[v => !!v || 'Item is required']"
+                :rules="this.firstNameRules"
                 label="First Name"
                 required
                 outlined
@@ -120,7 +120,7 @@
             <v-col cols="6" md="5">
               <v-text-field
                 v-model="user_temp.last"
-                :rules="[v => !!v || 'Item is required']"
+                :rules="this.lastNameRules"
                 label="Second Name"
                 required
                 outlined
@@ -152,7 +152,7 @@
               <v-text-field
                 v-model="user_temp.phone"
                 ref="phone"
-                :rules="[v => !!v || 'Item is required']"
+                :rules="this.phoneRules"
                 label="Phone"
                 required
                 outlined
@@ -175,7 +175,7 @@
             <v-col cols="12" md="12">
               <v-text-field
                 v-model="user_temp.address"
-                :rules="[v => !!v || 'Item is required']"
+                :rules="this.addressRules"
                 label="Address"
                 required
                 outlined
@@ -206,7 +206,7 @@
             <v-col cols="6" md="3">
               <v-text-field
                 v-model="user_temp.state"
-                :rules="[v => !!v || 'Item is required']"
+                :rules="this.stateRules"
                 label="State"
                 required
                 outlined
@@ -292,7 +292,7 @@
               <v-col cols="12" md="12">
                 <v-textarea
                   v-model="user_temp.bio"
-                  :rules="[v => !!v || 'Item is required']"
+                  :rules="this.bioRules"
                   label="Biography"
                   required
                   outlined
@@ -703,10 +703,39 @@
       v => !!v || 'Username is required',
       v => (v && v.length <= 10) || 'Name must be less than 11',
     ],
+    firstNameRules: [
+      v => !!v || 'First name is required',
+      v => (v && v.length <= 250) || 'Frist name must be less than 250',
+    ],
+    lastNameRules: [
+      v => !!v || 'Last name is required',
+      v => (v && v.length <= 250) || 'Last name must be less than 250',
+    ],
+    addressRules: [
+      v => !!v || 'Address name is required',
+      v => (v && v.length <= 35) || 'Address must be less than 35',
+    ],
+    cityRules: [
+      v => !!v || 'City is required',
+      v => (v && v.length <= 35) || 'City must be less than 35',
+    ],
+    stateRules: [
+      v => !!v || 'State name is required',
+      v => (v && v.length <= 35) || 'State must be less than 35',
+    ],
     zipCodeRules: [
       v => !!v || 'zipCode is required.',
       //v => (/^(?=\d).{5,5}$/.test(v)) || 'zipCode must be 5 digits.',
       v => (/^[0-9-]{5,5}$/.test(v)) || 'zipCode must be 5 digits.',
+    ],
+    phoneRules: [
+      v => !!v || 'Phone number is required.',
+      //v => (/^(?=\d).{5,5}$/.test(v)) || 'zipCode must be 5 digits.',
+      v => (/^[0-9-]{0,15}$/.test(v)) || 'Phone number must be 15 or less digits.',
+    ],
+    bioRules: [
+      v => !!v || 'Biography is required',
+      v => (v && v.length <= 255) || 'Bio must be less than 255',
     ],
     passwordRules: [
       v => !!v || 'Password is required',
@@ -722,7 +751,7 @@
   methods:{ 
     // Rest form
     async register_Reset() {
-      console.log("Reset Data")
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: Reset data.")}
       const user_data = store.getters['user_store/getUser']
       this.user_temp = JSON.parse(JSON.stringify(user_data))
       // get tags
@@ -767,7 +796,7 @@
         // validate rules of form
         const response = await this.$refs.form.validate()
         if (!response.valid) {
-          console.log("validate not ok", response)
+          if (import.meta.env.VITE_DEBUG==='true'){console.log("error: validate not ok. ", response)}
           toast("You have to complete require fields, to continue", {
             autoClose: 2000,
             type: "error",
@@ -827,14 +856,13 @@
           this.user_temp.img4 = this.user_temp.uuid+'-img4.'+extension
         }
 
-        /// update data
+      /// update data
       // Update user info in store
       this.user_temp.completed = 1
 			this.$store.commit("user_store/setUser",this.user_temp);
       // Send update to data base
       //this.user_temp.tags = JSON.stringify(this.tags)
       const put_data = JSON.stringify(this.user_temp)
-      console.log("new user", put_data)
       const token = localStorage.getItem('matcha_token');
       let axiosConfig = {
         headers: {
@@ -875,9 +903,9 @@
       const geo = await fetch('http://ip-api.com/json')
       .then(response => response.json())
       .catch (function(e){
-            console.log(e)
+        if (import.meta.env.VITE_DEBUG==='true'){console.log("error: Getting coordinates from Api. ",e)}
           });
-      console.log("geo",geo)
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: Coordinates from Api. ",geo)}   
       this.user_temp.latitude = geo.lat
       this.user_temp.longitude = geo.lon
       /* 
@@ -940,68 +968,6 @@
         formData, axiosConfig)	
       //console.log(response)
     },
-    // method to register update?
-		async register_Update() {
-      // change and load in server only images images if is changed 
-      if ( this.payload_avatar?.url && this.payload_avatar.url.split(":")[0] === 'blob'){
-        await this.load_image(this.user_temp.uuid, this.payload_avatar, 'avatar')  // avatar, img1,.., img4
-        var extension =  this.payload_avatar.name.split(".")[1]
-        //this.user_temp.img4 = import.meta.env.VITE_APP_SERVER_API+'/images/'+this.user_temp.uuid+'-img4.'+extension
-        this.user_temp.avatar = this.user_temp.uuid+'-avatar.'+extension
-      }
-      if ( this.payload_img1?.url  && this.payload_img1.url.split(":")[0] === 'blob'){
-        await this.load_image(this.user_temp.uuid, this.payload_img1, 'img1')  // avatar, img1,.., img4
-        var extension =  this.payload_img1.name.split(".")[1]
-        //this.user_temp.img4 = import.meta.env.VITE_APP_SERVER_API+'/images/'+this.user_temp.uuid+'-img4.'+extension
-        this.user_temp.img1 = this.user_temp.uuid+'-img1.'+extension
-      }
-      if ( this.payload_img2?.url  && this.payload_img2.url.split(":")[0] === 'blob'){
-        await this.load_image(this.user_temp.uuid, this.payload_img2, 'img2')  // avatar, img1,.., img4
-        var extension =  this.payload_img2.name.split(".")[1]
-        //this.user_temp.img4 = import.meta.env.VITE_APP_SERVER_API+'/images/'+this.user_temp.uuid+'-img4.'+extension
-        this.user_temp.img2 = this.user_temp.uuid+'-img2.'+extension
-      }
-      if ( this.payload_img3?.url  && this.payload_img3.url.split(":")[0] === 'blob'){
-        await this.load_image(this.user_temp.uuid, this.payload_img3, 'img3')  // avatar, img1,.., img4
-        var extension =  this.payload_img3.name.split(".")[1]
-        //this.user_temp.img4 = import.meta.env.VITE_APP_SERVER_API+'/images/'+this.user_temp.uuid+'-img4.'+extension
-        this.user_temp.img3 = this.user_temp.uuid+'-img3.'+extension
-      }
-      if ( this.payload_img4?.url  && this.payload_img4.url.split(":")[0] === 'blob'){
-        await this.load_image(this.user_temp.uuid, this.payload_img4, 'img4')  // avatar, img1,.., img4
-        var extension =  this.payload_img4.name.split(".")[1]
-        //this.user_temp.img4 = import.meta.env.VITE_APP_SERVER_API+'/images/'+this.user_temp.uuid+'-img4.'+extension
-        this.user_temp.img4 = this.user_temp.uuid+'-img4.'+extension
-      }
-
-      // Update user info in store
-			this.$store.commit("user_store/setUser",this.user_temp);
-      
-      // Send update to data base
-      const put_data = JSON.stringify(this.user_temp)
-      //console.log("new user", put_data)
-      const token = localStorage.getItem('token');
-      let axiosConfig = {
-        headers: {
-          'Content-Type' : 'application/json',
-					'Authorization': `Bearer ${token}`,
-          //"Access-Control-Allow-Origin": "*",
-        }
-      };
-      try {
-			  const response = await axios.put("/users/", 
-          put_data, axiosConfig)	
-        //console.log("response:",response.data);
-				this.$router.push("/");
-			} catch (err) {
-				console.log(err)
-				//this.error = true
-				//this.error_message = err.response
-			}
-      // update my tags in store
-      store.commit("tags_store/setTags", this.my_tags)
-      // update my tags in server
-		},
     // date-picker format
     format (date){
       const day = date.getDate();
@@ -1055,7 +1021,8 @@
             
         }
         const response = await axios.get("/distinct/",axiosConfig)
-        console.log("response list of tags", response.data)
+        if (import.meta.env.VITE_DEBUG==='true'){console.log("info: list of tags", response.data)}
+
         //this.items = response.data
         var i
         this.list_tags = []

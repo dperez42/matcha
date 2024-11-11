@@ -9,6 +9,18 @@
 USERS
 https://randomuser.me/api/?results=500
 
+GEOPOSITION
+async getLocation() {
+      const geo = await fetch('http://ip-api.com/json')
+      .then(response => response.json())
+      .catch (function(e){
+        if (import.meta.env.VITE_DEBUG==='true'){console.log("error: Getting coordinates from Api. ",e)}
+          });
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: Coordinates from Api. ",geo)}   
+      this.user_temp.latitude = geo.lat
+      this.user_temp.longitude = geo.lon
+}
+
 TAGS
 https://vueschool.io/articles/vuejs-tutorials/building-a-tag-input-component-with-the-vue-3-composition-api/
 

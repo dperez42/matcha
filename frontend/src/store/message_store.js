@@ -49,7 +49,7 @@ export default {
       //console.log("Update list of messages")
       //console.log(state.messages)
       state.nb_messages = state.messages.length
-      console.log(state.nb_messages)
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: number of messages. ",state.nb_messages)}
     },
     //add new message to store messages
     addMessage(state, newMessage) {
@@ -58,7 +58,7 @@ export default {
       state.messages.push(newMessage);
       //console.log(state.messages)
       state.nb_messages = state.nb_messages+1
-      console.log(state.nb_messages)
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: number of messages. ",state.nb_messages)}
     },
     //del all messages in store messages
     delMessages(state) {
@@ -103,7 +103,6 @@ export default {
   getters: {
     // Getters are used to retrieve state data with computed properties
     getMessages(state){ 
-      console.log("in stor")
       return state.messages},
     getCountMessages(state){
       return state.messages.length

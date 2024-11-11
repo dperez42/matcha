@@ -20,7 +20,7 @@ const app = createApp(App)
 
 axios.defaults.baseURL = import.meta.env.VITE_APP_SERVER_API===undefined ? 'http://localhost:3000':import.meta.env.VITE_APP_SERVER_API;
 //const server_baseURL = import.meta.env.VITE_APP_SERVER_API===undefined ? 'http://localhost:3000':import.meta.env.VITE_APP_SERVER_API;
-console.log(import.meta.env.VITE_APP_SERVER_API)
+
 //define global variables, use everywhere as this.$APP_SERVER_API
 app.config.globalProperties.$APP_SERVER_API = import.meta.env.VITE_APP_SERVER_API===undefined ? 'http://localhost:3000':import.meta.env.VITE_APP_SERVER_API;
 app.config.globalProperties.$REGISTER_NO_VERIFICATION = import.meta.env.VITE_REGISTER_NO_VERIFICATION===undefined ? 'true' :import.meta.env.VITE_REGISTER_NO_VERIFICATION;
@@ -29,6 +29,7 @@ app.config.globalProperties.$REGISTER_EMAIL_VERIFICATION = import.meta.env.VITE_
 app.config.globalProperties.$DEBUG = import.meta.env.VITE_DEBUG===undefined ? false : import.meta.env.VITE_DEBUG;
 app.config.globalProperties.$RATING = import.meta.env.VITE_RATING===undefined ? 1 : import.meta.env.VITE_RATING;
 app.config.globalProperties.$AUTH = import.meta.env.VITE_AUTH===undefined ? false : import.meta.env.VITE_AUTH;
+if (import.meta.env.VITE_DEBUG==='true'){console.log("info: server running in ", import.meta.env.VITE_APP_SERVER_API)}
 /*
 const defaultToastOptions: ToastOptions = {
     autoClose: 2000,

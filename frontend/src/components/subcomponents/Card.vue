@@ -169,15 +169,9 @@ export default {
   },
   methods: {
     onClickChat () {
+       if (import.meta.env.VITE_DEBUG==='true'){console.log("info: click chat")}
       console.log("click chat", this.check_avatar())
-      if (!this.check_avatar()){
-        toast("Update your profile photo to chat with "+ this.card.username, {
-            autoClose: 2000,
-            type: "info",
-            position: "bottom-right",
-          }); 
-        return false
-      }
+      
       this.$emit('click_on_chat', this.card)
     },
     onClickProfile () {
@@ -186,6 +180,15 @@ export default {
     },
     onClickLike () {
       //console.log("click like")
+      if (!this.check_avatar()){
+        if (import.meta.env.VITE_DEBUG==='true'){console.log("error: no picture in avatar.")}
+        toast("Update your profile photo to like "+ this.card.username, {
+            autoClose: 2000,
+            type: "info",
+            position: "bottom-right",
+          }); 
+        return false
+      }
       this.$emit('click_on_like', this.card)
     },
     onClickUnLike () {
@@ -231,7 +234,7 @@ export default {
         }
     },
     nb_matched_change(newer,older){
-      console.log("mathced have change")
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: macthed have change.")}
       const user= store.getters['user_store/getUser']
     const data = store.state.connected_store.connected_uuids
     const data_filter = data.filter((item) => item[0] === this.card.uuid)
@@ -265,10 +268,9 @@ export default {
     }
     },
     nb_blocked_change(newer,older){
-      console.log("blocked have change")
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: blocked have change")}
       const user= store.getters['user_store/getUser']
       const data = store.state.blocked_store.blocked
-      console.log(data)
       const data_filter = data.filter((item) => item.to_uuid === this.card.uuid)
       if (data_filter.length > 0){
         this.blocked_check= true

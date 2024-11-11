@@ -111,8 +111,8 @@ export default {
       user: null,
 			isLoading: true, // Toggles the loading overlay
 			error: false,
-			cards: { data: null, index: 0, max: 10 },
-			cards_left: 10,
+			cards: { data: null, index: 0, max: 15 },
+			cards_left: 15,
 			card_choosen: null,
       page: 0,
       filter: { age:[18,100], distance:[0,500],tags:[0,3],rating:[0,5],orderId:2, gender:"*",sexual:"*" },
@@ -125,11 +125,11 @@ export default {
   methods: {
     // handle new query button
     filter_query(payload) {
-      console.log("recibing emiting from filter",payload)
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info:recibing emiting from filter. ",payload)}
       // Change filter
       // reset to aply new query
-      this.cards= { data: null, index: 0, max: 5 },
-			this.cards_left= 5,
+      this.cards= { data: null, index: 0, max: 15 },
+			this.cards_left= 15,
 			this.card_choosen= null,
       this.page= 0,
       this.filter.age = payload[0]
@@ -144,11 +144,11 @@ export default {
     },
     // handle reset query button
     filter_reset(payload) {
-      console.log("recibing emiting from filter",payload)
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: ecibing emiting from filter. ",payload)}
       // Change filter
       // reset to aply new query
-      this.cards= { data: null, index: 0, max: 5 },
-			this.cards_left= 5,
+      this.cards= { data: null, index: 0, max: 15 },
+			this.cards_left= 15,
 			this.card_choosen= null,
       this.page= 0,
       this.filter= { age:[18,60], distance:[0,1000],tags:[0,3],rating:[0,5], orderId:2, gender:"*", sexual:"*"},
@@ -156,19 +156,17 @@ export default {
     },
     // handle user chat button
     handleCardChat(payload) {
-      console.log("handleCardChat",payload);
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: Emit card chat. ",payload)}
       this.card_choosen = payload
       //alert(this.card_choosen)
       this.toggleChat()
     },
     toggleChat(){
       this.showChatModal ? this.showChatModal = false: this.showChatModal = true
-      console.log("change show Chat",this.showChatModal)
     },
     // handle user profile button
     handleCardProfile(payload) {
-      console.log("handleCardProfile",payload);
-      console.log("Emit view profile",payload);
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: Emit card view profile. ",payload)}
       const user = store.getters['user_store/getUser']
       const DateTime = moment.utc().utcOffset(+2).format("YYYY/MM/DD HH:mm:ss")
       const data = {
@@ -192,8 +190,7 @@ export default {
     },
     // handle liked card
     async handleLikeCard(payload) {
-      //console.log("handleCardAccepted",payload);
-      console.log("Emit card like",payload);
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: Emit card like. ",payload)}
       const user = store.getters['user_store/getUser']
       const DateTime = moment.utc().utcOffset(+2).format("YYYY/MM/DD HH:mm:ss")
       const data = {
@@ -227,7 +224,7 @@ export default {
     },
     // handle unlike  card
     async handleUnlikeCard(payload) {
-      console.log("handleCardRejected",payload);
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: Emit card unlike. ",payload)}
       const user = store.getters['user_store/getUser']
       const DateTime = moment.utc().utcOffset(+2).format("YYYY/MM/DD HH:mm:ss")
       const data = {
@@ -246,7 +243,7 @@ export default {
     },
     // handle blocked card
     async handleBlockedCard(payload){
-      console.log("blocked card")
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: Emit card blocked. ",payload)}
       const user = store.getters['user_store/getUser']
       const DateTime = moment.utc().utcOffset(+2).format("YYYY/MM/DD HH:mm:ss")
       const data = {
@@ -263,7 +260,7 @@ export default {
     },
     // handle reported card
     handleReportedCard(payload){
-      console.log("reported card")
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: Emit card repoted. ",payload)}
       const user = store.getters['user_store/getUser']
       const DateTime = moment.utc().utcOffset(+2).format("YYYY/MM/DD HH:mm:ss")
       const data = {
@@ -288,9 +285,7 @@ export default {
       cards.data = null;
       try {
         this.isLoading = true;
-        if (import.meta.env.VITE_DEBUG==='true'){
-          console.log("info: loading cards")
-        }
+        if (import.meta.env.VITE_DEBUG==='true'){console.log("info: loading cards")}
         // Get a random list of people from database
         const token = localStorage.getItem('matcha_token');
         const where_rating = ' (`rating` >='+this.filter.rating[0]*this.$RATING+' and `rating`<='+this.filter.rating[1]*this.$RATING+') '
@@ -335,9 +330,7 @@ export default {
         } else if (this.filter.orderId  === 4){
           order_clause = ' `rating` desc'
         }
-        if (import.meta.env.VITE_DEBUG==='true'){
-          console.log("info: order apply: ", order_clause)
-        }
+        if (import.meta.env.VITE_DEBUG==='true'){console.log("info: order apply: ", order_clause)}
         const data = {
 									'page': this.page,
                   'limit': this.cards_left,
@@ -358,9 +351,7 @@ export default {
         //console.log(data)
         //console.log(where_age + ' and ' + where_rating + ' and ' + where_distance + ' and ' + where_no_current_user + ' and ' + where_no_blocked)
         const response = await axios.post("/cards", data,axiosConfig)
-          if (import.meta.env.VITE_DEBUG==='true'){
-            console.log("info: cards: ", response.data)
-          }
+          if (import.meta.env.VITE_DEBUG==='true'){console.log("info: cards: ", response.data)}
           this.error = false;
           //console.log("new data", response.data)
           this.cards.data = response.data;
@@ -387,9 +378,7 @@ export default {
         });
         */
       } catch (e) {
-        if (import.meta.env.VITE_DEBUG==='true'){
-          console.log("error: getting cards: ",e)
-        }
+        if (import.meta.env.VITE_DEBUG==='true'){console.log("error: getting cards: ",e)}
         this.error = true
       } finally {
         this.isLoading = false;	
@@ -414,9 +403,7 @@ export default {
     async onScroll(e) {
       const { scrollTop, offsetHeight, scrollHeight } = e.target
       if ((scrollTop + offsetHeight) >= scrollHeight) {
-        if (import.meta.env.VITE_DEBUG==='true'){
-          console.log('info: bottom reach!. Loading more cards.')
-        }
+        if (import.meta.env.VITE_DEBUG==='true'){console.log('info: bottom reach!. Loading more cards.')}
         this.isLoading = true;
         const token = localStorage.getItem('matcha_token');
         let axiosConfig = {
@@ -433,9 +420,7 @@ export default {
           this.cards.index = 0;
           this.cards_left = this.cards.max
         } catch (e) {
-          if (import.meta.env.VITE_DEBUG==='true'){
-            console.log("error: getting cards: ",e)
-          }
+          if (import.meta.env.VITE_DEBUG==='true'){console.log("error: getting cards: ",e)}
           this.error = true
         } finally {
           this.isLoading = false;	

@@ -54,7 +54,7 @@ export default {
     addLogs(state, newLog) {
       state.nb_logs = state.nb_logs + 1
       state.logs.push(newLog);
-      console.log(state.logs)
+      //console.log(state.logs)
     },
     delLogs(state) {
       state.logs = [];

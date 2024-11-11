@@ -76,20 +76,11 @@ export default {
   methods:{
     // handle user profile button
     async handleCardProfile(payload) {
-      console.log("handleCardProfile",payload);
-      console.log("Emit view profile",payload);
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: handleCardProfile",payload)}
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: Emit view profile",payload)}
+      // get actual user
       const user = store.getters['user_store/getUser']
-      const DateTime = moment.utc().utcOffset(+2).format("YYYY/MM/DD HH:mm:ss")
-      const data = {
-        command:  'viewed',
-        from_uuid: user.uuid,
-        from_username: user.username,
-        to_username: payload.username,
-        to_uuid: payload.uuid,
-        message: 'this is a profile view',
-        timestamp: DateTime
-      }  
-      //socket.emit('notifications',data)
+      // get profile 
       // get card data 
       const token = localStorage.getItem('matcha_token');
       // config axios
@@ -108,8 +99,22 @@ export default {
         'user_uuid':  this.user_data.uuid
       }
       const response = await axios.post("/cards", data1,axiosConfig)
-      console.log(response)
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: Loaded card",response)}
       this.card_choosen = response.data[0]
+      // Create msg for notification
+      const DateTime = moment.utc().utcOffset(+2).format("YYYY/MM/DD HH:mm:ss")
+      const profile_msg = {
+        command:  'viewed',
+        from_uuid: user.uuid,
+        from_username: user.username,
+        to_username: this.card_choosen.username,
+        to_uuid: this.card_choosen.uuid,
+        message: 'this is a profile view',
+        timestamp: DateTime
+      }  
+      // send message
+      socket.emit('notifications',profile_msg)
+      // toggle to profile
       this.toggleProfile()
     },
     toggleProfile(){
@@ -117,19 +122,17 @@ export default {
     },
    // handle user chat button
     handleCardChat(payload) {
-      console.log("handleCardChat",payload);
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: handle Card Chat. ", payload)}
       this.card_choosen = payload
       //alert(this.card_choosen)
       this.toggleChat()
     },
     toggleChat(){
       this.showChatModal ? this.showChatModal = false: this.showChatModal = true
-      console.log("change show Chat",this.showChatModal)
     },
     // handle liked card
     async handleLikeCard(payload) {
-      //console.log("handleCardAccepted",payload);
-      console.log("Emit card like",payload);
+       if (import.meta.env.VITE_DEBUG==='true'){console.log("info: handle like. ", payload)}
       const user = store.getters['user_store/getUser']
       const DateTime = moment.utc().utcOffset(+2).format("YYYY/MM/DD HH:mm:ss")
       const data = {
@@ -163,7 +166,7 @@ export default {
     },
     // handle unlike  card
     async handleUnlikeCard(payload) {
-      console.log("handleCardRejected",payload);
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: handle unlike Card. ", payload)}
       const user = store.getters['user_store/getUser']
       const DateTime = moment.utc().utcOffset(+2).format("YYYY/MM/DD HH:mm:ss")
       const data = {
@@ -182,7 +185,7 @@ export default {
     },
     // handle blocked card
     async handleBlockedCard(payload){
-      console.log("blocked card")
+       if (import.meta.env.VITE_DEBUG==='true'){console.log("info: handle Blocked Card. ", payload)}
       const user = store.getters['user_store/getUser']
       const DateTime = moment.utc().utcOffset(+2).format("YYYY/MM/DD HH:mm:ss")
       const data = {
@@ -199,7 +202,7 @@ export default {
     },
     // handle reported card
     handleReportedCard(payload){
-      console.log("reported card")
+       if (import.meta.env.VITE_DEBUG==='true'){console.log("info: handle Reported Card. ", payload)}
       const user = store.getters['user_store/getUser']
       const DateTime = moment.utc().utcOffset(+2).format("YYYY/MM/DD HH:mm:ss")
       const data = {

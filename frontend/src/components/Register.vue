@@ -403,9 +403,9 @@
         const geo = await fetch('http://ip-api.com/json')
       .then(response => response.json())
       .catch (function(e){
-            console.log(e)
+        if (import.meta.env.VITE_DEBUG==='true'){console.log("error: getting coordinates from Api: ",e)}
           });
-      console.log("geo",geo)
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: coordinates from api: ",geo)}
       this.input.coordinate_lat = geo.lat
       this.input.coordinate_lon = geo.lon
       },

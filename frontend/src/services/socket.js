@@ -28,9 +28,7 @@ socket.on("connect", () => {
 });
 
 socket.on("disconnect", () => {
-  if (import.meta.env.VITE_DEBUG==='true'){
-    console.log("socket disconneted")
-  }
+  if (import.meta.env.VITE_DEBUG==='true'){console.log("socket disconneted")}
   state.connected = false;
 });
 
@@ -84,8 +82,7 @@ socket.on("info", (msg) => {
 
 // recieve new list uuid connected
 socket.on("connected", (msg) => {
-  //toast('recieve new list of connected'
-  console.log("info socket: new list user-socket arrived.")
+  if (import.meta.env.VITE_DEBUG==='true'){console.log("info socket: new list user-socket arrived.")}
   store.commit("connected_store/setUUID",msg)
 });
 // recieve new message
@@ -108,7 +105,7 @@ socket.on("chat", (msg) => {
 });
 // recieve new user blocked from other session
 socket.on("blocked", (msg) => {
-  console.log("recieved blocked", msg)
+  if (import.meta.env.VITE_DEBUG==='true'){console.log("info socket: recieved blocked", msg)}
   const user = store.getters['user_store/getUser']
   // the message recieved is for me? also controlled in backend
   
@@ -127,7 +124,7 @@ socket.on("blocked", (msg) => {
 });
 // recieve new user profile view 
 socket.on("viewed", (msg) => {
-  console.log("recieved view", msg)
+  if (import.meta.env.VITE_DEBUG==='true'){console.log("info socket: recieved a view. ",msg)}
   const user = store.getters['user_store/getUser']  
   if (msg.to_uuid ===  user.uuid){
     if (import.meta.env.VITE_TOAST==='true'){
@@ -147,12 +144,11 @@ socket.on("viewed", (msg) => {
 // recieve likes/unlikes
 socket.on("matched", async (msg) => {
   const user = store.getters['user_store/getUser']
-  console.log("recieve liked message from server")
+  if (import.meta.env.VITE_DEBUG==='true'){console.log("info socket: recieve liked. ", msg)}
   // the message recieved is for me? also controlled in backend
   if (msg.from_uuid ===  user.uuid || msg.to_uuid ===  user.uuid){
     if (msg.command === 'liked'){
       if (import.meta.env.VITE_TOAST==='true'){
-        console.log("liked")
         toast(msg.from_username + " give you a like", {
           autoClose: 2000,
           type: "info",
@@ -174,21 +170,20 @@ socket.on("matched", async (msg) => {
       var to = false
       var from = false
       for (i=0; i< like_list.length;i++) {
-            console.log("-X-",user.uuid,msg.from_uuid)
-            console.log("--",like_list[i].to_uuid,like_list[i].from_uuid)
+            //console.log("-X-",user.uuid,msg.from_uuid)
+            //console.log("--",like_list[i].to_uuid,like_list[i].from_uuid)
           if (like_list[i].to_uuid === user.uuid && like_list[i].from_uuid === msg.from_uuid){
-            console.log("A")
+            //console.log("A")
             to = true
           }
           if (like_list[i].from_uuid === user.uuid && like_list[i].to_uuid === msg.from_uuid){
-            console.log("B")
+            //console.log("B")
             from = true
           }
       }
       if (to && from){
         if (import.meta.env.VITE_TOAST==='true'){
-          console.log("MATCHED")
-          console.log(msg)
+          if (import.meta.env.VITE_DEBUG==='true'){console.log("info socket: recieve a MATCH",  msg)}
           const match_msg = {
             command:"match",
             to_uuid:msg.to_uuid,
@@ -208,8 +203,8 @@ socket.on("matched", async (msg) => {
       }
     }
     if (msg.command === 'unliked'){
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info socket: recieve unliked. ", msg)}
       if (import.meta.env.VITE_TOAST==='true'){
-        console.log("unliked")
         toast(msg.from_username + " give you an unlike", {
           autoClose: 2000,
           type: "info",

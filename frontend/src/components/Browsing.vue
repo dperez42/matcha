@@ -66,8 +66,8 @@
       <div class="modal-body">
         <Profile @click_on_close="toggleProfile()" 
             @click_on_chat="handleCardChat" 
-            @click_on_like="handleLikeCard" 
-            @click_on_unlike="handleUnlikeCard"
+            @click_on_like="handleCardLike" 
+            @click_on_unlike="handleCardUnlike"
             @click_on_blocked="handleBlockedCard" 
             @click_on_reported="handleReportedCard"
             :card="this.card_choosen" :user="this.user" />
@@ -142,19 +142,17 @@ export default {
     },
     // handle user chat button
     handleCardChat(payload) {
-      console.log("handleCardChat",payload);
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: Emit card chat. ",payload)}
       this.card_choosen = payload
       //alert(this.card_choosen)
       this.toggleChat()
     },
     toggleChat(){
       this.showChatModal ? this.showChatModal = false: this.showChatModal = true
-      console.log("change show Chat",this.showChatModal)
     },
     // handle user profile button
     handleCardProfile(payload) {
-      console.log("handleCardProfile",payload);
-      console.log("Emit view profile",payload);
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: Emit card view profile. ",payload)}
       const user = store.getters['user_store/getUser']
       const DateTime = moment.utc().utcOffset(+2).format("YYYY/MM/DD HH:mm:ss")
       const data = {
@@ -167,10 +165,7 @@ export default {
         timestamp: DateTime
       }  
       socket.emit('notifications',data)
-
       this.card_choosen = payload
-
-
       this.toggleProfile()
     },
     toggleProfile(){
@@ -178,8 +173,7 @@ export default {
     },
     // handle liked card
     async handleCardLike(payload) {
-      //console.log("handleCardAccepted",payload);
-      //console.log("Emit card like",payload);
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: Emit card like. ",payload)}
       const user = store.getters['user_store/getUser']
       const DateTime = moment.utc().utcOffset(+2).format("YYYY/MM/DD HH:mm:ss")
       const data = {
@@ -213,7 +207,7 @@ export default {
     },
     // handle unlike  card
     async handleCardUnlike(payload) {
-      //console.log("handleCardRejected",payload);
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: Emit card unlike. ",payload)}
       const user = store.getters['user_store/getUser']
       const DateTime = moment.utc().utcOffset(+2).format("YYYY/MM/DD HH:mm:ss")
       const data = {
@@ -232,7 +226,7 @@ export default {
     },
     // handle blocked card
     async handleBlockedCard(payload){
-      console.log("blocked card")
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: Emit card blocked. ",payload)}
       const user = store.getters['user_store/getUser']
       const DateTime = moment.utc().utcOffset(+2).format("YYYY/MM/DD HH:mm:ss")
       const data = {
@@ -255,7 +249,7 @@ export default {
     },
     // handle reported card
     handleReportedCard(payload){
-      console.log("reported card")
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: Emit card repoted. ",payload)}
       const user = store.getters['user_store/getUser']
       const DateTime = moment.utc().utcOffset(+2).format("YYYY/MM/DD HH:mm:ss")
       const data = {
@@ -344,7 +338,6 @@ export default {
         } else if (this.filter.orderId  === 4){
           order_clause = ' `rating` desc'
         }
-        //console.log("this.filter order", order_clause)
         const data = {
 									'page': this.page,
                   'limit': this.cards_left,
@@ -392,7 +385,7 @@ export default {
         });
         */
       } catch (e) {
-        console.log("herere")
+        if (import.meta.env.VITE_DEBUG==='true'){console.log("error: Getting Cards.",e)}
         this.error = true
       } finally {
         this.isLoading = false;	

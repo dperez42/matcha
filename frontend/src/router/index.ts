@@ -62,11 +62,11 @@ async function checkAuth(to, from, next){
           let enable_geolocation = true
           let coords = null
           if(!("geolocation" in navigator)) {
-            alert('Please enable Geolocation in your wroser \n')
+            if (import.meta.env.VITE_DEBUG==='true'){console.log("error: Geolocation is not enable")}
             enable_geolocation=false
           }     
           if (enable_geolocation===true){
-            console.log("Geolocation is enable")
+            if (import.meta.env.VITE_DEBUG==='true'){console.log("info: Geolocation is enable")}
             try {
               const getCoords = async () => {
               const pos = await new Promise((resolve, reject) => {
@@ -76,6 +76,7 @@ async function checkAuth(to, from, next){
                   reject(err);
                 });
               });
+              if (import.meta.env.VITE_DEBUG==='true'){console.log("info: Getting coordinates from Geolocation")}
               return {
                 long: pos.coords.longitude,
                 lat: pos.coords.latitude,
@@ -83,7 +84,7 @@ async function checkAuth(to, from, next){
               }
               coords = await getCoords();
             } catch (e){
-              console.log(e)
+              if (import.meta.env.VITE_DEBUG==='true'){console.log("error: Geolocation is not enable:"+e)}
               enable_geolocation=false
             }
             // don´t change dummy users
@@ -93,13 +94,13 @@ async function checkAuth(to, from, next){
             }
           }
           if (enable_geolocation===false){
-            console.log("Geolocation is not enable, using API")
+            if (import.meta.env.VITE_DEBUG==='true'){console.log("info: Getting coordinates from Apì")}
             const geo = await fetch('http://ip-api.com/json')
             .then(response => response.json())
             .catch (function(e){
-                  console.log(e)
-                });
-            console.log("actual coordinates",geo)
+              if (import.meta.env.VITE_DEBUG==='true'){console.log("error: Getting coordinates from Api",e)}
+            });
+            if (import.meta.env.VITE_DEBUG==='true'){console.log("info: Coordinates ",geo)}
             // don´t change dummy users
             if (response.data[0].verificated===1){
               response.data[0].latitude = geo.lat
