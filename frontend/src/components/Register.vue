@@ -169,12 +169,12 @@
 		info: false,
 		info_message: "",
 		input:{
-      email: "dpzafra70@gmail.com",
-			username: "pepe",
-      first: "aa",
-			last: "aa",
-			password: "Abc@12345",
-      passwordRepeat: "Abc@12345",
+      email: "",
+			username: "",
+      first: "",
+			last: "",
+			password: "",
+      passwordRepeat: "",
       coordinate_lon:"",
       coordinate_lat:""
 		},
