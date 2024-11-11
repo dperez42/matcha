@@ -15,7 +15,7 @@
     >
 
       <v-card-text class="py-2 white--text text-center">
-        {{ new Date().getFullYear() }} — <strong>MATCHA tehhhham</strong>
+        {{ new Date().getFullYear() }} — <strong>MATCHA. Developed by dperez-z and juan-gon </strong>
       </v-card-text>
     </v-card>
   </v-row>
