@@ -1,18 +1,12 @@
 <template>
-  <v-app>
+  <v-app id="app">
 <!-- defino la app-bar -->
     <v-app-bar v-if="this.$store.state.user_store.isAuthenticated===true"
       color="teal-darken-4"
       image="https://picsum.photos/1920/1080?random"
       class="d-flex align-center"
     >
-    <v-app-bar-title>MATCHA</v-app-bar-title>
-    <!-- crea un gradiente en la imagen -->
-    <template v-slot:image>
-        <v-img gradient="to top right, rgba(19,84,122,.8), rgba(128,208,199,.8)"></v-img>
-    </template>
-    <template v-slot:prepend>
-        <v-app-bar-nav-icon to="/">
+    <v-app-bar-nav-icon to="/">
             <v-avatar size="36px">
             <v-img
                 alt="Logo"
@@ -20,9 +14,14 @@
               ></v-img>
             </v-avatar>
         </v-app-bar-nav-icon>
+    <v-app-bar-title class="text-h5 font-weight-light  text-left pa-0 ">MATCHA</v-app-bar-title>
+    <!-- crea un gradiente en la imagen -->
+    <template v-slot:image>
+        <v-img gradient="to top right, rgba(19,84,122,.8), rgba(128,208,199,.8)"></v-img>
     </template>
+    
     <!--{{this.user!=null ? this.user.username:''}}-->
-    <v-spacer></v-spacer>
+    
           <v-badge 
             :content="this.nb_connected"
             color="black">
@@ -43,7 +42,7 @@
           <ListNotification :show="notificationPanel" :data="list_notifications" ></ListNotification>
           </v-menu>
       </v-btn>
-
+      <!--
       <v-btn to="/map">
         <v-icon>mdi-image-multiple</v-icon>
         <span>MAP</span>
@@ -56,7 +55,7 @@
         <v-icon>mdi-image-multiple</v-icon>
         <span>BROWSING</span>
       </v-btn>
-
+      -->
 
 <!-- Menu desplegable para administración usuario -->
     <template v-slot:append>
@@ -71,8 +70,29 @@
           <v-menu activator="parent">
             <v-list>
               <v-list-item >
+              <v-btn to="/map">
+              <v-icon>mdi-map-search-outline</v-icon>
+              <span>MAP</span>
+            </v-btn>
+            </v-list-item>
+            <v-list-item >
+            <v-btn to="/browsing">
+              <v-icon>mdi-heart-search</v-icon>
+              <span>BROWSING</span>
+            </v-btn>
+            </v-list-item>
+            <v-list-item >
+            <v-btn to="/gallery">
+              <v-icon>mdi-account-search-outline</v-icon>
+              <span>GALLERY</span>
+            </v-btn>
+            </v-list-item>
+            
+
+
+              <v-list-item >
                 <v-btn to="/profile" >
-                  <v-icon>mdi-account</v-icon>
+                  <v-icon>mdi-account-outline</v-icon>
                   <span>Profile</span>
                 </v-btn>
               </v-list-item>
@@ -87,11 +107,23 @@
         </v-btn>
     </template>
     </v-app-bar>
-<!-- defino la seccion de contenidos -->
-    <v-main class="d-flex align-center justify-center ma-11 pt-2" color="green">
-    <router-view/>
+<!-- defino la seccion de contenidos class="d-flex align-center justify-center ma-11 pt-2" color="green"-->
+    <v-main>
+      <v-container fluid class="ma-0 pa-0">
+        <router-view/>
+      </v-container>
     </v-main>
-    <Footer/>
+<!-- defino el footer-->
+    <v-footer app inset color="#e84c73" class="">
+      <v-row justify="center" align="center" no-gutters>
+        <v-col class="text-subtitle-2 text-center text-sm-right mt-0" cols="12" sm="6">
+          {{ new Date().getFullYear() }} — <strong>Matcha.</strong>
+        </v-col>
+         <v-col class="text-subtitle-2 text-center text-sm-left mt-0" cols="12" sm="6">
+          Develop by dperez-z and juan-gon
+        </v-col>
+      </v-row>
+    </v-footer>
   </v-app>
 </template>
 
@@ -101,7 +133,6 @@ import NotificationBell from './components/subcomponents/NotificationBell.vue'
 import ListNotification from './components/subcomponents/NotificationList.vue'
 import {socket} from './services/socket'
 import moment from 'moment'
-import Footer from './components/subcomponents/Footer.vue'
 
 
 export default {
@@ -110,7 +141,6 @@ export default {
   components: {
     NotificationBell,
     ListNotification,
-    Footer
   },
 
   data: () => ({
@@ -187,9 +217,9 @@ export default {
 </script>
 <style>
 #app {
-  max-width: 1280px;
-  background-color: red;
+  max-width: 100%;
+  text-align: center;
   padding: 0 !important;
-  margin: auto !important;
+  margin: 0 auto !important;
 }
 </style>

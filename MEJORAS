@@ -9,6 +9,11 @@
 USERS
 https://randomuser.me/api/?results=500
 
+color
+#e84c73
+#26c6da
+#ec675f
+
 GEOPOSITION
 async getLocation() {
       const geo = await fetch('http://ip-api.com/json')

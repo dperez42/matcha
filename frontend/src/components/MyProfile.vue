@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  
   <v-card 
               class="mx-auto"
               elevation="8"
@@ -386,7 +386,7 @@
           </v-col>
     </v-row>
   </v-card>
-  </v-container>
+  
   <!--pop up history--->
   <div v-if="showHistoryModal === true" class="modal_mask_history">
     <div class="modal_body" ref="element_chat" id="chat_board">

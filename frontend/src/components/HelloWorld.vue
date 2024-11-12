@@ -1,18 +1,10 @@
 <template>
-  <v-container fluid px-5>
-    <v-row justify="center">
-      <v-col cols="12" md="12">
         <v-card color="green">
           <v-card-title>Dataa</v-card-title>
-
             <ul>
               <li>{{user_data}}</li>
             </ul>
-
         </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
 </template>
 
 <script>

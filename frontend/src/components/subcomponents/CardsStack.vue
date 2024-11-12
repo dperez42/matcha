@@ -1,5 +1,4 @@
 <template>
-<v-container fluid class="">
   <v-row justify="center" class="">
     <v-col cols="6" class="pt-5">
       <SwipCard
@@ -20,8 +19,6 @@
       />
     </v-col>
   </v-row>
- 
-</v-container>
 </template>
 
 <script>

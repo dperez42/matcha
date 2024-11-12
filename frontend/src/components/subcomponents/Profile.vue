@@ -9,331 +9,337 @@
     <v-row no-gutters>
       <v-col sm="12" style="position: relative;">
   <!-- HEADER -->
-        <v-row>
-          <v-col sm="12">
-          <div class="header-container">
-            <v-card class="elevation-10 pa-5" color="#952175">
-              <v-row align="center" justify="center">
-                <v-col col="12" md="6">
-                  <v-row>
-                      <v-text-field class="text-h4 text-white text-right">
-                        {{this.card.username}} 
-                      </v-text-field >
-                  </v-row>
-                  <v-row>
-                      <v-text-field class="text-white text-right">
-                        {{this.card.first}} {{this.card.last}}, {{this.card.age}} years.
-                      </v-text-field>
+    <v-card height="10vh" class="elevation-10 pa-0 overflow-y-auto" color="#952175">
+              <v-row justify="center" class="ma-0 pa-0">
+                <v-col col="12" md="6" align="center" class="ma-0 pa-0 text-white">
+                  <v-row class="ma-0 pa-0  text-h6 text-left">
+                    <v-col col="4" md="4">
+                    {{this.card.username}} 
+                    </v-col>
                   </v-row>
                 </v-col>
-                <v-col col="12" md="6">
-                  <v-row >
-                      <v-text-field class="text-white text-right">
-                        {{this.online_check?'ON LINE':'OFF LINE: Last seen..'}}{{this.online_check?'':this.card.lastseen.substring(0,19)}}
-                      </v-text-field>
-                      <v-icon size="25" :color="this.online_check ? 'success':'error'" icon="mdi-wifi"></v-icon>
-                  </v-row>
-                  <v-row >
-                      <v-text-field class="text-white text-right">
-                       At {{parseInt(card.distance)}} kms
-                      </v-text-field>
+                <v-col col="12" md="6" class="text-right">
+                   <v-row class="text-subtitle-1">
+                     <v-icon class="position: absolute; bottom:0; left:0;"
+                          size="x-large" :color="this.online_check ? 'success':'error'" icon="mdi-wifi"></v-icon>
+                    {{this.online_check?' ON LINE ':'Last seen...'}}{{this.online_check?' At '+parseInt(card.distance)+' kms':this.card.lastseen.substring(0,19)}} 
                   </v-row>
                 </v-col>
               </v-row>
-            </v-card>
-          </div>
-          </v-col>
-        </v-row>
-  <!-- BOARD-->      
-        <v-row>
-          <v-col col="12" sm="12">
-            <div class="board-container">
-              <v-card class="elevation-10 mt-0" color="black" >
-                <v-row align="center" justify="center">
-  <!-- avatar + rating-->
-              <v-col cols="12" md="4" align="center">
-              <!-- avatar    :src="'localhost:3000/uploads/'+this.$store.state.user_store.user.avatar"-->
-                <v-row align="center" justify="center">
-                  <v-col cols="12" md="12" align="center">
-                    <v-img
-                      alt="John"
-                      width="300"
-                      cover
-                      :lazy-src="card.avatar.startsWith('https') ? card.avatar : this.$APP_SERVER_API+'/uploads/'+card.avatar"
-                      :src="card.avatar.startsWith('https') ? card.avatar : this.$APP_SERVER_API+'/uploads/'+card.avatar"
+    </v-card>
+
+  <!-- BOARD-->
+    <v-card height="70vh" color="black" class="ma-0 pa-1 overflow-y-auto">      
+
+                  <v-row align="center" justify="center">
+    <!-- avatar + rating-->
+                <v-col cols="12" md="5" align="center">
+                <!-- avatar    :src="'localhost:3000/uploads/'+this.$store.state.user_store.user.avatar"-->
+                  <v-row align="center" justify="center">
+                    <v-col cols="12" md="12" align="center">
+                      <v-img
+                        alt="John"
+                        width="300"
+                        cover
+                        :lazy-src="card.avatar.startsWith('https') ? card.avatar : this.$APP_SERVER_API+'/uploads/'+card.avatar"
+                        :src="card.avatar.startsWith('https') ? card.avatar : this.$APP_SERVER_API+'/uploads/'+card.avatar"
+                      >
+                        <template v-slot:placeholder>
+                          <v-row
+                            align="center"
+                            class="fill-height ma-0"
+                            justify="center"
+                            >
+                            <v-progress-circular
+                              color="grey-lighten-5"
+                              indeterminate
+                            ></v-progress-circular>
+                          </v-row>
+                        </template>
+                      </v-img>
+                                            
+                    </v-col>
+                  </v-row>
+                  <!-- rating -->
+                  <v-row align="center" justify="center">
+                              <v-col cols="12" sm="12" align="center">
+                              <v-rating
+                                  :length="5"
+                                  :size="32"
+                                  :model-value="parseInt(card.rating/this.$RATING)"
+                                  active-color="yellow-darken-3"
+                                  color="orange-lighten-1"
+                                  readonly
+                              />
+                              </v-col>
+                  </v-row>
+                  <!-- sexual -->
+                  <v-row>
+                      <v-col cols="5" md="5" align="center">
+                        <div class="text-caption pa-2 ">
+                          <div class="text-grey">Name</div>
+                          <div class="text-h5 font-weight-medium">{{ this.card.first }}</div>
+                        </div>                                 
+                      </v-col>
+                      <v-col cols="5" md="5" align="center">
+                        <div class="text-caption pa-2 ">
+                          <div class="text-grey">Last</div>
+                          <div class="text-h5 font-weight-medium">{{ this.card.last }}</div>
+                        </div>                                    
+                      </v-col>
+                      <v-col cols="2" md="2" align="center">
+                        <div class="text-caption pa-2 ">
+                          <div class="text-grey">Age</div>
+                          <div class="text-h5 font-weight-medium">{{ this.card.age }}</div>
+                        </div>                                    
+                      </v-col>
+                  </v-row>
+                  <!-- sexual -->
+                  <v-row>
+                      <v-col cols="6" md="6" align="center">
+                        <div class="text-caption pa-2 ">
+                          <div class="text-grey">Gender</div>
+                          <div class="text-h5 font-weight-medium">{{ card.gender }}</div>
+                        </div>                                 
+                      </v-col>
+                      <v-col cols="6" md="6" align="center">
+                        <div class="text-caption pa-2 ">
+                          <div class="text-grey">Sexual preferences</div>
+                          <div class="text-h5 font-weight-medium">{{ card.sexual }}</div>
+                        </div>                                    
+                      </v-col>
+                  </v-row>
+                </v-col>
+    <!--- pictures -->
+                <v-col cols="12" md="5" align="center">
+                  <v-row align="center" justify="center">
+                    <v-col
+                      class="d-flex child-flex"
+                      cols="6"
                     >
+                      <v-img
+                        :lazy-src="card.img1.startsWith('https') ? card.img1 : this.$APP_SERVER_API+'/uploads/'+card.img1"
+                        :src="card.img1.startsWith('https') ? card.img1 : this.$APP_SERVER_API+'/uploads/'+card.img1"
+                        aspect-ratio="1"
+                        class="bg-grey-lighten-2"
+                        cover
+                      >
                       <template v-slot:placeholder>
-                        <v-row
-                          align="center"
-                          class="fill-height ma-0"
-                          justify="center"
-                          >
-                          <v-progress-circular
-                            color="grey-lighten-5"
-                            indeterminate
-                          ></v-progress-circular>
-                        </v-row>
-                      </template>
-                    </v-img>
-                                          
-                  </v-col>
+                                    <v-row
+                                      align="center"
+                                      class="fill-height ma-0"
+                                      justify="center"
+                                    >
+                                      <v-progress-circular
+                                        color="grey-lighten-5"
+                                        indeterminate
+                                      ></v-progress-circular>
+                                    </v-row>
+                                  </template>
+                                </v-img>
+                    </v-col>
+                    <v-col
+                      class="d-flex child-flex"
+                      cols="6"
+                    >
+                      <v-img
+                        :lazy-src="card.img2.startsWith('https') ? card.img2 : this.$APP_SERVER_API+'/uploads/'+card.img2"
+                        :src="card.img2.startsWith('https') ? card.img2 : this.$APP_SERVER_API+'/uploads/'+card.img2"
+                        aspect-ratio="1"
+                        class="bg-grey-lighten-2"
+                        cover
+                      >
+                      <template v-slot:placeholder>
+                                    <v-row
+                                      align="center"
+                                      class="fill-height ma-0"
+                                      justify="center"
+                                    >
+                                      <v-progress-circular
+                                        color="grey-lighten-5"
+                                        indeterminate
+                                      ></v-progress-circular>
+                                    </v-row>
+                                  </template>
+                                </v-img>
+                    </v-col>
+                  </v-row>
+                  <v-row align="center" justify="center">
+                    <v-col
+                      class="d-flex child-flex"
+                      cols="6"
+                    >
+                      <v-img
+                        :lazy-src="card.img3.startsWith('https') ? card.img3 : this.$APP_SERVER_API+'/uploads/'+card.img3"
+                        :src="card.img3.startsWith('https') ? card.img3 : this.$APP_SERVER_API+'/uploads/'+card.img3"
+                        aspect-ratio="1"
+                        class="bg-grey-lighten-2"
+                        cover
+                      >
+                      <template v-slot:placeholder>
+                                    <v-row
+                                      align="center"
+                                      class="fill-height ma-0"
+                                      justify="center"
+                                    >
+                                      <v-progress-circular
+                                        color="grey-lighten-5"
+                                        indeterminate
+                                      ></v-progress-circular>
+                                    </v-row>
+                                  </template>
+                                </v-img>
+                    </v-col>
+                    <v-col
+                      class="d-flex child-flex"
+                      cols="6"
+                    >
+                      <v-img
+                        :lazy-src="card.img4.startsWith('https') ? card.img4 : this.$APP_SERVER_API+'/uploads/'+card.img4"
+                        :src="card.img4.startsWith('https') ? card.img4 : this.$APP_SERVER_API+'/uploads/'+card.img4"
+                        aspect-ratio="1"
+                        class="bg-grey-lighten-2"
+                        cover
+                      >
+                      <template v-slot:placeholder>
+                                    <v-row
+                                      align="center"
+                                      class="fill-height ma-0"
+                                      justify="center"
+                                    >
+                                      <v-progress-circular
+                                        color="grey-lighten-5"
+                                        indeterminate
+                                      ></v-progress-circular>
+                                    </v-row>
+                                  </template>
+                                </v-img>
+                </v-col>
+                  </v-row>                
+                </v-col>
                 </v-row>
-                <!-- rating -->
-                <v-row align="center" justify="center">
-                            <v-col cols="12" sm="12" align="center">
-                            <v-rating
-                                :length="5"
-                                :size="32"
-                                :model-value="parseInt(card.rating/this.$RATING)"
-                                active-color="yellow-darken-3"
-                                color="orange-lighten-1"
-                                readonly
-                            />
-                            </v-col>
-                </v-row>
-                <!-- sexual -->
-                <v-row>
-                    <v-col cols="12" md="6" align="center">
+      <!-- row info 4: interest-->
+          <!-- Interest -->
+                  <v-row>
+                      <v-col cols="12" md="8">
                       <div class="text-caption pa-2 ">
-                        <div class="text-grey">Gender</div>
-                        <div class="text-h5 font-weight-medium">{{ card.gender }}</div>
-                      </div>                                 
-                    </v-col>
-                    <v-col cols="12" md="6" align="center">
-                      <div class="text-caption pa-2 ">
-                        <div class="text-grey">Sexual preferences</div>
-                        <div class="text-h5 font-weight-medium">{{ card.sexual }}</div>
-                      </div>                                    
-                    </v-col>
-                </v-row>
-              </v-col>
-  <!--- pictures -->
-              <v-col cols="12" md="6" align="center">
-                <v-row align="center" justify="center">
-                  <v-col
-                    class="d-flex child-flex"
-                    cols="6"
-                  >
-                    <v-img
-                      :lazy-src="card.img1.startsWith('https') ? card.img1 : this.$APP_SERVER_API+'/uploads/'+card.img1"
-                      :src="card.img1.startsWith('https') ? card.img1 : this.$APP_SERVER_API+'/uploads/'+card.img1"
-                      aspect-ratio="1"
-                      class="bg-grey-lighten-2"
-                      cover
-                    >
-                    <template v-slot:placeholder>
-                                  <v-row
-                                    align="center"
-                                    class="fill-height ma-0"
-                                    justify="center"
-                                  >
-                                    <v-progress-circular
-                                      color="grey-lighten-5"
-                                      indeterminate
-                                    ></v-progress-circular>
-                                  </v-row>
-                                </template>
-                              </v-img>
-                  </v-col>
-                  <v-col
-                    class="d-flex child-flex"
-                    cols="6"
-                  >
-                    <v-img
-                      :lazy-src="card.img2.startsWith('https') ? card.img2 : this.$APP_SERVER_API+'/uploads/'+card.img2"
-                      :src="card.img2.startsWith('https') ? card.img2 : this.$APP_SERVER_API+'/uploads/'+card.img2"
-                      aspect-ratio="1"
-                      class="bg-grey-lighten-2"
-                      cover
-                    >
-                    <template v-slot:placeholder>
-                                  <v-row
-                                    align="center"
-                                    class="fill-height ma-0"
-                                    justify="center"
-                                  >
-                                    <v-progress-circular
-                                      color="grey-lighten-5"
-                                      indeterminate
-                                    ></v-progress-circular>
-                                  </v-row>
-                                </template>
-                              </v-img>
-                  </v-col>
-                </v-row>
-                <v-row align="center" justify="center">
-                  <v-col
-                    class="d-flex child-flex"
-                    cols="6"
-                  >
-                    <v-img
-                      :lazy-src="card.img3.startsWith('https') ? card.img3 : this.$APP_SERVER_API+'/uploads/'+card.img3"
-                      :src="card.img3.startsWith('https') ? card.img3 : this.$APP_SERVER_API+'/uploads/'+card.img3"
-                      aspect-ratio="1"
-                      class="bg-grey-lighten-2"
-                      cover
-                    >
-                    <template v-slot:placeholder>
-                                  <v-row
-                                    align="center"
-                                    class="fill-height ma-0"
-                                    justify="center"
-                                  >
-                                    <v-progress-circular
-                                      color="grey-lighten-5"
-                                      indeterminate
-                                    ></v-progress-circular>
-                                  </v-row>
-                                </template>
-                              </v-img>
-                  </v-col>
-                  <v-col
-                    class="d-flex child-flex"
-                    cols="6"
-                  >
-                    <v-img
-                      :lazy-src="card.img4.startsWith('https') ? card.img4 : this.$APP_SERVER_API+'/uploads/'+card.img4"
-                      :src="card.img4.startsWith('https') ? card.img4 : this.$APP_SERVER_API+'/uploads/'+card.img4"
-                      aspect-ratio="1"
-                      class="bg-grey-lighten-2"
-                      cover
-                    >
-                    <template v-slot:placeholder>
-                                  <v-row
-                                    align="center"
-                                    class="fill-height ma-0"
-                                    justify="center"
-                                  >
-                                    <v-progress-circular
-                                      color="grey-lighten-5"
-                                      indeterminate
-                                    ></v-progress-circular>
-                                  </v-row>
-                                </template>
-                              </v-img>
-              </v-col>
-                </v-row>                
-              </v-col>
-              </v-row>
-    <!-- row info 4: interest-->
-        <!-- Interest -->
-                <v-row>
-                    <v-col cols="12" md="8">
-                    <div class="text-caption pa-2 ">
-                        <div class="text-grey">Biography</div>
-                        <div class="text-h6 font-weight-medium">
-                          <p>{{ card.bio}}</p>
-                        </div>
-                      </div>       
-                    </v-col>
-                    <v-col cols="12" md="4">
-                      <div class="text-caption pa-2 ">
-                          <v-combobox
-                            v-model="tags"
-                            label="Tags"
-                            multiple
-                            chips
-                            readonly
-                          >
-                          </v-combobox>
-                      </div>     
-                    </v-col>
-                </v-row>          
-              </v-card>             
-              
-           
-            </div>
-          </v-col>
-        </v-row>
-  <!-- CHAT ACTIONS -->
-        <v-row align="center" justify="center">
-            <v-tooltip text="Report Fake Account" location="top">
-            <template v-slot:activator="{ props } "> 
-            <v-btn v-bind="props"
-              v-on:click.prevent = "onClickReported" 
-              elevation="8"
-              color="black"
-              icon="mdi-account-alert"
-              size="small"
-              alt="report"
-            ></v-btn>
-            </template>
-            </v-tooltip> 
-            <v-tooltip text="Block User" location="top">
-            <template v-slot:activator="{ props } "> 
-            <v-btn v-bind="props"
-              v-on:click.prevent = "onClickBlocked"
-              class="ma-1" 
-              elevation="8"
-              color="red"
-              icon="mdi-cancel"
-              size="small"
-            ></v-btn>
-            </template>
-            </v-tooltip>    
-            <v-tooltip text="Unlike" location="top">
-            <template v-slot:activator="{ props } "> 
-            <v-btn v-bind="props"
-              v-if="this.to_like_check && !this.from_like_check"
-              class="ma-1"
-              elevation="8"
-              color="red"
-              icon="mdi-heart"
-              size="small"
-              v-on:click.prevent = "onClickUnLike" 
-            ></v-btn>
-            </template>
-            </v-tooltip>
-            <v-tooltip text="Like" location="top">
-            <template v-slot:activator="{ props } "> 
-            <v-btn v-bind="props"
-              v-if="!this.to_like_check"
-              color="white"
-              icon="mdi-heart"
-              size="small"
-              v-on:click.prevent = "onClickLike" 
-            ></v-btn>
-            </template>
-            </v-tooltip>
-            <v-tooltip text="Unlike" location="top">
-            <template v-slot:activator="{ props } "> 
-            <v-btn v-bind="props"
-              v-if="this.to_like_check && this.from_like_check"
-              class="ma-1"
-              elevation="8"
-              color="orange darken-2"
-              icon="mdi-infinity"
-              size="large"
-              v-on:click.prevent = "onClickUnLike" 
-            ></v-btn>
-            </template>
-            </v-tooltip>
-            <v-tooltip text="Unlike" location="top">
-            <template v-slot:activator="{ props } ">
-            <v-btn v-bind="props"
-              class="ma-1"
-                elevation="8"
-                :color="this.from_like_check && this.to_like_check ? 'success':'grey'"
-                icon="mdi-chat"
-                size="small"
-                :disabled="!(this.from_like_check && this.to_like_check)"
-                v-on:click.prevent = "onClickChat"    
-            ></v-btn>   
-            </template>
-            </v-tooltip>
+                          <div class="text-grey">Biography</div>
+                          <div class="text-h6 font-weight-medium">
+                            <p>{{ card.bio}}</p>
+                          </div>
+                        </div>       
+                      </v-col>
+                      <v-col cols="12" md="4">
+                        <div class="text-caption pa-2 ">
+                            <v-combobox
+                              v-model="tags"
+                              label="Tags"
+                              multiple
+                              chips
+                              readonly
+                            >
+                            </v-combobox>
+                        </div>     
+                      </v-col>
+                  </v-row>          
+                            
+                
             
-            <v-tooltip text="Unlike" location="top">
-            <template v-slot:activator="{ props } ">
-            <v-btn v-bind="props"
-              size="small" elevation="8"
-              class="ma-1"
-              color="purple"
-              icon="mdi-location-exit"
-              @click.prevent="onProfileClose"
-            ></v-btn>
-            </template>
-            </v-tooltip>
-        </v-row>  
+             
+    </v-card>
+  <!-- PROFILE ACTIONS -->
+    <v-card height="8vh" color="#952175">
+          <v-row class="ma-0 pa-0" align="center" justify="center">
+              <v-tooltip text="Report Fake Account" location="top">
+              <template v-slot:activator="{ props } "> 
+              <v-btn v-bind="props"
+                v-on:click.prevent = "onClickReported" 
+                class="ma-1"
+                elevation="8"
+                color="black"
+                icon="mdi-account-alert"
+                size="small"
+                alt="report"
+              ></v-btn>
+              </template>
+              </v-tooltip> 
+              <v-tooltip text="Block User" location="top">
+              <template v-slot:activator="{ props } "> 
+              <v-btn v-bind="props"
+                v-on:click.prevent = "onClickBlocked"
+                class="ma-1" 
+                elevation="8"
+                color="red"
+                icon="mdi-cancel"
+                size="small"
+              ></v-btn>
+              </template>
+              </v-tooltip>    
+              <v-tooltip text="Unlike" location="top">
+              <template v-slot:activator="{ props } "> 
+              <v-btn v-bind="props"
+                v-if="this.to_like_check && !this.from_like_check"
+                class="ma-1"
+                elevation="8"
+                color="red"
+                icon="mdi-heart"
+                size="small"
+                v-on:click.prevent = "onClickUnLike" 
+              ></v-btn>
+              </template>
+              </v-tooltip>
+              <v-tooltip text="Like" location="top">
+              <template v-slot:activator="{ props } "> 
+              <v-btn v-bind="props"
+                v-if="!this.to_like_check"
+                class="ma-1"
+                color="white"
+                icon="mdi-heart"
+                size="small"
+                v-on:click.prevent = "onClickLike" 
+              ></v-btn>
+              </template>
+              </v-tooltip>
+              <v-tooltip text="Unlike" location="top">
+              <template v-slot:activator="{ props } "> 
+              <v-btn v-bind="props"
+                v-if="this.to_like_check && this.from_like_check"
+                class="ma-1"
+                elevation="8"
+                color="orange darken-2"
+                icon="mdi-infinity"
+                size="large"
+                v-on:click.prevent = "onClickUnLike" 
+              ></v-btn>
+              </template>
+              </v-tooltip>
+              <v-tooltip text="Unlike" location="top">
+              <template v-slot:activator="{ props } ">
+              <v-btn v-bind="props"
+                class="ma-1"
+                  elevation="8"
+                  :color="this.from_like_check && this.to_like_check ? 'success':'grey'"
+                  icon="mdi-chat"
+                  size="small"
+                  :disabled="!(this.from_like_check && this.to_like_check)"
+                  v-on:click.prevent = "onClickChat"    
+              ></v-btn>   
+              </template>
+              </v-tooltip>
+              
+              <v-tooltip text="Unlike" location="top">
+              <template v-slot:activator="{ props } ">
+              <v-btn v-bind="props"
+                size="small" elevation="8"
+                class="ma-1"
+                color="purple"
+                icon="mdi-location-exit"
+                @click.prevent="onProfileClose"
+              ></v-btn>
+              </template>
+              </v-tooltip>
+          </v-row>  
+    </v-card>
       </v-col>
     </v-row>
 </v-container>
@@ -613,8 +619,6 @@ export default {
     height: calc(100vh - 15rem);
     overflow-y: auto;
     padding: 0px 0px 0px 0px ;
-    background-image: url("../../assets/background_board.png");
-    background-size: cover;
   }
 
 </style>

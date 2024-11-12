@@ -1,13 +1,11 @@
 <template>
-  <v-container flex>
-    <v-card class="mx-auto my-5 pa-0"
+    <v-card class="mx-auto my-0 pa-0"
     color="primary"
     elevation="16"
     width="100vw"
     height="100vh">
         <mymap :user="user_data" @click_on_profile="handleCardProfile"/>
     </v-card>
-  </v-container>
 <!--pop up chat--->
   <div v-if="showChatModal === true" class="modal_mask_chat">
     <div class="modal_body" ref="element_chat" id="chat_board">
@@ -56,6 +54,9 @@ import {socket} from '../services/socket'
 import Profile from './subcomponents/Profile.vue'
 import { toast } from 'vue3-toastify';
 import Chat from './subcomponents/Chat.vue'
+import "leaflet/dist/leaflet.css";
+import * as L from 'leaflet';
+
 export default {
   name: 'HelloWorld',
   components: {
@@ -101,7 +102,20 @@ export default {
       const response = await axios.post("/cards", data1,axiosConfig)
       if (import.meta.env.VITE_DEBUG==='true'){console.log("info: Loaded card",response)}
       this.card_choosen = response.data[0]
-      // Create msg for notification
+    // calculate distance ang Age
+      var firstDate = moment(this.card_choosen.date, 'YYYY-MM-DD')
+      var sDate = moment.utc().utcOffset(+2).format("YYYY/MM/DD")
+      var secondDate = moment(sDate, 'YYYY-MM-DD')
+      var duration = moment.duration(secondDate.diff(firstDate));
+      var years = duration.asYears(); 
+      this.card_choosen.age = parseInt(years) 
+    // calculate distance
+      var markerFrom = L.marker([this.card_choosen.latitude,this.card_choosen.longitude])
+      var markerTo = L.marker([this.user_data.latitude,this.user_data.longitude])
+      var from = markerFrom.getLatLng();
+      var to = markerTo.getLatLng();
+      this.card_choosen.distance= (from.distanceTo(to)).toFixed(0)/1000
+    // Create msg for notification
       const DateTime = moment.utc().utcOffset(+2).format("YYYY/MM/DD HH:mm:ss")
       const profile_msg = {
         command:  'viewed',

@@ -1,49 +1,52 @@
 <template>
-	<v-container fluid class="flex-container">
-    <v-row justify="center"  >
-      <v-col cols="12" sm="5">
-        <v-card 
-          class="ma-auto pa-3 overflow-y-auto"
-          elevation="8"
-          height= "80vh"
-          rounded="lg"
-          color="green" 
-        >
-          <ResearchFilter :filter=this.filter @filter="filter_query" @filter_reset="filter_reset"></ResearchFilter>
-        </v-card>
-      </v-col>
-      <v-col cols="12" sm="7" >
-        <v-card 
-          class="ma-auto pa-3"
-          elevation="8"
-          height= "80vh"
-          rounded="lg"
-          color="green" 
-        >
-      <div v-if="isLoading" class="loading">
-      LOADING NEW MATES
-      </div> 
-      <div v-else >
-        <!--{{this.cards.data}} _USfUAffRIOS-->
-        <v-list max-height="80vh" class="overflow-y-auto list1" @scroll="onScroll">
-          
-          <v-list-item class="ma-0 pa-0" 
-            v-for="card in cards.data"
-            :key="card.uuid"
+  <v-card class="mx-auto my-0 pa-1"
+      color="primary"
+      elevation="16"
+      width="100vw">
+      <v-row justify="top"  >
+        <v-col cols="12" sm="5">
+          <v-card 
+            class="ma-auto pa-3 overflow-y-auto"
+            elevation="8"
+            rounded="lg"
+            color="green" 
           >
-          <Card :card="card" class="ma-2 pa-0"
-            @click_on_chat="handleCardChat" @click_on_profile="handleCardProfile"
-            @click_on_like="handleLikeCard" @click_on_unlike="handleUnlikeCard"
-            @click_on_blocked="handleBlockedCard" 
-            @click_on_reported="handleReportedCard"
-          />
-          </v-list-item>
-        </v-list> 
-      </div>
-      </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+            <ResearchFilter :filter=this.filter @filter="filter_query" @filter_reset="filter_reset"></ResearchFilter>
+          </v-card>
+        </v-col>
+        <v-col cols="12" sm="7" >
+          <v-card 
+            class="ma-0 pa-0"
+            elevation="8"
+            rounded="lg"
+            color="green" 
+          >
+          <div v-if="isLoading">
+          LOADING NEW MATES... wait
+          </div>
+          <div v-if ="error">
+          {{error_message}}
+          </div> 
+          <div v-if ="isLoading===false && error===false" >
+            <!--{{this.cards.data}} _USfUAffRIOS-->
+            <v-list max-height="83vh" class="overflow-y-auto bg-black ma-0" @scroll="onScroll">
+              <v-list-item class="ma-0 pa-0" 
+                v-for="card in cards.data"
+                :key="card.uuid"
+              >
+              <Card :card="card" class="ml-1 mr-1 mt-1 pa-0"
+                @click_on_chat="handleCardChat" @click_on_profile="handleCardProfile"
+                @click_on_like="handleLikeCard" @click_on_unlike="handleUnlikeCard"
+                @click_on_blocked="handleBlockedCard" 
+                @click_on_reported="handleReportedCard"
+              />
+              </v-list-item>
+            </v-list> 
+          </div>
+        </v-card>
+        </v-col>
+      </v-row>
+  </v-card>
   <!--pop up chat--->
   <div v-if="showChatModal === true" class="modal_mask_chat">
     <div class="modal_body" ref="element_chat" id="chat_board">
@@ -111,6 +114,7 @@ export default {
       user: null,
 			isLoading: true, // Toggles the loading overlay
 			error: false,
+      error_message: "",
 			cards: { data: null, index: 0, max: 15 },
 			cards_left: 15,
 			card_choosen: null,
@@ -280,7 +284,8 @@ export default {
       socket.emit('notifications',data)
     },
     // get cards data
-    async getData() {       
+    async getData() {  
+      this.error=false     
       const { cards } = this;
       cards.data = null;
       try {
@@ -357,6 +362,10 @@ export default {
           this.cards.data = response.data;
           this.cards.index = 0;
           this.isLoading = false;	
+          if (this.cards.data.length===0){
+            this.error=true
+            this.error_message = "Oops.... no mates found. Try a new search."
+          }
           //console.log("new data", this.cards.data)
         // Get a random list of people from web
         /*
@@ -380,6 +389,7 @@ export default {
       } catch (e) {
         if (import.meta.env.VITE_DEBUG==='true'){console.log("error: getting cards: ",e)}
         this.error = true
+        this.error_message = "Oops.... Something happen in server. Try Later"
       } finally {
         this.isLoading = false;	
       }
@@ -422,6 +432,7 @@ export default {
         } catch (e) {
           if (import.meta.env.VITE_DEBUG==='true'){console.log("error: getting cards: ",e)}
           this.error = true
+          this.error_message = "Oops.... Something happen in server. Try Later"
         } finally {
           this.isLoading = false;	
         }
@@ -517,9 +528,9 @@ export default {
 .modal_body{
   /*position: absolute;
   inset: 50px;*/
-  width: 90%;
-  height: 90%;
-  margin: 20px auto 20px auto;
+  width: 95vw;
+	height: 90vh;
+  margin: 10px auto auto auto;
   padding: 10px 10px;
   background-color: rgb(163, 158, 158);
   border-radius: 12px;

@@ -1,6 +1,12 @@
 <template>
-  <h3>An interactive MATCHA map</h3>
-  <div id="map" style=""></div>
+<div v-if="isLoading">
+          LOADING DATA .... wait
+          </div>
+          <div v-if ="error">
+          {{error_message}}
+          </div> 
+          <div id="map" v-if ="isLoading===false && error===false" >
+          </div>
 </template>
 
 <script>
@@ -8,7 +14,6 @@ import "leaflet/dist/leaflet.css";
 import * as L from 'leaflet';
 import store from '../../store/index'
 import axios from "axios"
-import { useGeolocation } from "@vueuse/core";
 import CardMap from "./CardMap.vue"
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
@@ -45,7 +50,8 @@ export default {
   },
   methods:{
     // get data
-    async getData() {       
+    async getData() {  
+      this.error = false   
       try {
         this.isLoading = true;
         if (import.meta.env.VITE_DEBUG==='true'){
@@ -79,10 +85,10 @@ export default {
             console.log("error: getting users: ",e)
           }
           this.error = true
+          this.error_message = "Oops.... Something happen in server. Try Later"
         } finally {
           this.isLoading = false;	
         }
-        
 	  },
     myfunction(e){
         var uuid = e.layer.properties.uuid;

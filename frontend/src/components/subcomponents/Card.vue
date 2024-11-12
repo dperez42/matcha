@@ -1,138 +1,142 @@
 <template>
-<v-container fluid>
-            <v-card v-if="this.blocked_check===false" class="align-top mr-4 text-white"
+            <v-card v-if="this.blocked_check===false" class="align-top mr-0 text-white"
               color="rgba(167, 26, 64, 0.9)"
               > 
-            <v-row class="pa-1" align="center" justify="center">
-              <v-col col =12 md="6">
-                <v-avatar class="ma-0 pa-0 " rounded="0" size="200">
-                  <v-img :src="card.avatar.startsWith('https') ? card.avatar : this.$APP_SERVER_API+'/uploads/'+card.avatar"
-                      height="300px"
-                      with="300px"
-                      class="ma-0 pa-0 align-end text-white"
-                  >        
+              <v-row class="pa-1" align="center" justify="center">
+                <v-col col =12 md="6">
+                  <v-avatar class="ma-0 pa-0 " rounded="0" size="200">
+                    <v-img :src="card.avatar.startsWith('https') ? card.avatar : this.$APP_SERVER_API+'/uploads/'+card.avatar"
+                        height="300px"
+                        with="300px"
+                        class="ma-0 pa-0 align-end text-white"
+                    >        
+                    <v-rating class="pa-2"
+                          :length="5"
+                          :size="25"
+                          :model-value="parseInt(card.rating/this.$RATING)"
+                          active-color="yellow-darken-3"
+                            color="orange-lighten-1"
+                            readonly
+                      />    
+                    </v-img>
+                  </v-avatar>
+                </v-col>
+                <v-col col =12 md="6">
+                  <v-row class="pa-1 text-h5 font-weight-bold" align="center" justify="center">
+                    {{card.username}}
+                  </v-row> 
+                  <v-row class="pa-1 text-subtitle-2 font-weight-light" align="center" justify="center">
+                    <v-col col =12 xs="6" class="text-md-right">
+                      At {{parseInt(card.distance)}} kms 
+                    </v-col>
+                    <v-col col =12 xs="6" class="text-md-left">
+                      age :{{card.age}} 
+                    </v-col>
+                  </v-row> 
+                  <v-row class="pa-1 text-subtitle-2 text-md-center font-weight-light" align="center" justify="center">
                     <v-icon class="position: absolute; bottom:0; left:0;"
-                        size="x-large" :color="this.online_check ? 'success':'error'" icon="mdi-wifi"></v-icon>
-                    <v-rating 
-                        :length="5"
-                        :size="15"
-                        :model-value="parseInt(card.rating/this.$RATING)"
-                        active-color="yellow-darken-3"
-                          color="orange-lighten-1"
-                          readonly
-                    />    
-                  </v-img>
-                </v-avatar>
-              </v-col>
-              <v-col col =12 md="6">
-                <v-row class="pa-2 text-h5 font-weight-bold" align="center" justify="center">
-                  {{card.username}}
-                 </v-row> 
-                <v-row class="pa-2 text-subtitle-2 font-weight-light" align="center" justify="center">
-                  distance: {{parseInt(card.distance)}} kms , age :{{card.age}} 
-                 </v-row> 
-                 <v-row class="pa-1 text-subtitle-2 font-weight-light" align="center" justify="center">
-                   {{this.online_check?'ON LINE':'OFF LINE, Last seen...'}}
-                 </v-row>
-                 <v-row v-if="!this.online_check" class="pa-1 text-subtitle-2 font-weight-light" align="center" justify="center">
-                   {{this.online_check?'':this.card.lastseen.substring(0,19)}}
-                 </v-row>
-              </v-col>
-            </v-row>
-<!--- bottons actions --->
-              <v-spacer></v-spacer>
-              <v-row class="pa-4" align="center" justify="center">
-                <v-tooltip text="Report Fake Account" location="top">
-                <template v-slot:activator="{ props } "> 
-                <v-btn v-bind="props"
-                  v-on:click.prevent = "onClickReported" 
-                  class="ma-1"
-                  elevation="8"
-                  color="black"
-                  icon="mdi-account-alert"
-                  size="small"
-                  alt="report"
-                ></v-btn>
-                </template>
-                </v-tooltip> 
-                <v-tooltip text="Block User" location="top">
-                <template v-slot:activator="{ props } "> 
-                <v-btn v-bind="props"
-                  v-on:click.prevent = "onClickBlocked" 
-                  class="ma-1"
-                  elevation="8"
-                  color="red"
-                  icon="mdi-cancel"
-                  size="small"
-                ></v-btn>
-                </template>
-                </v-tooltip>            
-                <v-tooltip text="Unlike" location="top">
-                <template v-slot:activator="{ props } "> 
-                <v-btn v-bind="props"
-                  v-if="this.to_like_check && !this.from_like_check"
-                  class="ma-1"
-                  elevation="8"
-                  color="red"
-                  icon="mdi-heart"
-                  size="small"
-                  v-on:click.prevent = "onClickUnLike" 
-                ></v-btn>
-                </template>
-                </v-tooltip>
-                <v-tooltip text="Like" location="top">
-                <template v-slot:activator="{ props } "> 
-                <v-btn v-bind="props"
-                  v-if="!this.to_like_check"
-                  class="ma-1"
-                  color="white"
-                  icon="mdi-heart"
-                  size="small"
-                  v-on:click.prevent = "onClickLike" 
-                ></v-btn>
-                </template>
-                </v-tooltip>
-                <v-tooltip text="Unlike" location="top">
-                <template v-slot:activator="{ props } "> 
-                <v-btn v-bind="props"
-                  v-if="this.to_like_check && this.from_like_check"
-                  class="ma-1"
-                  elevation="8"
-                  color="orange darken-2"
-                  icon="mdi-infinity"
-                  size="large"
-                  v-on:click.prevent = "onClickUnLike" 
-                ></v-btn>
-                </template>
-                </v-tooltip>
-                <v-tooltip text="Profile" location="top">
-                <template v-slot:activator="{ props } "> 
+                          size="x-large" :color="this.online_check ? 'success':'error'" icon="mdi-wifi"></v-icon>
+                    
+                    {{this.online_check?'ON LINE':'OFF LINE, Last seen...'}}
+                  </v-row>
+                  <v-row v-if="!this.online_check" class="pa-1 text-subtitle-2 font-weight-light" align="center" justify="center">
+                    {{this.online_check?'':this.card.lastseen.substring(0,19)}}
+                  </v-row>
+                </v-col>
+              </v-row>
+  <!--- bottons actions --->
+                <v-spacer></v-spacer>
+                <v-row class="pa-4" align="center" justify="center">
+                  <v-tooltip text="Report Fake Account" location="top">
+                  <template v-slot:activator="{ props } "> 
                   <v-btn v-bind="props"
-                    class="ma-1 text-white"
-                    elevation="8"
-                    color="#4ABDE1"
-                    icon="mdi-face-man-profile"
-                    size="small"
-                    v-on:click.prevent = "onClickProfile" 
-                  ></v-btn>
-                </template>
-                </v-tooltip>
-                <v-tooltip text="Chat" location="top">
-                <template v-slot:activator="{ props } "> 
-                  <v-btn v-bind="props"
+                    v-on:click.prevent = "onClickReported" 
                     class="ma-1"
                     elevation="8"
-                    :color="this.from_like_check && this.to_like_check ? 'success':'grey'"
-                    icon="mdi-chat"
-                    :disabled="!(this.from_like_check && this.to_like_check)"
+                    color="black"
+                    icon="mdi-account-alert"
                     size="small"
-                    v-on:click.prevent = "onClickChat"    
+                    alt="report"
                   ></v-btn>
-                </template>
-                </v-tooltip>
-              </v-row>
+                  </template>
+                  </v-tooltip> 
+                  <v-tooltip text="Block User" location="top">
+                  <template v-slot:activator="{ props } "> 
+                  <v-btn v-bind="props"
+                    v-on:click.prevent = "onClickBlocked" 
+                    class="ma-1"
+                    elevation="8"
+                    color="red"
+                    icon="mdi-cancel"
+                    size="small"
+                  ></v-btn>
+                  </template>
+                  </v-tooltip>            
+                  <v-tooltip text="Unlike" location="top">
+                  <template v-slot:activator="{ props } "> 
+                  <v-btn v-bind="props"
+                    v-if="this.to_like_check && !this.from_like_check"
+                    class="ma-1"
+                    elevation="8"
+                    color="red"
+                    icon="mdi-heart"
+                    size="small"
+                    v-on:click.prevent = "onClickUnLike" 
+                  ></v-btn>
+                  </template>
+                  </v-tooltip>
+                  <v-tooltip text="Like" location="top">
+                  <template v-slot:activator="{ props } "> 
+                  <v-btn v-bind="props"
+                    v-if="!this.to_like_check"
+                    class="ma-1"
+                    color="white"
+                    icon="mdi-heart"
+                    size="small"
+                    v-on:click.prevent = "onClickLike" 
+                  ></v-btn>
+                  </template>
+                  </v-tooltip>
+                  <v-tooltip text="Unlike" location="top">
+                  <template v-slot:activator="{ props } "> 
+                  <v-btn v-bind="props"
+                    v-if="this.to_like_check && this.from_like_check"
+                    class="ma-1"
+                    elevation="8"
+                    color="orange darken-2"
+                    icon="mdi-infinity"
+                    size="large"
+                    v-on:click.prevent = "onClickUnLike" 
+                  ></v-btn>
+                  </template>
+                  </v-tooltip>
+                  <v-tooltip text="Profile" location="top">
+                  <template v-slot:activator="{ props } "> 
+                    <v-btn v-bind="props"
+                      class="ma-1 text-white"
+                      elevation="8"
+                      color="#4ABDE1"
+                      icon="mdi-face-man-profile"
+                      size="small"
+                      v-on:click.prevent = "onClickProfile" 
+                    ></v-btn>
+                  </template>
+                  </v-tooltip>
+                  <v-tooltip text="Chat" location="top">
+                  <template v-slot:activator="{ props } "> 
+                    <v-btn v-bind="props"
+                      class="ma-1"
+                      elevation="8"
+                      :color="this.from_like_check && this.to_like_check ? 'success':'grey'"
+                      icon="mdi-chat"
+                      :disabled="!(this.from_like_check && this.to_like_check)"
+                      size="small"
+                      v-on:click.prevent = "onClickChat"    
+                    ></v-btn>
+                  </template>
+                  </v-tooltip>
+                </v-row>
           </v-card>
-</v-container>
 </template>
 
 <script>

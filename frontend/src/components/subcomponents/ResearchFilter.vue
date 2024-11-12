@@ -1,5 +1,4 @@
 <template>
-<v-container>
   <v-row align="center" justify="center" >
     <v-col cols="12" sm="12">
       <v-row class="pt-9">
@@ -18,7 +17,7 @@
           <template v-slot:append>
             <v-btn 
               @click.prevent = "emit_orderby(1)"
-              :color="this.orderId === 1 ? 'success':'grey'"
+              :color="this.orderId === 1 ? '#e84c73':'grey'"
               size="x-small"
               :icon="'mdi-order-alphabetical-ascending'"
             />
@@ -42,7 +41,7 @@
           <template v-slot:append>
             <v-btn 
               @click.prevent = "emit_orderby(2)"
-              :color="this.orderId === 2 ? 'success':'grey'"
+              :color="this.orderId === 2 ? '#e84c73':'grey'"
               size="x-small"
               :icon="'mdi-order-alphabetical-ascending'"
             >
@@ -67,7 +66,7 @@
             <v-btn 
               @click.prevent = "emit_orderby(3)"
               size="x-small"
-              :color="this.orderId === 3 ? 'success':'grey'"
+              :color="this.orderId === 3 ? '#e84c73':'grey'"
               :icon="'mdi-order-alphabetical-ascending'"
             >
             </v-btn>
@@ -90,7 +89,7 @@
           <template v-slot:append>
             <v-btn 
               @click.prevent = "emit_orderby(4)"
-              :color="this.orderId === 4 ? 'success':'grey'"
+              :color="this.orderId === 4 ? '#e84c73':'grey'"
               size="x-small"
               :icon="'mdi-order-alphabetical-ascending'"
             >
@@ -141,7 +140,7 @@
                   v-on:click.prevent = "emit_query" 
                   class="mx-4"
                   elevation="8"
-                  color="green"
+                  color="#e84c73"
                   icon="mdi-magnify"
                   size="small"
                   alt="Search"
@@ -151,9 +150,7 @@
       </v-row>
     </v-col>
   </v-row>
-</v-container>
 </template>
-
 <script lang="ts">
 
 // https://github.com/NightCatSama/vue-slider-component/blob/master/src/examples/components-slots.ts
