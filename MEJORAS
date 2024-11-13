@@ -65,3 +65,12 @@ https://medium.com/@smhabibjr/implement-an-interactive-map-in-the-vue-js-8a86501
 https://github.com/mohitkumartoshniwal/vue-topics/blob/main/vue-leaflet/src/components/Map.vue
 https://www.wrld3d.com/wrld.js/latest/docs/examples/adding-a-leaflet-circle/
 https://www.unigis.es/agrupacion-de-marcadores-clustering-leaflet/
+
+
+Segurizar docker node-nginx-let´script:
+
+https://www.digitalocean.com/community/tutorials/how-to-secure-a-containerized-node-js-application-with-nginx-let-s-encrypt-and-docker-compose
+
+How to build and run a Node.js application using Nginx, Docker and Redis
+
+https://redis.io/learn/operate/docker/nodejs-nginx-redis

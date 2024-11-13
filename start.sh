@@ -71,9 +71,12 @@ echo "${Green} your ip: $1 ${Nc}";
 echo "${Green} your BREVO user: $2 ${Nc}";
 echo "${Green} your BREVO key: $3 ${Nc}";
 echo "${Green} Debug mode: $4 ${Nc}";
+
+ips=$(ifconfig|grep "inet "|grep -v 127.0.0.1) 
 # Argument validation check
 if [ "$#" -ne 4 ]; then
     echo "${Red} Usage: $0 <xx.yy.zz.nn> <BREVO-user = xx..xx@smtp-brevo.com> <BREVO_key = Uxbnsd...N> <debug mode=true/false>${Nc}"
+    echo "Your ip:$ips"
     exit 1
 fi
 echo "${Yellow} Changing .env in frontend...${Nc}"

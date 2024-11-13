@@ -176,12 +176,10 @@ async function checkAuth(to, from, next){
           console.log(err)
           next("/login");
         }  
-      
-      
-      
-      
       }
-    } else {
+      next()
+  } 
+  else {
     if (import.meta.env.VITE_DEBUG==='true'){
       console.log("error: you don´t have a valid matcha_token")
     }
@@ -198,7 +196,7 @@ async function checkAuth(to, from, next){
     store.commit("tags_store/delTags")           // delete tags_store
     next("/login")
   }
-  next()
+  //next()
 }
 /// profile completed
 function checkProfile(to, from, next){

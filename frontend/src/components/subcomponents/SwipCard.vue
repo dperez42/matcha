@@ -568,14 +568,13 @@ export default {
 
 <style lang="scss" scoped>
 @mixin _position($position, $args) {
-    @each $dir in top, left, bottom, right {
-      $i: index($args, $dir);
   
+    @each $dir in top, left, bottom, right {
+      $i: index($args, $dir); 
       @if $i {
         #{$dir}: nth($args, $i + 1);
       }
     }
-  
     position: $position;
   }
   
