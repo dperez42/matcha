@@ -1,4 +1,9 @@
 <template>
+<v-card class="mx-auto my-0 pa-0 overflow-y-auto"
+    color="black"
+    elevation="16"
+    width="100vw"
+    height="100vh">
   <v-container>
     <v-img
       class="mx-auto mt-0 mb-2"
@@ -15,14 +20,14 @@
             >
             <v-card-title class="text-h5 font-weight-bold mx-auto pb-1">RECOVERY</v-card-title>
             <v-form ref="form">
-            <v-text-field
-              v-model="input.email"
-              :rules="emailRules"
-              density="compact"
-              placeholder="Email"
-              prepend-inner-icon="mdi-email"
-              variant="outlined"
-            ></v-text-field>
+              <v-text-field
+                v-model="input.email"
+                :rules="emailRules"
+                density="compact"
+                placeholder="Email"
+                prepend-inner-icon="mdi-email"
+                variant="outlined"
+              ></v-text-field>
             </v-form>
             <v-btn
                 v-on:click.prevent = "passwordRecovery()" 
@@ -50,6 +55,7 @@
             </v-card-text>
     </v-card> 
   </v-container>
+</v-card>
 </template>
 
 <script>

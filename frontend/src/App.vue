@@ -109,7 +109,7 @@
     </v-app-bar>
 <!-- defino la seccion de contenidos class="d-flex align-center justify-center ma-11 pt-2" color="green"-->
     <v-main>
-      <v-container fluid class="ma-0 pa-0">
+      <v-container fluid class="ma-0 pa-0 bg-black">
         <router-view/>
       </v-container>
     </v-main>

@@ -1,4 +1,8 @@
 <template>
+<v-card class="mx-auto my-0 pa-0 overflow-y-auto"
+    color="black"
+    elevation="16"
+    width="100vw">
   <v-container>
     <v-img
               class="mx-auto mt-0 mb-2"
@@ -148,6 +152,7 @@
     </v-card>
     </v-form>
   </v-container>
+</v-card>
 </template>
 
 

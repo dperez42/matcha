@@ -1,5 +1,10 @@
 <template>
-        <v-card
+<v-card class="mx-auto my-0 pa-0"
+    color="black"
+    elevation="16"
+    width="100vw"
+    height="100vh">
+  <v-card
     class="mx-auto mt-10"
     max-width="600"
   >
@@ -9,27 +14,37 @@
       src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
       cover
     >
-      <v-card-title>Top 10 Australian beaches</v-card-title>
+      <v-card-title>Wellcome, {{this.user.username}}</v-card-title>
     </v-img>
 
     <v-card-subtitle class="pt-4">
-      Users Connected: {{list_connected.length}}, Notifications: {{nb_notifications}}
+      Users Connected: {{nb_connected}}, Notifications: {{nb_notifications}}
     </v-card-subtitle>
-
-    <v-card-text>
-      {{nb_connected}}
-
-      <div>Whitehaven Beach</div>
-      <div>Whitsunday Island, Whitsunday Islands</div>
+    <v-divider></v-divider>
+    <v-card-text class="justify-start px-6 py-3">
+      <div>Matcha, the best dating app to find your couple.</div>
+      <v-divider></v-divider>
+      <div><v-icon color="#e84c73">mdi-map-search-outline</v-icon> Use MAP to find connected users near to you.</div>
+      <div><v-icon color="#e84c73">mdi-heart-search</v-icon> Use BROWSING to get a list of suggestion based in proximity, sexual preferences ...</div>
+      <div><v-icon color="#e84c73">mdi-account-search-outline</v-icon> Use RESEARCH to make and advance custom search.</div>
     </v-card-text>
 
-    <v-card-actions>
-      <v-btn color="orange" text="Map"></v-btn>
-
-      <v-btn color="orange" text="Browsing"></v-btn>
-      <v-btn color="orange" text="Research"></v-btn>
+    <v-card-actions class="justify-center px-6 py-3">
+        <v-btn to="/map" color="#e84c73">
+                <v-icon>mdi-map-search-outline</v-icon>
+                <span>MAP</span>
+        </v-btn>
+        <v-btn to="/browsing" color="#e84c73">
+                <v-icon>mdi-heart-search</v-icon>
+                <span>BROWSING</span>
+        </v-btn>
+        <v-btn to="/gallery" color="#e84c73">
+                <v-icon>mdi-account-search-outline</v-icon>
+                <span>RESEARCH</span>
+      </v-btn>
     </v-card-actions>
   </v-card>
+</v-card>
 </template>
 
 <script>
