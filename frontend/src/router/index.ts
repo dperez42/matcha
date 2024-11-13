@@ -189,10 +189,10 @@ async function checkAuth(to, from, next){
     //socket.emit('logout',["", socket.id])
     // delete store
     store.commit("user_store/delUser")                  // delete user_store
-    store.commit("blocked_store/delBlocked")            // delete blocked_store
-    store.commit("connected_store/delConnected")        // delete connected_store
+    store.commit("blocked_store/delAllBlocked")            // delete blocked_store
+    store.commit("connected_store/delAllUUID")        // delete connected_store
     store.commit("matched_store/delAllMatched")         // delete matched_store
-    store.commit("notifications_store/delNotification") // delete notification_store
+    store.commit("notifications_store/delNotifications") // delete notification_store
     store.commit("message_store/delMessages")           // delete message_store
     store.commit("logs_store/delLogs")           // delete message_store
     store.commit("tags_store/delTags")           // delete tags_store
