@@ -31,15 +31,15 @@ async function send(email, key) {
     subject: 'Matcha Verification email',
     text: "<!DOCTYPE html> <html> <body> <h1>Confirm your email</h1> <p>Please confirm your email address by clicking on the link below: </p><p>http://localhost:3000/verification/"+key+"/p></body> </html>",
   };
-  console.log("Creating Email");
+  //console.log("Creating Email");
   try {
     const result = await transporter.sendMail(mailOptions)
-    console.log("Email sent successfully");
-    console.log(result)
+    //console.log("Email sent successfully");
+    //console.log(result)
     return result
   }
   catch (err) {
-    console.log("Email NOT sent");
+    //console.log("Email NOT sent");
     console.log(err.code);  // EAUTH = no autorizado
     return err
   } 

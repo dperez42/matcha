@@ -31,6 +31,13 @@ return {
       //'@': path.resolve(__dirname, 'src'),
     },
   },
+  css: {
+    preprocessorOptions: {
+      sass: {
+        api: 'modern',
+      },
+    },
+  },
   /* remove the need to specify .vue files https://vitejs.dev/config/#resolve-extensions
   resolve: {
     extensions: [
