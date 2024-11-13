@@ -97,28 +97,6 @@
           </template>
           </v-range-slider>
       </v-row>
-  <!--- Gender selector-->
-  <v-form ref="form">
-      <v-row class="ma-0 pt-4">
-        <v-select
-          v-model="filter.gender"
-          :items="list_gender"
-          :rules="[v => !!v || 'Item is required']"
-          label="Gender preferences"
-          required
-        ></v-select>  
-      </v-row>
-  <!--- GSexual selector-->
-      <v-row class="ma-0 pt-0">
-        <v-select
-          v-model="filter.sexual"
-          :items="list_sexual"
-          :rules="[v => !!v || 'Item is required']"
-          label="Sexual preferences"
-          required
-        ></v-select>  
-      </v-row>
-  </v-form>
       <v-spacer></v-spacer>
       <v-row class="pa-2" align="center" justify="center">
         <v-tooltip text="Reset" location="top">
@@ -166,7 +144,7 @@ export default {
   },
   data () {
     return {
-      orderId: 2,
+      orderId: 4,
       options_age: {
         range: [18, 50],
         limits:[18,100],

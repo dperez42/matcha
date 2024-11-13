@@ -8,7 +8,13 @@
               rounded="lg"
               color="black" 
             >
-    <v-row align="center" justify="center" >
+    <div v-if="isLoading" >
+          LOADING DATA... wait
+        </div> 
+        <div v-if ="error">
+          <Error_500 :error="this.error_message"/>
+        </div>         
+    <v-row v-if ="isLoading===false && error===false" align="center" justify="center" >
   <v-col cols="12" sm="12">
     <v-card class="elevation-10 mt-1" color="black" >
                   <v-row>
@@ -420,18 +426,21 @@
   import { toast } from 'vue3-toastify';
   import TagList from "./subcomponents/TagList.vue"
   import History from './subcomponents/History.vue'
+  import Error_500 from './InternalErrorServer500.vue'
 
   export default {
     components: {
       ImageDrop,
       TagList,
-      History
+      History,
+      Error_500
   },
   data: () => ({
     list_tags: [],
     my_tags: [],
     search: null,
     select: null,
+    isLoading: false, // Toggles the loading overlay
 		error: false,
 		error_message: "",
 		info: false,
@@ -823,11 +832,10 @@
             //this.user_temp.email = this.temp_email
 						//return true
 					}
-				} catch (err) {
-							console.log(err)
-							this.error = true
-							this.error_message = err
-							return false
+				} catch (err) {							
+            this.error_message = {code:500, msg:"Oops.... Something happens in server.", error:err.response}
+            this.error = true
+						return false
 				}  
         /// check if new images to load
         if ( this.payload_avatar?.url && this.payload_avatar.url.split(":")[0] === 'blob'){
@@ -890,9 +898,8 @@
         // go to home
         this.$router.push("/");
 			} catch (err) {
-				console.log(err)
-				//this.error = true
-				//this.error_message = err.response
+        this.error_message = {code:500, msg:"Oops.... Something happens in server.", error:err.response}
+        this.error = true
 			} 
       
 
@@ -1000,6 +1007,7 @@
   async onMounted() {
 	},
 	async mounted() {
+    this.isLoading = true
     const user_data = store.getters['user_store/getUser']
     // get a copy of user
     this.user_temp = JSON.parse(JSON.stringify(user_data))
@@ -1008,6 +1016,7 @@
     // load list of distinct tags to create a list
     const token = localStorage.getItem('matcha_token');
      try {
+       
         let axiosConfig = {
           params:{
           },
@@ -1030,7 +1039,7 @@
         this.list_tags.push(response.data[i].tag)
       }
       } catch (e) {
-        console.log("error:",e)
+        this.error_message = {code:500, msg:"Oops.... Something happens in server.", error:e}
         this.error = true
       } finally {
         this.isLoading = false;	

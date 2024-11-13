@@ -9,19 +9,15 @@
 <!--pop up chat--->
   <div v-if="showChatModal === true" class="modal_mask_chat">
     <div class="modal_body" ref="element_chat" id="chat_board">
-      <div class="modal-header">
-        <v-row  align="center" >
-          <v-col cols="8" sm="10" class="text-h4 text-white">
-            CHAT
-          </v-col>
-          <v-col cols="4" sm="2">
-            <v-btn size="x-small" elevation="8"
-              class="ma-2"
+      <div>
+        <v-row class="d-flex justify-space-between ma-1 mb-4">
+          <span class="text-h4 text-white"> CHAT </span>  
+            <v-btn size="small" elevation="8"
+              class=""
               color="purple"
               icon="mdi-location-exit"
                @click.prevent="toggleChat()"
             ></v-btn>
-          </v-col>
         </v-row>
       </div>
       <div class="modal-body" >
@@ -56,6 +52,7 @@ import { toast } from 'vue3-toastify';
 import Chat from './subcomponents/Chat.vue'
 import "leaflet/dist/leaflet.css";
 import * as L from 'leaflet';
+import Error_500 from './InternalErrorServer500.vue'
 
 export default {
   name: 'HelloWorld',
@@ -63,6 +60,7 @@ export default {
     mymap,
     Profile,
     Chat,
+    Error_500
   },
   data: () => ({
     error: false,

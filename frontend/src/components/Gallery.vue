@@ -1,15 +1,13 @@
 <template>
-  <v-card class="mx-auto my-0 pa-1"
-      color="primary"
-      elevation="16"
-      width="100vw">
-      <v-row justify="top"  >
+  <v-card class="mx-auto my-0 pa-1" color="primary" elevation="16" width="100vw">
+      <v-row  >
         <v-col cols="12" sm="5">
           <v-card 
             class="ma-auto pa-3 overflow-y-auto"
             elevation="8"
             rounded="lg"
             color="green" 
+            height="83vh"
           >
             <ResearchFilter :filter=this.filter @filter="filter_query" @filter_reset="filter_reset"></ResearchFilter>
           </v-card>
@@ -25,7 +23,7 @@
           LOADING NEW MATES... wait
           </div>
           <div v-if ="error">
-          {{error_message}}
+             <Error_500 :error="this.error_message"/>
           </div> 
           <div v-if ="isLoading===false && error===false" >
             <!--{{this.cards.data}} _USfUAffRIOS-->
@@ -50,19 +48,15 @@
   <!--pop up chat--->
   <div v-if="showChatModal === true" class="modal_mask_chat">
     <div class="modal_body" ref="element_chat" id="chat_board">
-      <div class="modal-header">
-        <v-row  align="center" >
-          <v-col cols="8" sm="10" class="text-h4 text-white">
-            CHAT
-          </v-col>
-          <v-col cols="4" sm="2">
-            <v-btn size="x-small" elevation="8"
-              class="ma-2"
+      <div>
+        <v-row class="d-flex justify-space-between ma-1 mb-4">
+          <span class="text-h4 text-white"> CHAT </span>  
+            <v-btn size="small" elevation="8"
+              class=""
               color="purple"
               icon="mdi-location-exit"
                @click.prevent="toggleChat()"
             ></v-btn>
-          </v-col>
         </v-row>
       </div>
       <div class="modal-body" >
@@ -98,6 +92,7 @@ import Chat from './subcomponents/Chat.vue'
 import Profile from './subcomponents/Profile.vue'
 import Card from './subcomponents/Card.vue'
 import { toast } from 'vue3-toastify';
+import Error_500 from './InternalErrorServer500.vue'
 
 export default {
   name: 'GalleryView',
@@ -105,7 +100,8 @@ export default {
     ResearchFilter,
     Chat,
     Profile,
-    Card
+    Card,
+    Error_500
   },
   props: {
     },
@@ -285,7 +281,7 @@ export default {
     },
     // get cards data
     async getData() {  
-      this.error=false     
+      this.error=false      
       const { cards } = this;
       cards.data = null;
       try {
@@ -364,7 +360,7 @@ export default {
           this.isLoading = false;	
           if (this.cards.data.length===0){
             this.error=true
-            this.error_message = "Oops.... no mates found. Try a new search."
+            this.error_message = {code:0, msg:"Oops.... no mates found. Try a new search.", error:' '}
           }
           //console.log("new data", this.cards.data)
         // Get a random list of people from web
@@ -389,7 +385,7 @@ export default {
       } catch (e) {
         if (import.meta.env.VITE_DEBUG==='true'){console.log("error: getting cards: ",e)}
         this.error = true
-        this.error_message = "Oops.... Something happen in server. Try Later"
+         this.error_message = {code:500, msg:"Oops.... Something happen in server. Try Later", error:e}
       } finally {
         this.isLoading = false;	
       }
@@ -426,13 +422,14 @@ export default {
         this.page = this.page + 1
         this.cards_left = this.cards.max
         try { 
+          this.isLoading = true;	
           this.getData()
           this.cards.index = 0;
           this.cards_left = this.cards.max
         } catch (e) {
           if (import.meta.env.VITE_DEBUG==='true'){console.log("error: getting cards: ",e)}
           this.error = true
-          this.error_message = "Oops.... Something happen in server. Try Later"
+          this.error_message = {code:500, msg:"Oops.... Something happen in server. Try Later", error:e}
         } finally {
           this.isLoading = false;	
         }

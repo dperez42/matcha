@@ -1,15 +1,11 @@
 <template>
-  <v-row justify="center" class="">
-    <v-col cols="6" class="pt-5">
       <SwipCard
         v-for="(card, index) in cards.data"
         :key="card"
         :card="card"
         :is-current="index === 0"
-
         @cardSkipped="$emit('cardSkipped');"
         @hideCard="$emit('hideCard');"
-
         @click_on_blocked="click_on_blocked"
         @click_on_reported="click_on_reported"
         @click_on_chat="click_on_chat"
@@ -17,8 +13,6 @@
         @click_on_like="click_on_like"
         @click_on_unlike="click_on_unlike"
       />
-    </v-col>
-  </v-row>
 </template>
 
 <script>

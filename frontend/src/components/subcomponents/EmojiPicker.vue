@@ -1,11 +1,11 @@
 <template>
   <div class="myemoji-picker" v-if="show">
     <v-card  v-if="show">
-      <v-card-title class="">
+      <v-card-title class="emoji-header">
         Emoji Picker  
-        <v-btn size="x-small" 
+        <v-btn size="small" 
               color="purple"
-              icon="mdi-location-exit"
+              icon="mdi-close-circle"
               @click.prevent="onEmojiClose()"
         ></v-btn>             
       </v-card-title>
@@ -77,10 +77,6 @@
       {
         "key": "upside_down_face",
         "value": "🙃"
-      },
-      {
-        "key": "white_smiling_face",
-        "value": "☺"
       },
       {
         "key": "face_savouring_delicious_food",
@@ -197,10 +193,6 @@
       {
         "key": "slightly_frowning_face",
         "value": "🙁"
-      },
-      {
-        "key": "white_frowning_face",
-        "value": "☹"
       },
       {
         "key": "persevering_face",

@@ -3,7 +3,7 @@
               color="rgba(167, 26, 64, 0.9)"
               > 
               <v-row class="pa-1" align="center" justify="center">
-                <v-col col =12 md="6">
+                <v-col col =12 md="4">
                   <v-avatar class="ma-0 pa-0 " rounded="0" size="200">
                     <v-img :src="card.avatar.startsWith('https') ? card.avatar : this.$APP_SERVER_API+'/uploads/'+card.avatar"
                         height="300px"
@@ -21,26 +21,40 @@
                     </v-img>
                   </v-avatar>
                 </v-col>
-                <v-col col =12 md="6">
-                  <v-row class="pa-1 text-h5 font-weight-bold" align="center" justify="center">
+                <v-col col =12 md="8">
+                  <v-row class="pa-3 text-h5 font-weight-bold" align="center" justify="center">
                     {{card.username}}
                   </v-row> 
-                  <v-row class="pa-1 text-subtitle-2 font-weight-light" align="center" justify="center">
-                    <v-col col =12 xs="6" class="text-md-right">
-                      At {{parseInt(card.distance)}} kms 
+                  <v-row class="pa-1 text-subtitle-2 font-weight-light">
+                    <v-col col =12 xs="4" class="text-md-center">
+                      <v-icon class="position: absolute; bottom:0; left:0;"
+                          size="large" color="white" icon="mdi-map-marker"></v-icon>
+                         {{parseInt(card.distance)}} kms 
                     </v-col>
-                    <v-col col =12 xs="6" class="text-md-left">
-                      age :{{card.age}} 
+                    <v-col col =12 xs="4" class="text-md-center">
+                      <v-icon class="position: absolute; bottom:0; left:0;"
+                          size="large" color="white" icon="mdi-cake-variant"></v-icon>
+                      {{card.age}} years
+                    </v-col>
+                    <v-col col =12 xs="4" class="text-md-center">
+                      <v-icon class="position: absolute; bottom:0; left:0;"
+                          size="large" color="white" icon="mdi-human-male-female"></v-icon>
+                      {{card.gender}}
                     </v-col>
                   </v-row> 
-                  <v-row class="pa-1 text-subtitle-2 text-md-center font-weight-light" align="center" justify="center">
-                    <v-icon class="position: absolute; bottom:0; left:0;"
+                   <v-col col =12 xs="4" class="text-md-center">
+                      <v-icon class="position: absolute; bottom:0; left:0;"
+                          size="large" color="white" icon="mdi-gender-male-female"></v-icon>
+                      {{card.sexual}}
+                    </v-col>
+
+                  <v-row class="pa-1 text-subtitle-2 font-weight-light" align="center" justify="center">
+                      <v-col col =12 xs="12" class="text-md-right">
+                         <v-icon class="position: absolute; bottom:0; left:0;"
                           size="x-large" :color="this.online_check ? 'success':'error'" icon="mdi-wifi"></v-icon>
                     
-                    {{this.online_check?'ON LINE':'OFF LINE, Last seen...'}}
-                  </v-row>
-                  <v-row v-if="!this.online_check" class="pa-1 text-subtitle-2 font-weight-light" align="center" justify="center">
-                    {{this.online_check?'':this.card.lastseen.substring(0,19)}}
+                      {{this.online_check?'ON LINE':'Last seen...'+this.card.lastseen.substring(0,19)}}
+                    </v-col>
                   </v-row>
                 </v-col>
               </v-row>

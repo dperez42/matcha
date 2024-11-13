@@ -1,13 +1,22 @@
 <template>
-	<v-container fluid class="container1">
-    <v-row justify="center">
-      <v-col cols="12" sm="12" class="results1">
-        <div v-if="isLoading" >
-        LOADING NEW MATES
+  <v-container id="browsing" fluid class="overflow-y-auto container1">     
+     <v-row  >     
+        <v-col cols="12" sm="7"> 
+          <v-card 
+            class=""
+            elevation="8"
+            rounded="lg"
+            color="green" 
+            height="80vh"
+          >
+       <div v-if="isLoading" >
+          LOADING NEW MATES... wait
         </div> 
-        <div v-else >
+        <div v-if ="error">
+          <Error_500 :error="this.error_message"/>
+        </div> 
+        <div v-if ="isLoading===false && error===false" id="card_stack" class="pa-2" >
           <CardsStack :cards="cards"
-
             @click_on_blocked="handleBlockedCard"
             @click_on_reported="handleReportedCard"
             @click_on_chat="handleCardChat"
@@ -16,43 +25,34 @@
             @click_on_unlike="handleCardUnlike"
             @hideCard="removeCardFromDeck"
           />
-          <!--
-          <v-list max-height="550" class="overflow-y-auto list1" @scroll="onScroll">
-            
-            <v-list-item class="ma-0 pa-0" 
-              v-for="card in cards.data"
-              :key="card.uuid"
-            >
-            <Card :card="card" class="ma-2 pa-0"
-              @click_on_chat="handleCardChat" @click_on_profile="handleCardProfile"
-              @click_on_like="handleLikeCard" @click_on_unlike="handleUnlikeCard"
-              @click_on_blocked="handleBlockedCard" 
-              @click_on_reported="handleReportedCard"
-            />
-            </v-list-item>
-          </v-list> 
-          -->
-        </div>
-      </v-col>
-    </v-row>
-
+          </div>
+          </v-card>
+        </v-col>
+        <v-col cols="12" sm="5"> 
+          <v-card 
+            class="ma-auto pa-3 overflow-y-auto"
+            elevation="8"
+            rounded="lg"
+            color="green" 
+            height="80vh"
+          >
+          <ResearchFilter :filter=this.filter @filter="filter_query" @filter_reset="filter_reset"></ResearchFilter>
+          </v-card>
+        </v-col>
+     </v-row>
   </v-container>
   <!--pop up chat--->
   <div v-if="showChatModal === true" class="modal_mask_chat">
     <div class="modal_body" ref="element_chat" id="chat_board">
-      <div class="modal-header">
-        <v-row  align="center" >
-          <v-col cols="8" sm="10" class="text-h4 text-white">
-            CHAT
-          </v-col>
-          <v-col cols="4" sm="2">
-            <v-btn size="x-small" elevation="8"
-              class="ma-2"
+      <div>
+        <v-row class="d-flex justify-space-between ma-1 mb-4">
+          <span class="text-h4 text-white"> CHAT </span>  
+            <v-btn size="small" elevation="8"
+              class=""
               color="purple"
               icon="mdi-location-exit"
                @click.prevent="toggleChat()"
             ></v-btn>
-          </v-col>
         </v-row>
       </div>
       <div class="modal-body" >
@@ -62,7 +62,7 @@
   </div>
     <!--pop up profile--->
   <div v-if="showProfileModal === true" class="modal_mask_chat">
-    <div class="modal_body" ref="element_chat">
+    <div class="modal_body" ref="element_chat" id="profile_board">
       <div class="modal-body">
         <Profile @click_on_close="toggleProfile()" 
             @click_on_chat="handleCardChat" 
@@ -83,12 +83,13 @@ import store from '../store/index'
 import {socket} from '../services/socket'
 import moment from 'moment'
 import router from '../router'
-import ResearchFilter from './subcomponents/ResearchFilter.vue'
+import ResearchFilter from './subcomponents/ResearchFilter1.vue'
 import Chat from './subcomponents/Chat.vue'
 import Profile from './subcomponents/Profile.vue'
 import Card from './subcomponents/Card.vue'
 import CardsStack from './subcomponents/CardsStack.vue'
 import { toast } from 'vue3-toastify';
+import Error_500 from './InternalErrorServer500.vue'
 
 export default {
   name: 'GalleryView',
@@ -97,7 +98,8 @@ export default {
     Chat,
     Profile,
     Card,
-    CardsStack
+    CardsStack,
+    Error_500
   },
   props: {
     },
@@ -106,11 +108,12 @@ export default {
       user: null,
 			isLoading: true, // Toggles the loading overlay
 			error: false,
+      error_message: "",
 			cards: { data: null, index: 0, max: 10 },
 			cards_left: 10,
 			card_choosen: null,
       page: 0,
-      filter: { age:[18,100], distance:[0,500],tags:[0,3],rating:[0,5],orderId:2, gender:"*",sexual:"*" },
+      filter: { age:[18,100], distance:[0,50],tags:[0,3],rating:[0,5],orderId:4, gender:"*",sexual:"*" },
 			showChatModal: false,
       showProfileModal: false,
 	  	}
@@ -118,6 +121,35 @@ export default {
   setup() {
   },
   methods: {
+        // handle new query button
+    filter_query(payload) {
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info:recibing emiting from filter. ",payload)}
+      // Change filter
+      // reset to aply new query
+      this.cards= { data: null, index: 0, max: 15 },
+			this.cards_left= 15,
+			this.card_choosen= null,
+      this.page= 0,
+      this.filter.age = payload[0]
+      this.filter.distance = payload[1]
+      this.filter.tags = payload[2]
+      this.filter.rating = payload[3]
+      this.filter.orderId = payload[4]
+      this.getData()
+       
+    },
+    // handle reset query button
+    filter_reset(payload) {
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: ecibing emiting from filter. ",payload)}
+      // Change filter
+      // reset to aply new query
+      this.cards= { data: null, index: 0, max: 15 },
+			this.cards_left= 15,
+			this.card_choosen= null,
+      this.page= 0,
+      this.filter= { age:[18,100], distance:[0,50],tags:[0,3],rating:[0,5], orderId:4, gender:"*", sexual:"*"},
+      this.getData()
+    },
     // Handle remove from deck
     async removeCardFromDeck() {
       this.cards.data.shift();
@@ -238,7 +270,6 @@ export default {
         message: 'this is a block',
         timestamp: DateTime
       }
-      this.removeCardFromDeck()
       store.commit("blocked_store/addBlocked",data) 
       socket.emit('notifications',data)
       toast("You have blocked "+data.to_username, {
@@ -269,31 +300,37 @@ export default {
       socket.emit('notifications',data)
     },
     // get cards data
-    async getData() {       
+    async getData() {  
+      var have_mates = 0; 
+      var reach_distance = false;
       const { cards } = this;
       cards.data = null;
+      // integillent seach by age +-5 years of my age (initial)
+              // calculate my age
+            var firstDate = moment(this.user.date, 'YYYY-MM-DD')
+            var sDate = moment.utc().utcOffset(+2).format("YYYY/MM/DD")
+            var secondDate = moment(sDate, 'YYYY-MM-DD')
+            var duration = moment.duration(secondDate.diff(firstDate));
+            var years = duration.asYears(); 
+            var my_age = parseInt(years) 
+            this.filter.age[0]=my_age-5
+            this.filter.age[1]=my_age+5
       try {
+while (have_mates < 9){
         this.isLoading = true;
-        //console.log("loading data")
         // Get a random list of people from database
         const token = localStorage.getItem('matcha_token');
+      // integillent seach by rating 2-5 stars (initial)
         const where_rating = ' (`rating` >='+this.filter.rating[0]*this.$RATING+' and `rating`<='+this.filter.rating[1]*this.$RATING+') '
+      
+      
         const where_age = ' (CAST((DATEDIFF(CURRENT_DATE(),`date`)/365) AS SIGNED) >= '+this.filter.age[0]+' AND CAST((DATEDIFF(CURRENT_DATE(),`date`)/365) AS SIGNED) <= '+this.filter.age[1]+') '
+        
+      // integillent search by distance less than 50 kms (initial)
         const where_distance = '(st_distance_sphere(POINT(`longitude`,`latitude`), POINT('+this.user.longitude+','+this.user.latitude+'))/1000 >= ' +this.filter.distance[0]+' AND st_distance_sphere(POINT(`longitude`,`latitude`), POINT('+this.user.longitude+','+this.user.latitude+'))/1000 <= ' +this.filter.distance[1]+') '
         let where_gender =""
-        /*
-        if (this.filter.gender==='*'){
-          where_gender=''
-        } else {
-          where_gender=' AND `gender`="'+this.filter.gender+'"'
-        }
-        let where_sexual=""
-        if (this.filter.sexual==='*'){
-          where_sexual=''
-        } else {
-          where_sexual=' AND `sexual`="'+this.filter.sexual+'"'
-        }
-        */
+      
+      // intelligent seach by is gender and sexual orientation
        if (this.user.gender === 'Male' && this.user.sexual === 'Heterosexual' ){
          where_gender=' AND `gender`="Female" AND (`sexual`="Hetereosexual" OR `sexual`="Bisexual") '
        }
@@ -306,7 +343,6 @@ export default {
        if (this.user.gender === 'Female' && this.user.sexual === 'Homosexual' ){
          where_gender=' AND `gender`="Female" AND (`sexual`="Homosexual" OR `sexual`="Bisexual") '
        }
-
        if (this.user.gender === 'Male' && this.user.sexual === 'Bisexual' ){
          where_gender=' AND ((`gender`="Male" AND (`sexual`="Homosexual" OR `sexual`="Bisexual")) OR  (`gender`="Female" AND (`sexual`="Heterosexual" OR `sexual`="Bisexual")))'
        }
@@ -314,10 +350,9 @@ export default {
          where_gender=' AND ((`gender`="Female" AND (`sexual`="Homosexual" OR `sexual`="Bisexual")) OR  (`gender`="Male" AND (`sexual`="Heterosexual" OR `sexual`="Bisexual")))'
        }
 
-
+      // is not blocked and is not me
         const where_no_current_user = ' (`uuid` <> "'+ this.user.uuid+'") '
-        const where_no_blocked = ' (`uuid` NOT IN ( SELECT to_uuid FROM blocked WHERE from_uuid="' + this.user.uuid+'")) '
-        
+        const where_no_blocked = ' (`uuid` NOT IN ( SELECT to_uuid FROM blocked WHERE from_uuid="' + this.user.uuid+'")) '      
         const where_clause = where_age 
                             + ' AND ' + where_rating 
                             + ' AND ' + where_distance 
@@ -328,7 +363,8 @@ export default {
         // clause for bring distance
         const select_distance = 'st_distance_sphere(POINT(`longitude`,`latitude`), POINT('+this.user.longitude+','+this.user.latitude+'))/1000 AS distance, CAST((DATEDIFF(CURRENT_DATE(),`date`)/365) AS SIGNED) AS age'
         let order_clause = '';
-        //console.log("this.filter", this.filter)
+      
+      // choose order for distance (initial)
         if (this.filter.orderId === 1){
           order_clause= ' CAST((DATEDIFF(CURRENT_DATE(),`date`)/365) AS SIGNED) asc'
         } else if (this.filter.orderId  === 2){
@@ -358,36 +394,37 @@ export default {
         //console.log(data)
         //console.log(where_age + ' and ' + where_rating + ' and ' + where_distance + ' and ' + where_no_current_user + ' and ' + where_no_blocked)
         const response = await axios.post("/cards", data,axiosConfig)
-          //console.log("response from cards new data", response.data)
+          this.cards.data = response.data;
+          if (this.cards.data.length===0){
+            this.error=true
+            this.error_message = {code:0, msg:"Oops.... no mates found. Trying a new search.", error:' '}
+          }
+          have_mates = this.cards.data.length
+        // changing limitis filter
+        // first by distance
+          if ((this.filter.distance[0]-5)<0){this.filter.distance[0]=0}else {this.filter.distance[0]=this.filter.distance[0]-5}
+          if ((this.filter.distance[1]+5)>200){this.filter.distance[1]=200; reach_distance=true}
+          else {this.filter.distance[1]=this.filter.distance[1]+5}
+          //console.log(this.filter.distance)
+          if (reach_distance===true){
+            if ((this.filter.age[0]-5)<18){this.filter.age[0]=18}else {this.filter.age[0]=this.filter.age[0]-5}
+            if ((this.filter.age[1]+5)>100){this.filter.age[1]=100}else {this.filter.age[1]=this.filter.age[1]+5}
+          }
+          //console.log(this.filter.age)
+}   
           this.error = false;
           //console.log("new data", response.data)
-          this.cards.data = response.data;
           this.cards.index = 0;
           this.isLoading = false;	
-          //console.log("new data", this.cards.data)
-        // Get a random list of people from web
-        /*
-        fetch(`https://randomuser.me/api/?results=${cards.max}`)
-        .then(async (response) => {
-          const { results } = await response.json();
-          const data = results.map(({ name, picture, login }) => ({
-            name: `${name.first} ${name.last}`,
-            picture: picture.large,
-            rating: Math.floor(Math.random() * 5 + 1),
-            approved: null,
-            uuid: login.uuid
-          }));
-          setTimeout(() => {
-            cards.data = data;
-            cards.index = 0;
-            this.isLoading = false;	
-          }, 500);
-        });
-        */
-      } catch (e) {
+//
+        
+      } 
+      catch (e) {
         if (import.meta.env.VITE_DEBUG==='true'){console.log("error: Getting Cards.",e)}
         this.error = true
-      } finally {
+        this.error_message = {code:500, msg:"Oops.... Something happen in server. Try Later", error:e}
+      } 
+      finally {
         this.isLoading = false;	
       }
 	  },

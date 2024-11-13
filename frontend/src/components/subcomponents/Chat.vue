@@ -10,7 +10,7 @@
       <v-col sm="12" style="position: relative;">
   <!-- HEADER -->
         <v-row>
-          <v-col sm="12">
+          <v-col sm="12" class="py-0 px-2">
           <v-card color="#952175">
                 <div class="d-flex flex-no-wrap justify-space-between">                 
                   <v-avatar
@@ -25,7 +25,7 @@
                       {{this.card.username}}
                     </v-card-title >
                     <v-card-subtitle class="text-white text-right">
-                      {{this.online_check?'ON LINE':'OFF LINE: Last seen..'}}{{this.online_check?'':this.card.lastseen.substring(0,19)}}
+                      {{this.online_check?'ON LINE':'Last seen..'}}{{this.online_check?'':this.card.lastseen.substring(0,19)}}
                     </v-card-subtitle>
                   </div>
 
@@ -35,43 +35,42 @@
         </v-row>
   <!-- CHAT BOARD-->      
         <v-row>
-          <v-col sm="12">
+          <v-col sm="12" class="pa-2 pt-0">
             <div class="chat-container" ref="chatContainer" >
               <message :messages="messages" ></message>
             </div>
           </v-col>
         </v-row>
   <!-- CHAT ACTIONS -->
-        <v-row align="center" justify="center">
-          <v-col col="2" sm="2" >
-                <v-btn size="small" elevation="8"
-                  color="purple"
-                  icon="mdi-emoticon"
-                   @click.prevent="toggleEmojiPanel"
-                ></v-btn>
-               <emoji-picker ref="elementpicker"
-                :show="emojiPanel" @click_on_emoji="addEmojiToMessage" @click_close_emoji="toggleEmojiPanel"></emoji-picker>
-          </v-col>
-          <v-col col="8" sm="8" class="text-h3 text-white" >
-                <form>
+        <v-row  align="center" justify="center" class="ma-0 py-0 px-2">    
+        <div class="typer">
                 <v-text-field 
                   v-model="input" 
                   @keydown.enter.prevent="send_message"
                   type="text" 
                   placeholder="Type a message..."
                   bg-color="white"
+                  hide-details="true"
                   clearable>
+                  <template v-slot:prepend>
+                      <v-btn size="small" elevation="8"
+                        color="purple"
+                        icon="mdi-emoticon"
+                        @click.prevent="toggleEmojiPanel"
+                      ></v-btn>
+                    <emoji-picker ref="elementpicker"
+                      :show="emojiPanel" @click_on_emoji="addEmojiToMessage" @click_close_emoji="toggleEmojiPanel"></emoji-picker>
+                  </template>
+                  <template v-slot:append>
+                    <v-btn size="small" elevation="8"
+                      color="purple"
+                      icon="mdi-send"
+                      @click.prevent="send_message"
+                    ></v-btn>
+                  </template>
                 </v-text-field>
-                </form>
-            </v-col>
-            <v-col col="2" sm="2" >
-                <v-btn size="small" elevation="8"
-                  color="purple"
-                  icon="mdi-send"
-                   @click.prevent="send_message"
-                ></v-btn>
-            </v-col>
-        </v-row>  
+        </div>
+        </v-row>
       </v-col>
     </v-row>
 </v-container>
@@ -248,22 +247,11 @@ export default {
     bottom: 0;
     height: 4.9rem;
     width: 100%;
-    background-color: rgb(68, 36, 36);
     box-shadow: 0 -5px 10px -5px rgba(0,0,0,.2);
-  }
-  .typer input[type=text]{
-    position: absolute;
-    left: 2.5rem;
-    padding: 1rem;
-    width: 80%;
-    background-color: transparent;
-    border: none;
-    outline: none;
-    font-size: 1.25rem;
   }
   .chat-container{
     box-sizing: border-box;
-    height: calc(100vh - 21rem);
+    height: calc(100vh - 18rem);
     overflow-y: auto;
     padding: 20px 10px 10px 10px ;
     background-image: url("../../assets/background_board.png");

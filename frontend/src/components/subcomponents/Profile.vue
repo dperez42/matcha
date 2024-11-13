@@ -9,25 +9,15 @@
     <v-row no-gutters>
       <v-col sm="12" style="position: relative;">
   <!-- HEADER -->
-    <v-card height="10vh" class="elevation-10 pa-0 overflow-y-auto" color="#952175">
-              <v-row justify="center" class="ma-0 pa-0">
-                <v-col col="12" md="6" align="center" class="ma-0 pa-0 text-white">
-                  <v-row class="ma-0 pa-0  text-h6 text-left">
-                    <v-col col="4" md="4">
-                    {{this.card.username}} 
-                    </v-col>
-                  </v-row>
-                </v-col>
-                <v-col col="12" md="6" class="text-right">
-                   <v-row class="text-subtitle-1">
-                     <v-icon class="position: absolute; bottom:0; left:0;"
-                          size="x-large" :color="this.online_check ? 'success':'error'" icon="mdi-wifi"></v-icon>
-                    {{this.online_check?' ON LINE ':'Last seen...'}}{{this.online_check?' At '+parseInt(card.distance)+' kms':this.card.lastseen.substring(0,19)}} 
-                  </v-row>
-                </v-col>
-              </v-row>
-    </v-card>
-
+  <v-row class="d-flex justify-space-between ma-2 mb-0" >
+          <span class="text-h6 text-white"> {{this.card.username}}  </span> 
+          <span class="text-subtitle-1 text-white"> 
+            <v-icon class="position: absolute; bottom:0; left:0;"
+              size="small" :color="this.online_check ? 'success':'error'" icon="mdi-wifi">
+              </v-icon>
+              {{this.online_check?' ON LINE ':'Last seen...'}}{{this.online_check?' At '+parseInt(card.distance)+' kms':this.card.lastseen.substring(0,10)}}  
+          </span> 
+        </v-row>
   <!-- BOARD-->
     <v-card height="70vh" color="black" class="ma-0 pa-1 overflow-y-auto">      
 
@@ -75,19 +65,19 @@
                   </v-row>
                   <!-- sexual -->
                   <v-row>
-                      <v-col cols="5" md="5" align="center">
+                      <v-col cols="12" sm="5" >
                         <div class="text-caption pa-2 ">
                           <div class="text-grey">Name</div>
                           <div class="text-h5 font-weight-medium">{{ this.card.first }}</div>
                         </div>                                 
                       </v-col>
-                      <v-col cols="5" md="5" align="center">
+                      <v-col cols="12" sm="5" >
                         <div class="text-caption pa-2 ">
                           <div class="text-grey">Last</div>
                           <div class="text-h5 font-weight-medium">{{ this.card.last }}</div>
                         </div>                                    
                       </v-col>
-                      <v-col cols="2" md="2" align="center">
+                      <v-col cols="12" sm="2" >
                         <div class="text-caption pa-2 ">
                           <div class="text-grey">Age</div>
                           <div class="text-h5 font-weight-medium">{{ this.card.age }}</div>
@@ -241,14 +231,10 @@
                             </v-combobox>
                         </div>     
                       </v-col>
-                  </v-row>          
-                            
-                
-            
-             
+                  </v-row>                 
     </v-card>
   <!-- PROFILE ACTIONS -->
-    <v-card height="8vh" color="#952175">
+    <v-card height="10vh" color="#952175">
           <v-row class="ma-0 pa-0" align="center" justify="center">
               <v-tooltip text="Report Fake Account" location="top">
               <template v-slot:activator="{ props } "> 

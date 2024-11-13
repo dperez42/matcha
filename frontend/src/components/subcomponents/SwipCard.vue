@@ -10,13 +10,14 @@
     class="card"
     :style="{ transform: transformString }"
   >
-    <v-card v-if="this.blocked_check===false" class="align-top mr-4 text-white"
+    <v-card v-if="this.blocked_check===false" class="align-top m-0 text-white overflow-y-auto"
               color="rgba(167, 26, 64, 0.9)"
               > 
             <v-row class="pa-1" align="center" justify="center">
-              <v-col col =12 md="6">
+              <v-col no-gutters col =12 md="6">
                 <v-avatar class="ma-0 pa-0 " rounded="0" size="200">
-                  <v-img :src="card.avatar.startsWith('https') ? card.avatar : this.$APP_SERVER_API+'/uploads/'+card.avatar"
+                  <v-img v-on:click.prevent = "onClickPass"
+                      :src="card.avatar.startsWith('https') ? card.avatar : this.$APP_SERVER_API+'/uploads/'+card.avatar"
                       height="300px"
                       with="300px"
                       class="ma-0 pa-0 align-end text-white"
@@ -34,24 +35,48 @@
                   </v-img>
                 </v-avatar>
               </v-col>
-              <v-col col =12 md="6">
-                <v-row class="pa-2 text-h5 font-weight-bold" align="center" justify="center">
-                  {{card.username}}
-                </v-row> 
-                <v-row class="pa-2 text-subtitle-2 font-weight-light" align="center" justify="center">
-                  distance: {{parseInt(card.distance)}} kms , age :{{card.age}} 
-                 </v-row> 
-                 <v-row class="pa-1 text-subtitle-2 font-weight-light" align="center" justify="center">
-                   {{this.online_check?'ON LINE':'OFF LINE, Last seen...'}}
-                 </v-row>
-                 <v-row v-if="!this.online_check" class="pa-1 text-subtitle-2 font-weight-light" align="center" justify="center">
-                   {{this.online_check?'':this.card.lastseen.substring(0,19)}}
-                 </v-row>
-              </v-col>
+              <v-col no-gutters col =12 md="6" class="">
+                  <v-row class="pt-2 text-h5 font-weight-bold" align="center" justify="center">
+                    {{card.username}}
+                  </v-row> 
+                  <v-row class="pa-0 text-subtitle-2 font-weight-light">
+                    <v-col col =12 xs="4" class="pa-0 text-md-center">
+                      <v-icon class="position: absolute; bottom:0; left:0;"
+                          size="large" color="white" icon="mdi-map-marker"></v-icon>
+                         {{parseInt(card.distance)}} kms 
+                    </v-col>
+                    <v-col col =12 xs="4" class="pa- 0 text-md-center">
+                      <v-icon class="position: absolute; bottom:0; left:0;"
+                          size="large" color="white" icon="mdi-cake-variant"></v-icon>
+                      {{card.age}} years
+                    </v-col>
+                    <v-col col =12 xs="4" class="pa-0 text-md-center">
+                      <v-icon class="position: absolute; bottom:0; left:0;"
+                          size="large" color="white" icon="mdi-human-male-female"></v-icon>
+                      {{card.gender}}
+                    </v-col>
+                  </v-row> 
+                    <v-row class="pa-0 text-subtitle-2 font-weight-light">
+                  
+                    <v-col col =12 xs="4" class="pa-0 text-md-center">
+                      <v-icon class="position: absolute; bottom:0; left:0;"
+                          size="large" color="white" icon="mdi-gender-male-female"></v-icon>
+                      {{card.sexual}}
+                    </v-col>
+                  </v-row>
+                  <v-row class="pa-0 text-subtitle-2 text-md-center font-weight-light" align="center" justify="center">
+                    <v-col col =12 xs="12" class="pa-0 text-md-right">
+                    <v-icon class="position: absolute; bottom:0; left:0;"
+                          size="x-large" :color="this.online_check ? 'success':'error'" icon="mdi-wifi"></v-icon>
+                    
+                     {{this.online_check?'ON LINE':'Last seen...'+this.card.lastseen.substring(0,19)}}
+                    </v-col>
+                  </v-row>
+                </v-col>
             </v-row>
 <!--- bottons actions --->
               <v-spacer></v-spacer>
-              <v-row class="pa-4" align="center" justify="center">
+              <v-row class="pa-4 pt-1" align="center" justify="center">
                 <v-tooltip text="Report Fake Account" location="top">
                 <template v-slot:activator="{ props } "> 
                 <v-btn v-bind="props"
@@ -151,54 +176,6 @@
                     size="x-large"
       ></v-btn>
     </div>
-    <!--
-      
-        <img :src="card.avatar" class="rounded-borders"/>
-        <h3 class="cardTitle">{{card.username}} </h3>
-        <h3 > {{card.uuid}}</h3>
-              <v-rating
-          v-model="card.rating"
-          active-color="yellow-darken-3"
-          color="orange-lighten-1"
-          length="5"
-          class="ma-2"
-          density="default"
-          readonly
-        ></v-rating>
-        <h3 > {{card.distance}}</h3>
-        <div>
-        <div v-if="this.isConnect">On line {{this.isConnect}}
-        </div>
-        <div v-else>Off line: last activity {{card.lastseen}}
-        </div>
-        <div>Like:{{this.isLike}} ---- Liked:{{this.isLiked}}</div>
-        <div v-if="this.isMatched">Matched</div>
-        <button @click.prevent = "emit_block"
-          class="form-submit" type="submit" id="BLOCK_CARD">
-          Block
-        </button>
-        <button @click.prevent = "emit_report"
-        class="form-submit" type="submit" id="REPORT_CARD">
-          Report
-        </button>
-        <button v-if="this.isMatched" class="form-submit" type="submit" id="CHAT_CARD">
-          Chat
-        </button>
-        <button @click.prevent = "emit_profile" class="form-submit" type="submit" id="VIEW_CARD">
-          Profile
-        </button>
-        <button v-if= "!this.isLike" class="form-submit" type="submit" id="ACCEPT_CARD_CLICK" >
-          Like
-        </button>
-          <button v-if= "this.isLike" class="form-submit" type="submit" id="REJECT_CARD_CLICK">
-          UnLike
-        </button>
-        <button @click.prevent = "emit_chat" class="form-submit" type="submit" id="VIEW_CARD">
-          Chat
-        </button>
-     
-      </div>
-       -->
     </div>
     
 </template>
@@ -269,6 +246,9 @@ export default {
     };
   },  
   methods: {
+    onClickPass() {
+      this.hideCard();
+    },
     onClickChat() {
       this.$emit('click_on_chat', this.card)
     },
@@ -279,10 +259,12 @@ export default {
     onClickBlocked(){
       if (import.meta.env.VITE_DEBUG==='true'){console.log("info: click card blocked. ")}
       this.$emit('click_on_blocked', this.card)
+      this.hideCard();
     },
     onClickReported(){
       if (import.meta.env.VITE_DEBUG==='true'){console.log("info: click card report. ")}
       this.$emit('click_on_reported', this.card)
+      this.hideCard();
     },
     onClickLike(){
       if (import.meta.env.VITE_DEBUG==='true'){console.log("info: click card like. ")}
@@ -295,10 +277,12 @@ export default {
         return false
       }
       this.$emit('click_on_like', this.card)
+      this.hideCard();
     },
     onClickUnLike(){
       if (import.meta.env.VITE_DEBUG==='true'){console.log("info: click card unlike. ")}
       this.$emit('click_on_unlike', this.card)
+      this.hideCard();
     },
     check_avatar(){
       const user= store.getters['user_store/getUser']
@@ -593,41 +577,35 @@ export default {
   width: 100%;
   height: 100%;
   z-index: 8888;
-  background-color: rgba(0, 0, 0, 0.2);   
+  background-color: rgba(20, 30, 213, 0.5);   
 }
 $cardsTotal: 3;
 $cardsWidth: 100px;
 $cardsPositionOffset: 55vh * 0.06;
-$cardsScaleOffset: 0.08;
+$cardsScaleOffset: 0.05;
 $defaultTranslation: $cardsPositionOffset * $cardsTotal;
 $defaultScale: 1 - ($cardsScaleOffset * $cardsTotal);
-$fs-card-title: 1.125em;
 
 .card {
   @include card();
   @include absolute(0);
-  @include sizing(60%);
+  @include sizing(90%);
   @include flex-center();
 
   @include after() {
     @include sizing(21px 3px);
     @include absolute(right 0 bottom 11px left 0);
     margin: auto;
-    border-radius: 100px;
-    background: rgba($c-black, 0.3);
+    border-radius: 50px;
+    background: rgba(#000, 0.3);
   }
-
   display: flex;
   flex-direction: column;
-  max-height: 430px;
   margin: auto;
-  font-size: $fs-h2;
-  font-weight: $fw-bold;
-  color: $c-white;
   background-image: linear-gradient(
     -90deg,
-    $primary-gradient-start 2%,
-    $primary-gradient-end 100%
+    #d25c56 2%,
+    #df1165 100%
   );
   opacity: 0;
   transform: translateY($defaultTranslation) scale($defaultScale);
@@ -637,20 +615,13 @@ $fs-card-title: 1.125em;
   pointer-events: none;
   will-change: transform, opacity;
 
-  height: 100vw;
-
   &.isCurrent {
     pointer-events: auto;
   }
 
   &.isAnimating {
-    transition: transform 0.7s $ease-out-back;
+    transition: transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);;
   }
-}
-
-.cardTitle {
-  margin: 0 0 1px;
-  font-size: $fs-card-title;
 }
 
 @for $i from 1 through $cardsTotal {
@@ -662,18 +633,16 @@ $fs-card-title: 1.125em;
     z-index: $cardsTotal - $index;
     opacity: 1;
     transform: translateY($translation) scale($scale);
-
     @if $i == 3 {
-      color: $c-red-25;
-      background-color: $c-red-25;
+      color: #432958;
+      background-color: #432958;
     } @else if $i == 2 {
-      color: $c-red-50;
-      background-color: $c-red-50;
+      color: #73345e;
+      background-color: #73345e;
     }
 
     @if $i != 1 {
       background-image: none;
-
       @include after() {
         @include sizing(0 0);
       }
