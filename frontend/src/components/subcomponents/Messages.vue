@@ -53,6 +53,7 @@
     position: relative;
     font-size: small;
     padding: 5px;
+    color: rgb(0, 0, 0);
     border-radius: 10px;
     width: fit-content;
     background-color: white;
@@ -60,7 +61,7 @@
 }
 .chat__message__reciever{
     margin-left: auto;
-    background-color: #dcf8c6;
+    background-color: #0cc942;
 }
 .chat__message__name{
     position: absolute;

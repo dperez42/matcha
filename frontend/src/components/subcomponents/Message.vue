@@ -1,7 +1,7 @@
 <template>  
   <div>
-    <p >{{this.message}}</p>
-    <p >{{this.card}}</p>
+    <p class="text-black">{{this.message}}</p>
+    <p class="text-black">{{this.card}}</p>
     <!-- filtering messages also  done in back end --->
     <p v-if="(this.card.uuid === this.message.from_uuid && this.message.to_uuid===this.user.uuid) || (this.card.uuid === this.message.to_uuid && this.message.from_uuid===this.user.uuid) "
         :class="this.message.to_username===this.user.username ? 'chat__message': 'chat__message chat__message__reciever'"
@@ -67,12 +67,13 @@ export default {
     padding: 5px;
     border-radius: 10px;
     width: fit-content;
-    background-color: white;
+    background-color: rgb(189, 49, 49);
+    color: rgb(0, 0, 0);
     margin-bottom: 15px;
 }
 .chat__message__reciever{
     margin-left: auto;
-    background-color: #dcf8c6;
+    background-color: #406326;
 }
 .chat__message__name{
     position: absolute;
@@ -83,6 +84,7 @@ export default {
 }
 .chat__message__timestamp{
     margin-left: 10x;
+    color: rgb(0, 0, 0);
     font-size: xx-small;
 }
 </style>

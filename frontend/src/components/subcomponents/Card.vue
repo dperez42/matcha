@@ -187,8 +187,8 @@ export default {
   },
   methods: {
     onClickChat () {
-       if (import.meta.env.VITE_DEBUG==='true'){console.log("info: click chat")}
-      console.log("click chat", this.check_avatar())
+      if (import.meta.env.VITE_DEBUG==='true'){console.log("info: click chat")}
+      //console.log("click chat", this.check_avatar())
       
       this.$emit('click_on_chat', this.card)
     },
