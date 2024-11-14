@@ -51,7 +51,7 @@ socket.on("verification", (msg) => {
 });
 // recieve a notification and load in notifications_store
 socket.on("notifications", (msg) => {
-  console.log("recieve notification with msg" , msg)
+  //console.log("recieve notification with msg" , msg)
   const user = store.getters['user_store/getUser']
   
   // the notification recieved is for me? also controlled in backend
@@ -62,7 +62,7 @@ socket.on("notifications", (msg) => {
     }
     if (msg.command==='delete_notifications'){
       // if you read notifications in other session delete notifications in store
-      console.log("recieve a delete notifications")
+      //console.log("recieve a delete notifications")
       store.commit("notifications_store/delNotifications")
     }
     
@@ -94,7 +94,7 @@ socket.on("chat", (msg) => {
     store.commit("message_store/addMessage",msg)
     store.commit("notifications_store/addNotification",msg)
     if (import.meta.env.VITE_TOAST==='true'){
-      toast("You have a new message from "+msg.to_username, {
+      toast("You have a new message from "+ msg.from_username, {
         autoClose: 2000,
         type: "info",
         position: "bottom-right",

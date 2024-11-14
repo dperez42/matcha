@@ -103,7 +103,7 @@ async function sendCode(email, username, code) {
     subject: 'Matcha Verification email (code)',
     text: "<!DOCTYPE html> <html> <body> <h1> Hello "+username+", Verificate your email</h1> <p>Please confirm your email address by insert this code: </p><H3>"+code+"</H3></body> </html>",
   };
-  console.log("Creating Email");
+  //console.log("Creating Email");
   try {
     const result = await transporter.sendMail(mailOptions)
     if (process.env.DEBUG==='true'){console.log("Info: Email code sent successfully. " + result)};

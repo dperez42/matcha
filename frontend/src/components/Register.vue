@@ -502,7 +502,7 @@
       }
       if (newer === this.code){
         alert('You have have been verificated')
-        this.register_user_classic()()
+        this.register_user_classic()
         //this.$router.push("/");
       }
     }

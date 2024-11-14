@@ -62,7 +62,7 @@ export default {
     list_connected: store.getters['connected_store/getUUIDs'],
     nb_notifications: store.state.notifications_store.nb_notifications,
     list_logs: store.getters['logs_store/getLogs'],
-    nb_connected: store.getters['connected_store/getCountUUIDs'],
+    nb_connected: store.state.connected_store.nb_connected,
   }),
   async mounted() {
 	},

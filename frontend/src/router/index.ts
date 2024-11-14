@@ -175,9 +175,11 @@ async function checkAuth(to, from, next){
           authService.deleteToken()        // delete token because no uuid
           console.log(err)
           next("/login");
+          return;
         }  
       }
       next()
+      return;
   } 
   else {
     if (import.meta.env.VITE_DEBUG==='true'){
@@ -195,6 +197,7 @@ async function checkAuth(to, from, next){
     store.commit("logs_store/delLogs")           // delete message_store
     store.commit("tags_store/delTags")           // delete tags_store
     next("/login")
+    return;
   }
   //next()
 }
@@ -209,11 +212,13 @@ function checkProfile(to, from, next){
         console.log("error: profile incompleted", user.completed)
       }
       next("/profile");
+      return;
     } else {
       if (import.meta.env.VITE_DEBUG==='true'){
         console.log("info: profile completed", user.completed)
       }
       next()
+      return;
     }
 }
 /// Log out function delete all data of current user ///
@@ -231,6 +236,7 @@ function logout(to, from, next){
   store.commit("notifications_store/delNotifications") // delete notification_store
   store.commit("message_store/delMessages")           // delete message_store
   next("/login");
+  return;
 }
 
 // method to get location

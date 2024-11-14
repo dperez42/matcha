@@ -135,7 +135,7 @@ export default {
       this.filter.tags = payload[2]
       this.filter.rating = payload[3]
       this.filter.orderId = payload[4]
-      this.getData()
+      this.getData_filter()
        
     },
     // handle reset query button
@@ -299,7 +299,7 @@ export default {
           }); 
       socket.emit('notifications',data)
     },
-    // get cards data
+    // get cards data, first load
     async getData() {  
       var have_mates = 0; 
       var reach_distance = false;
@@ -403,7 +403,7 @@ while (have_mates < 9){
         // changing limitis filter
         // first by distance
           if ((this.filter.distance[0]-5)<0){this.filter.distance[0]=0}else {this.filter.distance[0]=this.filter.distance[0]-5}
-          if ((this.filter.distance[1]+5)>200){this.filter.distance[1]=200; reach_distance=true}
+          if ((this.filter.distance[1]+5)>300){this.filter.distance[1]=300; reach_distance=true}
           else {this.filter.distance[1]=this.filter.distance[1]+5}
           //console.log(this.filter.distance)
           if (reach_distance===true){
@@ -428,17 +428,118 @@ while (have_mates < 9){
         this.isLoading = false;	
       }
 	  },
+    // get cards data
+    async getData_filter() {  
+      const { cards } = this;
+      cards.data = null;
+      try {
+
+        this.isLoading = true;
+        // Get a random list of people from database
+        const token = localStorage.getItem('matcha_token');
+      // integillent seach by rating 2-5 stars (initial)
+        const where_rating = ' (`rating` >='+this.filter.rating[0]*this.$RATING+' and `rating`<='+this.filter.rating[1]*this.$RATING+') '   
+        const where_age = ' (CAST((DATEDIFF(CURRENT_DATE(),`date`)/365) AS SIGNED) >= '+this.filter.age[0]+' AND CAST((DATEDIFF(CURRENT_DATE(),`date`)/365) AS SIGNED) <= '+this.filter.age[1]+') '
+        
+      // integillent search by distance less than 50 kms (initial)
+        const where_distance = '(st_distance_sphere(POINT(`longitude`,`latitude`), POINT('+this.user.longitude+','+this.user.latitude+'))/1000 >= ' +this.filter.distance[0]+' AND st_distance_sphere(POINT(`longitude`,`latitude`), POINT('+this.user.longitude+','+this.user.latitude+'))/1000 <= ' +this.filter.distance[1]+') '
+        let where_gender =""
+      // intelligent seach by is gender and sexual orientation
+       if (this.user.gender === 'Male' && this.user.sexual === 'Heterosexual' ){
+         where_gender=' AND `gender`="Female" AND (`sexual`="Hetereosexual" OR `sexual`="Bisexual") '
+       }
+       if (this.user.gender === 'female' && this.user.sexual === 'Heterosexual' ){
+         where_gender=' AND `gender`="Male" AND (`sexual`="Hetereosexual" OR `sexual`="Bisexual") '
+       }
+       if (this.user.gender === 'Male' && this.user.sexual === 'Homosexual' ){
+         where_gender=' AND `gender`="Male" AND (`sexual`="Homosexual" OR `sexual`="Bisexual") '
+       }
+       if (this.user.gender === 'Female' && this.user.sexual === 'Homosexual' ){
+         where_gender=' AND `gender`="Female" AND (`sexual`="Homosexual" OR `sexual`="Bisexual") '
+       }
+       if (this.user.gender === 'Male' && this.user.sexual === 'Bisexual' ){
+         where_gender=' AND ((`gender`="Male" AND (`sexual`="Homosexual" OR `sexual`="Bisexual")) OR  (`gender`="Female" AND (`sexual`="Heterosexual" OR `sexual`="Bisexual")))'
+       }
+       if (this.user.gender === 'Female' && this.user.sexual === 'Bisexual' ){
+         where_gender=' AND ((`gender`="Female" AND (`sexual`="Homosexual" OR `sexual`="Bisexual")) OR  (`gender`="Male" AND (`sexual`="Heterosexual" OR `sexual`="Bisexual")))'
+       }
+
+      // is not blocked and is not me
+        const where_no_current_user = ' (`uuid` <> "'+ this.user.uuid+'") '
+        const where_no_blocked = ' (`uuid` NOT IN ( SELECT to_uuid FROM blocked WHERE from_uuid="' + this.user.uuid+'")) '      
+        const where_clause = where_age 
+                            + ' AND ' + where_rating 
+                            + ' AND ' + where_distance 
+                            + where_gender
+                            + ' AND ' + where_no_current_user 
+                            + ' AND ' + where_no_blocked
+
+        // clause for bring distance
+        const select_distance = 'st_distance_sphere(POINT(`longitude`,`latitude`), POINT('+this.user.longitude+','+this.user.latitude+'))/1000 AS distance, CAST((DATEDIFF(CURRENT_DATE(),`date`)/365) AS SIGNED) AS age'
+        let order_clause = '';
+      
+      // choose order for distance (initial)
+        if (this.filter.orderId === 1){
+          order_clause= ' CAST((DATEDIFF(CURRENT_DATE(),`date`)/365) AS SIGNED) asc'
+        } else if (this.filter.orderId  === 2){
+          order_clause = ' (st_distance_sphere(POINT(`longitude`,`latitude`), POINT('+this.user.longitude+','+this.user.latitude+'))/1000) asc' 
+        } else if (this.filter.orderId  === 3){
+          order_clause = ' `common_tags` desc'
+        } else if (this.filter.orderId  === 4){
+          order_clause = ' `rating` desc'
+        }
+        const data = {
+									'page': this.page,
+                  'limit': this.cards_left,
+                  'select_clause': select_distance,
+                  'where_clause': where_clause,
+                  'order_clause': order_clause,
+                  'limit_tags': this.filter.tags,
+                  'user_uuid': this.user.uuid
+                }
+        let axiosConfig = {
+          params:{id: "puff"},
+          headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
+            'Authorization': `Bearer ${token}`,
+            //"Access-Control-Allow-Origin": "*",
+          }
+        };
+        //console.log(data)
+        //console.log(where_age + ' and ' + where_rating + ' and ' + where_distance + ' and ' + where_no_current_user + ' and ' + where_no_blocked)
+        const response = await axios.post("/cards", data,axiosConfig)
+          this.cards.data = response.data;
+          if (this.cards.data.length===0){
+            this.error=true
+            this.error_message = {code:0, msg:"Oops.... no mates found. Trying a new search.", error:' '}
+          }
+          this.error = false;
+          //console.log("new data", response.data)
+          this.cards.index = 0;
+          this.isLoading = false;	
+//
+        
+      } 
+      catch (e) {
+        if (import.meta.env.VITE_DEBUG==='true'){console.log("error: Getting Cards.",e)}
+        this.error = true
+        this.error_message = {code:500, msg:"Oops.... Something happen in server. Try Later", error:e}
+      } 
+      finally {
+        this.isLoading = false;	
+      }
+	  },
     // handle click outside chat/profile pop up to close pending...
     handleClickOutside(event) {
-      console.log(event.target)
+      //console.log(event.target)
       try {
       let answer = document.getElementById("chat_board").contains(event.target)
-      console.log(answer)
+      //console.log(answer)
       } catch {}
       try {
       if (!this.$refs.element_chat.contains(event.target)) {
         // Click occurred outside the element
-        console.log("oook")
+        //console.log("oook")
         //this.toggleChat()
       }}
       catch{}
