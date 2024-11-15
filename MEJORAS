@@ -6,15 +6,15 @@
 
                               :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`"
                               :src="`https://picsum.photos/500/300?image=${n * 5 + 10}`"
-USERS
+API TO GET USERS
 https://randomuser.me/api/?results=500
 
-color
+COLORS
 #e84c73
 #26c6da
 #ec675f
 
-GEOPOSITION
+GEOPOSITION FROM API
 async getLocation() {
       const geo = await fetch('http://ip-api.com/json')
       .then(response => response.json())
@@ -61,6 +61,7 @@ https://stackoverflow.com/questions/50243769/vuetify-how-to-set-background-color
 https://dev.to/mtermoul/5-ways-to-change-component-colors-and-styles-using-vuetify-3ee9
 
 
+USING LEAFLET/OPENSTREET
 https://medium.com/@smhabibjr/implement-an-interactive-map-in-the-vue-js-8a865010fb41
 https://github.com/mohitkumartoshniwal/vue-topics/blob/main/vue-leaflet/src/components/Map.vue
 https://www.wrld3d.com/wrld.js/latest/docs/examples/adding-a-leaflet-circle/

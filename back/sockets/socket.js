@@ -28,7 +28,7 @@ var SocketSingleton = (function() {
       socket.once('disconnect', async function() {
         if (process.env.DEBUG==='true'){console.log('info: Got a disconnect!:',socket.id)};
         //var offset = moment().utcOffset();
-        const DateTime = moment.utc().utcOffset(+2).format("YYYY-MM-DD HH:mm:ss")
+        const DateTime = moment.utc().utcOffset(+1).format("YYYY-MM-DD HH:mm:ss")
         // get uuid of socket disconnected and remove from connected list
         var i = 0
         var uuid = null
@@ -57,7 +57,7 @@ var SocketSingleton = (function() {
         // delete socket from connected list
         user_socket_list.del_socket(msg)
         // update last seen of uuid in data base
-        const DateTime = moment.utc().utcOffset(+2).format("YYYY-MM-DD HH:mm:ss")
+        const DateTime = moment.utc().utcOffset(+1).format("YYYY-MM-DD HH:mm:ss")
         const response = await users.updateLastSeen(msg[0], DateTime)
         // emit the list of uuid/socket connected
         socket.broadcast.emit('connected', user_socket_list.get())
