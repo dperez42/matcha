@@ -212,6 +212,97 @@ export default {
       }
       this.nb_connected = store.state.connected_store.nb_connected
       await this.getData()
+// because some problems in linux redraw map when connected users changes load again map also try the commented part for only redraw the layer of connected users
+              this.initialMap = L.map('map', {zoomControl: true,zoom:1,zoomAnimation:true,fadeAnimation:true,markerZoomAnimation:true}).setView([this.user.latitude, this.user.longitude],8);
+              //define layers 
+                //this.layer_connected = L.layerGroup() //connected users
+                this.layer_connected = L.featureGroup() //connected users
+                // listener when click pictures
+                this.layer_connected.on("click", this.myfunction)
+
+                // if you want make cluster
+                //this.layer_users = L.markerClusterGroup({ showCoverageOnHover: true, maxClusterRadius:80,disableClusteringAtZoom:8, animate:true }) //all users with clustering
+                this.layer_users = L.layerGroup() //influence zone
+                this.layer_circle = L.layerGroup() //all users
+              //define title
+                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19, 
+                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                }).addTo(this.initialMap);
+              //load data layer of markers of users
+                for (let i = 0; i < this.allUsers.length; i++) {
+                        var myIcon = L.icon({
+                            iconUrl: './matcha.png',
+                            //shadowUrl: './matcha.png',
+                            iconSize: [20, 20],
+                            //iconAnchor: [22, 94],
+                            //popupAnchor: [-3, -76],
+                            //shadowSize: [60, 30],
+                            //shadowAnchor: [22, 94]
+                        });
+                        var marker = L.marker([this.allUsers[i].latitude,this.allUsers[i].longitude], {icon:myIcon})
+                        this.layer_users.addLayer(marker)
+                            //.bindPopup(`<h3>${this.nearbyUsers[i].username}</h3></h5>${this.nearbyUsers[i].uuid}</h5><button name="button" class="background-color: #04AA6D">Click me</button>
+                //(<strong>${this.nearbyUsers[i].latitud},${this.nearbyUsers[i].longitud}</strong>)`)
+                };
+              // Zone 100 kms, 200 kms
+              var c_100 = L.circle([this.user.latitude, this.user.longitude], {
+                      color: "red",
+                      fillColor: "#f03",
+                      fillOpacity: 0.2,
+                      radius: 100000.0
+                  })
+              var c_200 = L.circle([this.user.latitude, this.user.longitude], {
+                      color: "red",
+                      fillColor: "#f03",
+                      fillOpacity: 0.2,
+                      radius: 200000.0
+                  })
+              this.layer_circle.addLayer(c_100)
+              this.layer_circle.addLayer(c_200)
+              //load data layer of markers of connected
+                for (let i = 0; i < this.nearbyUsers.length; i++) {
+                        var myIcon = L.icon({
+                            iconUrl: this.nearbyUsers[i].avatar.startsWith('https') ? this.nearbyUsers[i].avatar : import.meta.env.VITE_APP_SERVER_API+'/uploads/'+this.nearbyUsers[i].avatar,
+                            //shadowUrl: './matcha.png',
+                            iconSize: [40, 40],
+                            //iconAnchor: [22, 94],
+                            //popupAnchor: [-3, -76],
+                            //shadowSize: [60, 30],
+                            //shadowAnchor: [22, 94]
+                        });
+                        /*
+                        const htmlString = `<div> <h3>${this.nearbyUsers[i].username}</h3>
+                          <p dir='auto'>some content</> <NewComp text='some kind of text here'/> 
+                          <button type="button" onclick="close()">Click Me!</button>
+                          </div>`;
+                          const div = document.createElement("div");
+                          div.innerHTML = `<h3>${this.nearbyUsers[i].username}</h3>`;
+                          const button = document.createElement("button");
+                          button.innerHTML = "View Profile";
+                          button.onclick = function(x,y) {
+                            console.log("click", y, x)
+                            this.$emit('click_on_profile')
+                          }
+                          div.appendChild(button);
+                        */
+                        var marker = L.marker([this.nearbyUsers[i].latitud,this.nearbyUsers[i].longitud], {icon:myIcon, bubblingMouseEvents:false})
+                            //.addTo(this.initialMap)
+                            //.bindPopup(div)
+                            //.bindPopup(`<h3>${this.nearbyUsers[i].username}</h3></h5>${this.nearbyUsers[i].uuid}</h5><button name="button" class="background-color: #04AA6D">Click me</button>
+                            //(<strong>${this.nearbyUsers[i].latitud},${this.nearbyUsers[i].longitud}</strong>)`)
+                        // add new propierties to marker 
+                        marker.properties={ "uuid":this.nearbyUsers[i].uuid}
+                        this.layer_connected.addLayer(marker)
+                            
+                };
+
+              // show layer (order is important)
+              
+                this.initialMap.addLayer(this.layer_users)
+                this.initialMap.addLayer(this.layer_circle)
+                this.initialMap.addLayer(this.layer_connected)
+/* this part is for only redraw the layer of connected users sustituye lo anterior y evita el parpadeo de la recarga
       this.layer_connected.clearLayers()
       //define layer of connected_markers
       this.layer_connected = L.layerGroup()
@@ -236,6 +327,7 @@ export default {
     };
     // show layer
     this.initialMap.addLayer(this.layer_connected)
+*/
     },
   }
 }
