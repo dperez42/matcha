@@ -427,6 +427,7 @@
   import TagList from "./subcomponents/TagList.vue"
   import History from './subcomponents/History.vue'
   import Error_500 from './InternalErrorServer500.vue'
+  import moment from 'moment'
 
   export default {
     components: {
@@ -801,12 +802,25 @@
 		}, 
     // validate form y data user and save//    
     async validate() {
-      //console.log("validate")
         // validate rules of form
         const response = await this.$refs.form.validate()
         if (!response.valid) {
           if (import.meta.env.VITE_DEBUG==='true'){console.log("error: validate not ok. ", response)}
           toast("You have to complete require fields, to continue", {
+            autoClose: 2000,
+            type: "error",
+            position: "bottom-right",
+          }); 
+          return false
+        }
+        /// if you have at least 18 years?
+        var firstDate = moment(this.user_temp.date, 'YYYY-MM-DD')
+        var sDate = moment.utc().utcOffset(+2).format("YYYY/MM/DD")
+        var secondDate = moment(sDate, 'YYYY-MM-DD')
+        var duration = moment.duration(secondDate.diff(firstDate));
+        var years = duration.asYears();
+        if (years<18){
+           toast("You must be more than 18 years old.", {
             autoClose: 2000,
             type: "error",
             position: "bottom-right",

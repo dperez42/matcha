@@ -303,6 +303,7 @@ export default {
     async getData() {  
       var have_mates = 0; 
       var reach_distance = false;
+      var reach_age = false;
       const { cards } = this;
       cards.data = null;
       // integillent seach by age +-5 years of my age (initial)
@@ -408,7 +409,13 @@ while (have_mates < 9){
           //console.log(this.filter.distance)
           if (reach_distance===true){
             if ((this.filter.age[0]-5)<18){this.filter.age[0]=18}else {this.filter.age[0]=this.filter.age[0]-5}
-            if ((this.filter.age[1]+5)>100){this.filter.age[1]=100}else {this.filter.age[1]=this.filter.age[1]+5}
+            if ((this.filter.age[1]+5)>100){this.filter.age[1]=100; reach_age=true}else {this.filter.age[1]=this.filter.age[1]+5}
+            if (reach_age===true && reach_distance===true){ // no hay sugestions
+                this.error = true;
+                this.error_message = {code:0, msg:"Oops.... no mates found near your. Trying a new custom search.", error:' '}
+                this.isLoading = false;
+                return 0
+            }
           }
           //console.log(this.filter.age)
 }   

@@ -40,8 +40,8 @@ services:
   back-app:
     build:
       context: ./back
-      #target: dev-stage
-      target: prod-stage
+      target: dev-stage
+      #target: prod-stage
       dockerfile: dockerfile
     ports:
       - "3000:3000"
