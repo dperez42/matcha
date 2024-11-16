@@ -1,4 +1,4 @@
-# Matcha
+# Matcha (a 42 school Project)
 it’s a dating WebSite where the user can create his profile, search other users, like them and begin a conversation with a chat if the person liked him back.
 
 ![alt text](https://github.com/dperez42/matcha/blob/main/pictures/main.png?raw=true)
