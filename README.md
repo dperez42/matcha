@@ -33,4 +33,4 @@ LOGIN
 Loging by username and password. Restore password by email link.
 
 <span>https://github.com/dperez42/matcha/blob/main/matcha/pictures/registration.png<span>
-<span>![</span><span>Aquí la descripción de la imagen por si no carga</span><span>]</span><span>(</span><span>https://github.com/dperez42/matcha/blob/main/matcha/pictures/registration.png</span><span>)</span>
+<span>![</span><span>Aquí la descripción de la imagen por si no carga</span><span>]</span><span>(</span><span>//raw.githubusercontent.com/dperez42/matcha/blob/main/matcha/pictures/registration.png</span><span>)</span>
