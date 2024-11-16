@@ -4,12 +4,12 @@ it’s a dating WebSite where the user can create his profile, search other user
 ![alt text](https://github.com/dperez42/matcha/blob/main/pictures/main.png?raw=true)
 <h2>Infraestructure</h2>
 <h3>Server-side: Node JS and Express JS</h3>
-<h3>Client-side: VUe+Vuetify</h3>
+<h3>Client-side: Vue+Vuetify</h3>
 <h3>Database: MySql+PhpmyAdmin</h3>
 <h2>How to start</h2>
 With command:
 
-sh start.sh 1 2 3 4
+**sh start.sh 1 2 3 4**
 
 - 1: Your IP
 - 2: Your BREVO user  (p.e. xx..xx@smtp-brevo.com)
@@ -18,11 +18,11 @@ sh start.sh 1 2 3 4
 
 Example: 
 
-`sh start.sh 192.168.1.43  6f....1@smtp-brevo.com U.....N false
+**sh start.sh 192.168.1.43  6f....1@smtp-brevo.com U.....N false**
 
 When everything is running, load fake users by;
 
-`python ./mysql/config/load_data.py
+**python ./mysql/config/load_data.py**
 
 Note: user "Abc@12345" as password.
 
