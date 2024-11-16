@@ -15,7 +15,7 @@ sh start.sh 1 2 3 4
 - 3: Your Brevo key   (p.e. Uxbnsd...N)
 - 4: Enable/disable debug mode (false/true)
 
-Example: sh start.sh 192.168.1.43  6fsffsfsf1@smtp-brevo.com UxZBM83dfsffwG4vTFN false
+Example: sh start.sh 192.168.1.43  6f....1@smtp-brevo.com U.....N false
 
 When everything is running, load fake users by;
 
@@ -31,3 +31,5 @@ You can registry with a email, username, first and second name, passaword and:
 LOGIN
 
 Loging by username and password. Restore password by email link.
+
+![WebSite 1](https://github.com/dperez42/matcha/blob/main/matcha/pictures/registration.png?raw=true)
