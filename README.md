@@ -40,6 +40,7 @@ You can registry with a email, username, first and second name, passaword and:
 <h5>Login</h5>
 Loging by username and password. Restore password by email link.
 
+![alt text](https://github.com/dperez42/matcha/blob/main/pictures/login.png?raw=true)
 <h5>Profile</h5>
 After your first sign up you have to complete your profile.
 
