@@ -16,11 +16,15 @@ sh start.sh 1 2 3 4
 - 3: Your Brevo key   (p.e. Uxbnsd...N)
 - 4: Enable/disable debug mode (false/true)
 
-Example: sh start.sh 192.168.1.43  6f....1@smtp-brevo.com U.....N false
+Example: 
+
+`sh start.sh 192.168.1.43  6f....1@smtp-brevo.com U.....N false
 
 When everything is running, load fake users by;
 
-python ./mysql/config/load_data.py
+`python ./mysql/config/load_data.py
+
+Note: user "Abc@12345" as password.
 
 <h2>Features</h2>
 <h5>Registration</h5>
@@ -42,22 +46,27 @@ After your first sign up you have to complete your profile.
 ![alt text](https://github.com/dperez42/matcha/blob/main/pictures/profile2.png?raw=true) 
 <h5>Map of user</h5>
 A map showing all users and on line. 
+
+![alt text](https://github.com/dperez42/matcha/blob/main/pictures/map.png?raw=true) 
 <h5>Browsing</h5>
 A list of swip cards with suggestions by sex, distance and age.
+
+![alt text](https://github.com/dperez42/matcha/blob/main/pictures/browsing.png?raw=true) 
 <h5>Research</h5>
-A list of users seleted bty your criteria.
+A list of users seleted by your criteria.
+
+![alt text](https://github.com/dperez42/matcha/blob/main/pictures/gallery.png?raw=true) 
 <h5>Other users profile</h5>
+
+![alt text](https://github.com/dperez42/matcha/blob/main/pictures/other_profile.png?raw=true) 
 <h5>Chat</h5>
-If you like and recieve a like back, you can chat. To do this you have to have a picture in your avatar.
+If you like and recieve a like back, you can chat with her/him. To do this you have to have a picture in your avatar.
+
+![alt text](https://github.com/dperez42/matcha/blob/main/pictures/chat.png?raw=true) 
+
 <h5>Other features</h5>
 - Recieve notification of like, match, new message, view profile.
 - A history of like and view profile.
 - You can block or report as fake account a user, and you will never see him/her again or recieve notifications.
 
-![alt text](https://github.com/dperez42/matcha/blob/main/pictures/registration.png?raw=true)
-
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
-![alt text](https://github.com/dperez42/matcha/raw/master/pictures/registration.png "Logo Title Text 1")
-<span>https://github.com/dperez42/matcha/blob/main/matcha/pictures/registration.png<span>
-<span>![</span><span>Aquí la descripción de la imagen por si no carga</span><span>]</span><span>(</span><span>//raw.githubusercontent.com/dperez42/matcha/blob/main/matcha/pictures/registration.png</span><span>)</span>
 
