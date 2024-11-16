@@ -32,4 +32,4 @@ LOGIN
 
 Loging by username and password. Restore password by email link.
 
-!(https://github.com/dperez42/matcha/blob/main/matcha/pictures/registration.png?raw=true)
+<span>https://github.com/dperez42/matcha/blob/main/matcha/pictures/registration.png<span>
