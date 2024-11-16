@@ -22,6 +22,8 @@ When everything is running, load fake users by;
 
 python ./mysql/config/load_data.py
 
+<h2>Features</h2>
+
 REGISTRATION 
 You can registry with a email, username, first and second name, passaword and:
 - Verify by link send by email.
