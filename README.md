@@ -1,6 +1,6 @@
 # Matcha
 it’s a dating WebSite where the user can create his profile, search other users, like them and begin a conversation with a chat if the person liked him back.
-
+![alt text](https://github.com/dperez42/matcha/blob/main/pictures/registration.png?raw=true)
 <h2>Infraestructure</h2>
 <h3>Server-side</h3>Node JS and Express JS
 <h3>Client-side</h3>VUe+Vuetify
