@@ -1,27 +1,32 @@
 # Matcha
 it’s a dating WebSite where the user can create his profile, search other users, like them and begin a conversation with a chat if the person liked him back.
 
-<h1>Techno</h1>
-<h3>Server-side</h3>: Node JS and Express JS
-<h3>Client-side</h3>: VUe+Vuetify
-<h3>Database</h3>: MySql+PhpmyAdmin
+<h2>Infraestructure</h2>
+<h3>Server-side</h3>Node JS and Express JS
+<h3>Client-side</h3>VUe+Vuetify
+<h3>Database</h3>MySql+PhpmyAdmin
+<h2>How to start</h2>
 
-to run:
+<h2>How to start</h2>
+With command:
 
-sh 
 sh start.sh <youIP> <BREVO-user = xx..xx@smtp-brevo.com> <BREVO_key = Uxbnsd...N> <debug mode=true/false>
 
-p.e.  sh start.sh 192.168.1.43 6fsffsfsf1@smtp-brevo.com UxZBM83dfsffwG4vTFN false
+1: Your IP
+2: Your BREVO user  (p.e. xx..xx@smtp-brevo.com)
+3: Your Brevo key   (p.e. Uxbnsd...N)
+4: Enable/disable debug mode (false/true)
+Example: sh start.sh 192.168.1.43  6fsffsfsf1@smtp-brevo.com UxZBM83dfsffwG4vTFN false
 
-Para cargar fake users...
+When everything is running, load fake users by;
 
 python ./mysql/config/load_data.py
 
 REGISTRATION 
-
+You can registry with a email, username, first and second name, passaword and:
 - Verify by link send by email.
 - Verify by OTP code send by email.
-- Normal registration user-password
+- Normal registration user-password.
 
 LOGIN
 
