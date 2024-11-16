@@ -7,6 +7,7 @@ It’s a dating WebSite where the user can create his profile, search other user
 - Server-side: Node JS and Express JS
 - Client-side: Vue+Vuetify
 - Database: MySql+PhpmyAdmin
+- Use a BREVO account to sent emails.
 
 <h2>How to start</h2>
 With command:
