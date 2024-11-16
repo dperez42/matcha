@@ -1,4 +1,10 @@
-# matcha
+# Matcha
+it’s a dating WebSite where the user can create his profile, search other users, like them and begin a conversation with a chat if the person liked him back.
+
+<h1>Techno</h1>
+<h3>Server-side</h3>: Node JS and Express JS
+<h3>Client-side</h3>: VUe+Vuetify
+<h3>Database</h3>: MySql+PhpmyAdmin
 
 to run:
 
@@ -19,5 +25,4 @@ REGISTRATION
 
 LOGIN
 
-- 
-- Restore password by email link.
+Loging by username and password. Restore password by email link.
