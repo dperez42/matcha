@@ -65,9 +65,10 @@ If you like and recieve a like back, you can chat with her/him. To do this you h
 
 ![alt text](https://github.com/dperez42/matcha/blob/main/pictures/chat.png?raw=true) 
 
-<h5>Other features</h5>
+<h5>Other features:</h5>
 
 - Recieve notification of like, match, new message, view profile.
+- A fame rating, common tags.
 - A history of like and view profile.
 - You can block or report as fake account a user, and you will never see him/her again or recieve notifications.
 
