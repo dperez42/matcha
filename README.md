@@ -1,6 +1,7 @@
 # Matcha
 it’s a dating WebSite where the user can create his profile, search other users, like them and begin a conversation with a chat if the person liked him back.
-![alt text](https://github.com/dperez42/matcha/blob/main/pictures/registration.png?raw=true)
+
+![alt text](https://github.com/dperez42/matcha/blob/main/pictures/main.png?raw=true)
 <h2>Infraestructure</h2>
 <h3>Server-side</h3>Node JS and Express JS
 <h3>Client-side</h3>VUe+Vuetify
@@ -35,7 +36,10 @@ Loging by username and password. Restore password by email link.
 
 <h5>Profile</h5>
 After your first sign up you have to complete your profile.
-![alt text](https://github.com/dperez42/matcha/blob/main/pictures/profile1.png?raw=true) ![alt text](https://github.com/dperez42/matcha/blob/main/pictures/profile2.png?raw=true) 
+
+![alt text](https://github.com/dperez42/matcha/blob/main/pictures/profile1.png?raw=true) 
+
+![alt text](https://github.com/dperez42/matcha/blob/main/pictures/profile2.png?raw=true) 
 <h5>Map of user</h5>
 A map showing all users and on line. 
 <h5>Browsing</h5>
