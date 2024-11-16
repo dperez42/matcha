@@ -28,11 +28,14 @@ You can registry with a email, username, first and second name, passaword and:
 - Verify by OTP code send by email.
 - Normal registration user-password.
 
+![alt text](https://github.com/dperez42/matcha/blob/main/pictures/registration.png?raw=true)
+
 <h5>Login</h5>
 Loging by username and password. Restore password by email link.
 
 <h5>Profile</h5>
-After your first sign up you have to complete your profile. 
+After your first sign up you have to complete your profile.
+![alt text](https://github.com/dperez42/matcha/blob/main/pictures/profile1.png?raw=true) ![alt text](https://github.com/dperez42/matcha/blob/main/pictures/profile2.png?raw=true) 
 <h5>Map of user</h5>
 A map showing all users and on line. 
 <h5>Browsing</h5>
