@@ -6,6 +6,7 @@ it’s a dating WebSite where the user can create his profile, search other user
 <h3>Server-side: Node JS and Express JS</h3>
 <h3>Client-side: Vue+Vuetify</h3>
 <h3>Database: MySql+PhpmyAdmin</h3>
+
 <h2>How to start</h2>
 With command:
 
@@ -65,6 +66,7 @@ If you like and recieve a like back, you can chat with her/him. To do this you h
 ![alt text](https://github.com/dperez42/matcha/blob/main/pictures/chat.png?raw=true) 
 
 <h5>Other features</h5>
+
 - Recieve notification of like, match, new message, view profile.
 - A history of like and view profile.
 - You can block or report as fake account a user, and you will never see him/her again or recieve notifications.
