@@ -3,9 +3,10 @@ it’s a dating WebSite where the user can create his profile, search other user
 
 ![alt text](https://github.com/dperez42/matcha/blob/main/pictures/main.png?raw=true)
 <h2>Infraestructure</h2>
-<h3>Server-side: Node JS and Express JS</h3>
-<h3>Client-side: Vue+Vuetify</h3>
-<h3>Database: MySql+PhpmyAdmin</h3>
+
+- Server-side: Node JS and Express JS
+- Client-side: Vue+Vuetify
+- Database: MySql+PhpmyAdmin
 
 <h2>How to start</h2>
 With command:
