@@ -47,7 +47,7 @@ If you like and recieve a like back, you can chat. To do this you have to have a
 - A history of like and view profile.
 - You can block or report as fake account a user, and you will never see him/her again or recieve notifications.
 
-![alt text](https://github.com/dperez42/matcha/blob/main/pictures/resitration.png?raw=true)
+![alt text](https://github.com/dperez42/matcha/blob/main/pictures/registration.png?raw=true)
 
 ![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
 ![alt text](https://github.com/dperez42/matcha/raw/master/pictures/registration.png "Logo Title Text 1")
