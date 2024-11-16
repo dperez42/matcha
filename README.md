@@ -10,13 +10,10 @@ With command:
 
 sh start.sh 1 2 3 4
 
-1: Your IP
-
-2: Your BREVO user  (p.e. xx..xx@smtp-brevo.com)
-
-3: Your Brevo key   (p.e. Uxbnsd...N)
-
-4: Enable/disable debug mode (false/true)
+- 1: Your IP
+- 2: Your BREVO user  (p.e. xx..xx@smtp-brevo.com)
+- 3: Your Brevo key   (p.e. Uxbnsd...N)
+- 4: Enable/disable debug mode (false/true)
 
 Example: sh start.sh 192.168.1.43  6fsffsfsf1@smtp-brevo.com UxZBM83dfsffwG4vTFN false
 
