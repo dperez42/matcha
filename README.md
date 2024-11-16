@@ -71,6 +71,7 @@ If you like and recieve a like back, you can chat with her/him. To do this you h
 
 - Recieve notification of like, match, new message, view profile.
 - A fame rating, common tags.
+- Emoticons in chat message.
 - A history of like and view profile.
 - You can block or report as fake account a user, and you will never see him/her again or recieve notifications.
 
