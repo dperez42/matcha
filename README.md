@@ -6,16 +6,18 @@ it’s a dating WebSite where the user can create his profile, search other user
 <h3>Client-side</h3>VUe+Vuetify
 <h3>Database</h3>MySql+PhpmyAdmin
 <h2>How to start</h2>
-
-<h2>How to start</h2>
 With command:
 
-sh start.sh <youIP> <BREVO-user = xx..xx@smtp-brevo.com> <BREVO_key = Uxbnsd...N> <debug mode=true/false>
+sh start.sh 1 2 3 4
 
 1: Your IP
+
 2: Your BREVO user  (p.e. xx..xx@smtp-brevo.com)
+
 3: Your Brevo key   (p.e. Uxbnsd...N)
+
 4: Enable/disable debug mode (false/true)
+
 Example: sh start.sh 192.168.1.43  6fsffsfsf1@smtp-brevo.com UxZBM83dfsffwG4vTFN false
 
 When everything is running, load fake users by;
@@ -23,8 +25,7 @@ When everything is running, load fake users by;
 python ./mysql/config/load_data.py
 
 <h2>Features</h2>
-
-REGISTRATION 
+<h5>Registration</h5>
 You can registry with a email, username, first and second name, passaword and:
 - Verify by link send by email.
 - Verify by OTP code send by email.
